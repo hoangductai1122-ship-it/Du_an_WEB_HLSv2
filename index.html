@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UTC Logistics Club - ULC</title>
+    
+    <!-- Nhúng "thanh gươm" Tailwind CSS vào trang web -->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-50 font-sans">
+
+    <!-- Bắt đầu xây dựng Navbar (Thanh điều hướng trên cùng) -->
+    <nav class="bg-white shadow-md px-8 py-4 flex justify-between items-center fixed w-full top-0">
+        <!-- Logo / Tên CLB -->
+        <div class="text-2xl font-extrabold text-blue-800 tracking-wider">
+            UTC LOGISTICS
+        </div>
+        
+        <!-- Các đường link menu -->
+        <div class="hidden md:flex space-x-8 font-semibold text-gray-600">
+            <a href="#" class="hover:text-blue-600 transition">Về chúng tôi</a>
+            <a href="#" class="hover:text-blue-600 transition">Hoạt động</a>
+            <a href="#" class="hover:text-blue-600 transition">Thành tích</a>
+            <a href="#" class="hover:text-blue-600 transition">Phòng truyền thống</a>
+        </div>
+
+        <!-- Nút Đăng ký nổi bật -->
+        <div>
+            <a href="#" class="bg-blue-600 text-white px-6 py-2 rounded-full font-bold hover:bg-blue-700 shadow-lg transition">
+                Tham gia CLB
+            </a>
+        </div>
+    </nav>
+
+    <!-- Khu vực Banner chính (Hero Section) -->
+    <main class="mt-32 flex flex-col items-center justify-center text-center px-4">
+        <p class="text-blue-600 font-bold mb-4 uppercase tracking-widest">UTC Logistics Club · Ra đời 2020</p>
+        
+        <h1 class="text-5xl md:text-6xl font-extrabold text-gray-900 mb-6 leading-tight">
+            Kết nối. Học hỏi. <span class="text-blue-600">Phát triển.</span>
+        </h1>
+        
+        <p class="text-lg text-gray-600 max-w-2xl mb-10">
+            Câu lạc bộ Logistics đầu tiên tại Trường Đại học Giao thông Vận tải, 
+            nơi kết nối sinh viên, nhà trường và doanh nghiệp trong lĩnh vực Logistics và Quản lý chuỗi cung ứng.
+        </p>
+
+        <div class="flex space-x-4">
+            <a href="#" class="border-2 border-gray-900 text-gray-900 px-8 py-3 rounded-full font-bold hover:bg-gray-900 hover:text-white transition">
+                Khám phá ULC ↓
+            </a>
+            <a href="#" class="bg-blue-600 text-white px-8 py-3 rounded-full font-bold hover:bg-blue-700 transition">
+                Xem hoạt động
+            </a>
+        </div>
+    </main>
+<!-- ========================================== -->
+    <!-- PHÂN KHU MỚI: Về chúng tôi (About Section) -->
+    <!-- ========================================== -->
+    <section id="about" class="mt-24 bg-white py-16 px-4 border-t border-gray-200">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+            
+            <!-- Cột bên trái: Nội dung chữ -->
+            <div>
+                <span class="text-blue-600 font-bold uppercase tracking-wider text-sm">Về chúng tôi</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-gray-900 mt-2 mb-6">
+                    CLB Học thuật Logistics <br> <span class="text-blue-600">đầu tiên</span> tại UTC
+                </h2>
+                <p class="text-gray-600 text-lg leading-relaxed mb-6">
+                    Ra đời năm 2020, ULC trực thuộc Đoàn Trường Đại học Giao thông Vận tải. 
+                    Qua hơn 4 năm xây dựng, ULC là cầu nối vững chắc giữa sinh viên và thế giới doanh nghiệp Logistics Việt Nam.
+                </p>
+                <div class="font-bold text-xl italic text-gray-800 border-l-4 border-blue-600 pl-4">
+                    "Chia sẻ – Kết nối – Học hỏi"
+                </div>
+            </div>
+            
+            <!-- Cột bên phải: Hình ảnh minh họa -->
+            <!-- Thầy đang dùng một link ảnh trực tuyến (container) để em thấy kết quả ngay -->
+            <div class="rounded-2xl overflow-hidden shadow-2xl hover:scale-105 transition duration-500 cursor-pointer">
+                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop" 
+                     alt="Hình ảnh Container Logistics" 
+                     class="w-full h-auto object-cover">
+            </div>
+
+        </div>
+    </section>
+</body>
+</html>
