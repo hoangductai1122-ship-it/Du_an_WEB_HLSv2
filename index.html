@@ -169,5 +169,27 @@
             </div>
         </div>
     </section>
+<!-- ========================================== -->
+    <!-- JAVASCRIPT: ĐIỀU KHIỂN TƯƠNG TÁC -->
+    <!-- ========================================== -->
+    <script>
+        // Lấy nút bấm và cái menu thả xuống từ HTML
+        const btn = document.getElementById('mobile-menu-button');
+        const menu = document.getElementById('mobile-menu');
+
+        // Bắt sự kiện: Khi người dùng Click vào nút bấm
+        btn.addEventListener('click', () => {
+            // Lệnh toggle: Nếu đang ẩn thì hiện ra, nếu đang hiện thì ẩn đi
+            menu.classList.toggle('hidden');
+        });
+
+        // Nâng cao (tùy chọn): Tự động đóng menu sau khi bấm chọn 1 mục
+        const menuLinks = menu.querySelectorAll('a');
+        menuLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                menu.classList.add('hidden');
+            });
+        });
+    </script>
 </body>
 </html>
