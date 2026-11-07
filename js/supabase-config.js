@@ -1,13 +1,15 @@
 // ============================================================================
-// CẤU HÌNH KẾT NỐI CƠ SỞ DỮ LIỆU SUPABASE - PHÒNG TRUYỀN THỐNG HLS
+// CẤU HÌNH KẾT NỐI CƠ SỞ DỮ LIỆU SUPABASE - TRUNG TÂM QUẢN TRỊ WEBSITE HLS
 // ============================================================================
-// Hướng dẫn:
-// 1. Khi chưa điền SUPABASE_URL và SUPABASE_ANON_KEY, hệ thống tự động chạy ở
-//    "Chế độ Local (Thử nghiệm)" lưu trên trình duyệt kèm dữ liệu mẫu để bạn
-//    trải nghiệm ngay mọi tính năng (Đăng nhập Admin, Upload ảnh, Thêm/Sửa/Xóa).
-// 2. Khi muốn đưa lên mạng cho mọi người cùng xem:
+// Hướng dẫn vận hành & bảo mật:
+// 1. Khi chưa điền SUPABASE_URL và SUPABASE_ANON_KEY, hệ thống chạy ở
+//    "Chế độ Local (Kiểm thử)" trên trình duyệt: mật khẩu quản trị được kiểm tra
+//    bằng mã băm SHA-256 (không lưu mật khẩu gốc), phiên đăng nhập lưu trong
+//    sessionStorage và tự động khóa khi đóng tab hoặc sau 30 phút không thao tác.
+// 2. Khi đưa website lên Hosting chính thức:
 //    - Tạo project miễn phí tại https://supabase.com
-//    - Mở trang admin.html -> nhấn nút "Hướng dẫn kết nối Supabase" để lấy mã SQL
+//    - Vào Authentication -> Users tạo tài khoản Admin chính thức
+//    - Mở admin.html -> nhấn "Cấu hình Supabase" để chạy mã SQL phân quyền RLS
 //    - Dán Project URL và anon public key vào 2 dòng bên dưới.
 // ============================================================================
 
@@ -16,10 +18,6 @@ window.HLS_CONFIG = {
     SUPABASE_ANON_KEY: "", // Ví dụ: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
     STORAGE_BUCKET: "member-photos",
     EVENT_STORAGE_BUCKET: "event-photos",
-
-    // Tài khoản mặc định khi chạy chế độ Local (chưa gắn Supabase)
-    DEMO_ADMIN_EMAIL: "admin@hls.hust.edu.vn",
-    DEMO_ADMIN_PASSWORD: "hls2026",
 
     // Hệ thống phân cấp 4 tầng cố định từ trên xuống dưới của HLS
     TIERS: [

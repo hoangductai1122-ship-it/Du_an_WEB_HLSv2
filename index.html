@@ -53,7 +53,7 @@
                         <span data-brand-bar
                             class="w-2 h-6 bg-gradient-to-b from-red-500 to-red-800 rounded-[1px] inline-block shadow-[0_0_12px_rgba(239,68,68,0.65)] transition-transform duration-200 group-hover:scale-y-110"></span>
                         <span class="text-xl font-extrabold text-white tracking-tight uppercase">
-                            HLS <span
+                            <span data-site-text="hero.brand_main">HLS</span> <span data-site-text="hero.brand_sub"
                                 class="font-medium text-zinc-400 group-hover:text-red-500 transition-colors duration-200">Logistics</span>
                         </span>
                     </a>
@@ -80,7 +80,7 @@
 
                 <!-- Nút Tham gia -->
                 <div class="hidden lg:flex">
-                    <a href="#contact" data-join-link
+                    <a href="#contact" data-join-link data-site-text="hero.nav_cta_label"
                         class="hls-btn-crimson text-sm font-semibold py-2.5 px-5 rounded-md">
                         Tham gia CLB
                     </a>
@@ -176,7 +176,7 @@
                     </div>
                     <div>
                         <dt class="text-zinc-500 uppercase tracking-wider">Trực thuộc</dt>
-                        <dd class="font-bold text-white text-sm mt-0.5">ĐHBK Hà Nội</dd>
+                        <dd id="hero-meta-unit" data-site-text="hero.affiliated_unit" class="font-bold text-white text-sm mt-0.5">ĐHBK Hà Nội</dd>
                     </div>
                     <div>
                         <dt class="text-zinc-500 uppercase tracking-wider">Mô hình</dt>
@@ -227,7 +227,7 @@
                 <div>
                     <span class="text-red-400 font-semibold uppercase tracking-[0.18em] text-xs">06 / Hoạt động &amp; Sự
                         kiện</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight mt-2">Hệ Sinh Thái Hoạt
+                    <h2 id="home-activities-title" data-site-text="pages.home_activities_title" class="text-3xl md:text-4xl font-extrabold text-white tracking-tight mt-2">Hệ Sinh Thái Hoạt
                         Động HLS</h2>
                 </div>
                 <a href="hoat-dong.html"
@@ -274,16 +274,16 @@
                     <div class="flex items-center gap-2.5 mb-4">
                         <span class="w-2 h-5 bg-red-600 inline-block shadow-[0_0_10px_rgba(220,38,38,0.6)]"></span>
                         <h3 class="text-lg font-extrabold tracking-tight uppercase text-white">
-                            HLS <span class="font-medium text-zinc-400">Logistics</span>
+                            <span data-site-text="hero.brand_main">HLS</span> <span data-site-text="hero.brand_sub" class="font-medium text-zinc-400">Logistics</span>
                         </h3>
                     </div>
-                    <p class="text-zinc-400 text-sm leading-relaxed mb-5">
+                    <p id="footer-club-desc" data-site-text="contact.footer_desc" class="text-zinc-400 text-sm leading-relaxed mb-5">
                         Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội. Nơi kết nối, học
                         hỏi và
                         phát triển của sinh viên đam mê lĩnh vực Logistics và Chuỗi cung ứng.
                     </p>
                     <div class="font-serif italic text-sm text-zinc-300 border-l-2 border-red-600 pl-3">
-                        “Chia sẻ – Kết nối – Học hỏi”
+                        “<span id="footer-club-quote" data-site-text="contact.footer_quote">Chia sẻ – Kết nối – Học hỏi</span>”
                     </div>
                 </div>
 
@@ -303,8 +303,7 @@
                                 đồng hành</a></li>
                         <li><a href="phong-truyen-thong.html" class="hover:text-red-400 transition-colors">Phòng truyền
                                 thống các Gen</a></li>
-                        <li><a href="admin.html" class="hover:text-red-400 transition-colors">Hệ thống Quản trị nội
-                                bộ</a></li>
+                        <li><a href="admin.html" class="hover:text-red-400 transition-colors">Quản trị Website</a></li>
                     </ul>
                 </div>
 
@@ -368,7 +367,7 @@
 
             <div
                 class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-zinc-500 text-xs">
-                <p>&copy; 2026 HLS — CLB Logistics và Quản lý chuỗi cung ứng ĐHBK Hà Nội.</p>
+                <p id="footer-copyright" data-site-text="contact.copyright">&copy; 2026 HLS — CLB Logistics và Quản lý chuỗi cung ứng ĐHBK Hà Nội.</p>
                 <p class="mt-2 md:mt-0">Thiết kế và phát triển bởi <span class="font-semibold text-zinc-300">Hoàng Đức
                         Tài</span></p>
             </div>
@@ -626,6 +625,12 @@
                 }
             }
             setText("hero-image-caption", h.image_caption || "HLS · Đại học Bách Khoa Hà Nội");
+            if (h.affiliated_unit) {
+                setText("hero-meta-unit", h.affiliated_unit);
+            }
+            if (c.pages && c.pages.home_activities_title) {
+                setText("home-activities-title", c.pages.home_activities_title);
+            }
 
             if (c.story && c.story.founded_year) {
                 setText("hero-meta-year", "Năm " + c.story.founded_year);
@@ -641,6 +646,9 @@
             cachedContactData = ct;
             setText("contact-address-1", ct.address_line1);
             setText("contact-address-2", ct.address_line2);
+            if (ct.footer_desc) setText("footer-club-desc", ct.footer_desc);
+            if (ct.footer_quote) setText("footer-club-quote", ct.footer_quote);
+            if (ct.copyright) setText("footer-copyright", ct.copyright);
 
             const emailEl = document.getElementById("contact-email");
             if (emailEl && ct.email) {
@@ -791,7 +799,7 @@
             const visionHtml = `
                 <section id="vision" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-red-950/[0.15] via-[#09090e]/45 to-[#09090e]/50 border-y border-white/[0.08] scroll-mt-20">
                     <div class="max-w-6xl mx-auto">
-                        ${sectionHeader("03", "Tầm nhìn & Sứ mệnh", "Định hướng phát triển của HLS", "")}
+                        ${sectionHeader("03", "Tầm nhìn & Sứ mệnh", escapeHtml(v.heading || "Định hướng phát triển của HLS"), "")}
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
                             <div data-reveal class="hls-card border-t-2 border-t-red-600 rounded-xl p-7 sm:p-8">
@@ -855,7 +863,7 @@
             const organizationHtml = `
                 <section id="organization" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-20">
                     <div class="max-w-6xl mx-auto">
-                        ${sectionHeader("04", "Cơ cấu tổ chức", "Ban Chủ nhiệm & các ban chức năng", o.intro)}
+                        ${sectionHeader("04", "Cơ cấu tổ chức", escapeHtml(o.heading || "Ban Chủ nhiệm & các ban chức năng"), o.intro)}
 
                         ${executivesHtml}
 
@@ -885,7 +893,7 @@
             const achievementsHtml = `
                 <section id="achievements" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-gradient-to-b from-red-950/[0.15] via-[#09090e]/45 to-[#09090e]/50 border-t border-white/[0.08] scroll-mt-20">
                     <div class="max-w-6xl mx-auto">
-                        ${sectionHeader("05", "Thành tích nổi bật", "Những dấu ấn của HLS", ac.intro)}
+                        ${sectionHeader("05", "Thành tích nổi bật", escapeHtml(ac.heading || "Những dấu ấn của HLS"), ac.intro)}
 
                         ${stats.length ? `
                         <div data-reveal class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
@@ -1116,9 +1124,9 @@
                 <div data-reveal class="mt-12 hls-surface rounded-xl p-6 sm:p-8 border-l-2 border-l-red-600 flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div>
                         <div class="text-xs font-bold uppercase tracking-[0.18em] text-red-400 mb-1">Hợp tác Đối ngoại &amp; Tài trợ</div>
-                        <h3 class="text-lg sm:text-xl font-extrabold text-white">Đồng hành cùng sinh viên Logistics ĐHBK Hà Nội</h3>
+                        <h3 class="text-lg sm:text-xl font-extrabold text-white">${escapeHtml(pCfg.cta_title || "Đồng hành cùng sinh viên Logistics ĐHBK Hà Nội")}</h3>
                         <p class="text-xs sm:text-sm text-zinc-400 mt-1">
-                            Liên hệ trực tiếp Ban Chủ nhiệm &amp; Ban Đối ngoại HLS để nhận Hồ sơ Mời tài trợ (Partnership Proposal) cho các chương trình học thuật trong năm.
+                            ${escapeHtml(pCfg.cta_desc || "Liên hệ trực tiếp Ban Chủ nhiệm & Ban Đối ngoại HLS để nhận Hồ sơ Mời tài trợ (Partnership Proposal) cho các chương trình học thuật trong năm.")}
                         </p>
                     </div>
                     <div class="flex flex-wrap items-center gap-3 flex-shrink-0">

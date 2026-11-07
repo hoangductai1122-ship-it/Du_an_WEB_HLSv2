@@ -14,12 +14,16 @@
     const DEFAULT_CONTENT = {
         hero: {
             logo_url: "",
+            brand_main: "HLS",
+            brand_sub: "Logistics",
+            nav_cta_label: "Tham gia CLB",
             eyebrow: "Đại học Bách Khoa Hà Nội · HUST",
             title_line1: "Kết nối. Học hỏi.",
             title_highlight: "Phát triển bền vững.",
             description: "Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội — không gian học thuật chuyên sâu kết nối sinh viên, giảng viên và mạng lưới doanh nghiệp Chuỗi cung ứng.",
             primary_cta_label: "Xem hoạt động nổi bật",
             secondary_cta_label: "Phòng truyền thống",
+            affiliated_unit: "ĐHBK Hà Nội",
             image_url: "https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=1000&auto=format&fit=crop",
             image_caption: "Tư duy hệ thống kỹ thuật & quản trị vận hành chuỗi cung ứng thực tiễn · ĐHBK Hà Nội"
         },
@@ -48,6 +52,7 @@
         },
 
         vision: {
+            heading: "Định hướng phát triển của HLS",
             vision: "Trở thành cộng đồng học thuật Logistics và Quản lý chuỗi cung ứng uy tín hàng đầu dành cho sinh viên khối kỹ thuật tại Việt Nam — nơi ươm mầm thế hệ kỹ sư, nhà quản trị chuỗi cung ứng có tư duy hệ thống và năng lực thực chiến.",
             mission: "Kết nối sinh viên với mạng lưới doanh nghiệp Logistics; nâng cao kiến thức chuyên môn và kỹ năng thực tiễn thông qua cuộc thi, hội thảo, thực tế doanh nghiệp; xây dựng môi trường gắn kết, nơi các thế hệ thành viên cùng chia sẻ và phát triển.",
             values: [
@@ -59,6 +64,7 @@
         },
 
         organization: {
+            heading: "Ban Chủ nhiệm & các ban chức năng",
             intro: "HLS vận hành theo mô hình Ban Chủ nhiệm điều phối chung và 5 ban chức năng chuyên trách. Ban Chủ nhiệm được hiển thị tự động từ dữ liệu Gen đương nhiệm trong Phòng truyền thống.",
             show_executive_from_hall: true,
             departments: [
@@ -71,6 +77,7 @@
         },
 
         achievements: {
+            heading: "Những dấu ấn của HLS",
             intro: "Những con số và dấu mốc ghi nhận nỗ lực của các thế hệ thành viên HLS.",
             stats: [
                 { value: "120+", label: "Thành viên qua 4 thế hệ" },
@@ -143,6 +150,8 @@
         partners: {
             title: "Nhà Tài Trợ & Đối Tác Đồng Hành",
             intro: "HLS trân trọng gửi lời tri ân sâu sắc tới các đơn vị bảo trợ, Quý Nhà tài trợ, Doanh nghiệp Logistics và Đối tác truyền thông đã luôn tin tưởng, đồng hành cùng các thế hệ sinh viên ĐHBK Hà Nội.",
+            cta_title: "Đồng hành cùng sinh viên Logistics ĐHBK Hà Nội",
+            cta_desc: "Liên hệ trực tiếp Ban Chủ nhiệm & Ban Đối ngoại HLS để nhận Hồ sơ Mời tài trợ (Partnership Proposal) cho các chương trình học thuật trong năm.",
             items: [
                 {
                     id: "partner-1",
@@ -201,6 +210,19 @@
             ]
         },
 
+        pages: {
+            home_activities_title: "Hệ Sinh Thái Hoạt Động HLS",
+            events_eyebrow: "Chuyên mục Hoạt động · HLS ĐHBK Hà Nội",
+            events_title: "Sự Kiện Thường Niên &",
+            events_highlight: "Hoạt Động CLB",
+            events_intro: "Tổng hợp các chương trình trọng điểm diễn ra định kỳ hằng năm (Core Events) cùng chuỗi hội thảo, nghiên cứu khoa học và hoạt động đồng hành của sinh viên HLS.",
+            hall_eyebrow: "Lưu trữ Kỷ yếu · HLS ĐHBK Hà Nội",
+            hall_title: "Phòng Truyền Thống",
+            hall_highlight: "HLS",
+            hall_intro: "Nơi lưu giữ dấu ấn của các thế hệ thành viên từ ngày đầu thành lập đến nay. Nhấn vào chân dung mỗi thành viên để mở trang Lưu bút & Confession cá nhân trong tab mới.",
+            news_eyebrow: "Chuyên mục Tin tức · HLS ĐHBK Hà Nội"
+        },
+
         contact: {
             address_line1: "Đại học Bách Khoa Hà Nội",
             address_line2: "Số 1 Đại Cồ Việt, Hai Bà Trưng, Hà Nội",
@@ -208,7 +230,11 @@
             phone: "0912 345 678",
             phone_label: "Chủ nhiệm CLB đương nhiệm",
             fanpage_url: "https://www.facebook.com/",
-            join_form_url: ""
+            join_form_url: "",
+            footer_desc: "Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội. Nơi kết nối, học hỏi và phát triển của sinh viên đam mê lĩnh vực Logistics và Chuỗi cung ứng.",
+            footer_quote: "Chia sẻ – Kết nối – Học hỏi",
+            footer_sub_tagline: "CLB Logistics và Quản lý chuỗi cung ứng — Đại học Bách Khoa Hà Nội",
+            copyright: "© 2026 HLS — CLB Logistics và Quản lý chuỗi cung ứng ĐHBK Hà Nội."
         }
     };
 
@@ -232,7 +258,26 @@
         if (!isSupabaseConfigured()) return null;
         if (!supabaseClient) {
             const cfg = getConfig();
-            supabaseClient = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+            const clientKey = `${cfg.SUPABASE_URL}::${cfg.SUPABASE_ANON_KEY}`;
+            if (window.__hlsSupabaseClient && window.__hlsSupabaseClientKey === clientKey) {
+                supabaseClient = window.__hlsSupabaseClient;
+            } else {
+                let authStorage;
+                try {
+                    authStorage = window.sessionStorage;
+                } catch (_) {
+                    authStorage = undefined;
+                }
+                supabaseClient = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, {
+                    auth: {
+                        storage: authStorage,
+                        persistSession: true,
+                        autoRefreshToken: true
+                    }
+                });
+                window.__hlsSupabaseClient = supabaseClient;
+                window.__hlsSupabaseClientKey = clientKey;
+            }
         }
         return supabaseClient;
     }

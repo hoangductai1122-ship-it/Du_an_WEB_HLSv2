@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hệ Thống Quản Trị Nội Bộ — HLS Admin</title>
+    <title>Trung Tâm Quản Trị Website — HLS Admin</title>
     <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -54,88 +54,116 @@
             </div>
 
             <div class="flex items-center gap-2">
-                <button id="open-supabase-guide-btn" type="button"
-                    class="hls-btn-obsidian text-xs font-medium px-3 py-1.5 rounded-md">
-                    Cấu hình Supabase
-                </button>
+                <a href="index.html" target="_blank"
+                    class="hidden xl:inline-flex hls-btn-obsidian text-xs font-medium px-3 py-1.5 rounded-md">
+                    Trang chủ
+                </a>
+                <a href="hoat-dong.html" target="_blank"
+                    class="hidden lg:inline-flex hls-btn-obsidian text-xs font-medium px-3 py-1.5 rounded-md">
+                    Hoạt động
+                </a>
                 <a href="tin-tuc.html" target="_blank"
                     class="hidden lg:inline-flex hls-btn-obsidian text-xs font-medium px-3 py-1.5 rounded-md">
                     Tin tức
                 </a>
-                <a href="hoat-dong.html" target="_blank"
-                    class="hidden md:inline-flex hls-btn-obsidian text-xs font-medium px-3 py-1.5 rounded-md">
-                    Hoạt động
-                </a>
                 <a href="phong-truyen-thong.html" target="_blank"
-                    class="hidden sm:inline-flex hls-btn-obsidian text-xs font-medium px-3 py-1.5 rounded-md">
+                    class="hidden md:inline-flex hls-btn-obsidian text-xs font-medium px-3 py-1.5 rounded-md">
                     Phòng truyền thống
                 </a>
+                <button id="open-supabase-guide-btn" type="button"
+                    class="hls-btn-obsidian text-xs font-medium px-3 py-1.5 rounded-md">
+                    Cấu hình Supabase
+                </button>
+                <button id="open-security-modal-btn" type="button"
+                    class="hidden hls-btn-obsidian text-xs font-semibold px-3 py-1.5 rounded-md">
+                    Đổi mật khẩu
+                </button>
                 <button id="logout-btn" type="button"
-                    class="hidden text-xs font-medium px-3 py-1.5 rounded-md bg-zinc-900/90 hover:bg-red-500/15 text-zinc-300 hover:text-red-400 border border-white/10 hover:border-red-500/40 transition-colors">
-                    Đăng xuất
+                    class="hidden text-xs font-semibold px-3 py-1.5 rounded-md bg-zinc-900/90 hover:bg-red-500/15 text-zinc-200 hover:text-red-400 border border-white/10 hover:border-red-500/40 transition-colors">
+                    Khóa &amp; Đăng xuất
                 </button>
             </div>
         </div>
     </nav>
 
     <!-- ========================================== -->
-    <!-- MÀN HÌNH ĐĂNG NHẬP QUẢN TRỊ -->
+    <!-- MÀN HÌNH ĐĂNG NHẬP QUẢN TRỊ (BẢO MẬT) -->
     <!-- ========================================== -->
     <section id="login-view" class="hidden flex-1 flex items-center justify-center px-4 py-14">
         <div class="w-full max-w-md hls-card border-t-2 border-t-red-500 rounded-xl p-8">
             <div class="mb-6">
                 <div class="flex items-center gap-2.5 mb-3">
                     <span class="w-6 h-[2px] bg-red-500 shadow-[0_0_8px_rgba(244,42,59,0.8)]"></span>
-                    <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-400">Quản trị nội bộ · HUST</span>
+                    <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-400">Xác thực bảo mật · HLS HUST</span>
                 </div>
-                <h1 class="text-2xl font-extrabold text-white tracking-tight">Đăng nhập hệ thống HLS</h1>
-                <p class="text-sm text-zinc-400 mt-1">Quản lý Phòng truyền thống, Sự kiện, Tin tức, Đối tác tài trợ &amp; Thông tin liên hệ CLB.</p>
+                <h1 class="text-2xl font-extrabold text-white tracking-tight">Quản trị Toàn diện Website</h1>
+                <p class="text-sm text-zinc-400 mt-1.5 leading-relaxed">
+                    Đăng nhập bằng tài khoản quản trị CLB để chỉnh sửa toàn bộ nội dung Trang chủ, Hoạt động, Tin tức, Đối tác, Phòng truyền thống &amp; Liên hệ.
+                </p>
             </div>
 
-            <div id="demo-login-hint" class="hidden mb-6 p-4 rounded-lg bg-black/45 border border-white/10 text-xs text-zinc-300 space-y-2.5">
-                <div class="font-semibold text-white">Chế độ lưu trữ trình duyệt (Chưa gắn Supabase)</div>
-                <p class="text-zinc-400">Sử dụng tài khoản mặc định dưới đây để kiểm thử toàn bộ tính năng quản trị:</p>
-                <div class="bg-[#09090f] border border-white/10 rounded px-3 py-2 font-mono text-[11px] text-zinc-200">
-                    Email: <span class="font-semibold text-red-400">admin@hls.hust.edu.vn</span><br>
-                    Mật khẩu: <span class="font-semibold text-red-400">hls2026</span>
-                </div>
-                <button type="button" id="fill-demo-btn"
-                    class="w-full py-2 rounded hls-btn-obsidian font-semibold text-xs">
-                    Điền nhanh thông tin đăng nhập
-                </button>
+            <div class="mb-6 p-3.5 rounded-lg bg-black/45 border border-white/10 text-[11px] text-zinc-400 leading-relaxed flex items-start gap-2.5">
+                <svg class="w-4 h-4 text-red-400 mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.8" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+                <span>
+                    <strong class="text-zinc-200">Cơ chế khóa tự động:</strong> Phiên quản trị chỉ hiệu lực trong tab hiện tại và tự động khóa khi đóng tab hoặc sau 30 phút không thao tác.
+                </span>
             </div>
 
-            <form id="login-form" class="space-y-4">
+            <form id="login-form" class="space-y-4" autocomplete="off">
                 <div>
-                    <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Email quản trị</label>
-                    <input id="login-email" type="email" required placeholder="admin@hls.hust.edu.vn" class="adm-input !py-2.5">
+                    <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Email quản trị viên</label>
+                    <input id="login-email" type="email" required autocomplete="username" placeholder="Nhập email quản trị CLB" class="adm-input !py-2.5">
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Mật khẩu</label>
-                    <input id="login-password" type="password" required placeholder="••••••••" class="adm-input !py-2.5">
+                    <label class="block text-xs font-semibold text-zinc-300 mb-1.5">Mật khẩu quản trị</label>
+                    <input id="login-password" type="password" required autocomplete="current-password" placeholder="Nhập mật khẩu" class="adm-input !py-2.5">
                 </div>
 
                 <p id="login-error" class="hidden text-xs font-medium text-red-300 bg-red-950/60 border border-red-500/40 rounded-md p-3"></p>
 
                 <button id="login-submit-btn" type="submit"
                     class="w-full hls-btn-crimson text-sm font-semibold py-2.5 rounded-md">
-                    Đăng nhập hệ thống
+                    Mở khóa Trung tâm Quản trị
                 </button>
             </form>
         </div>
     </section>
 
     <!-- ========================================== -->
-    <!-- BẢNG ĐIỀU KHIỂN CHÍNH (6 PHÂN KHU QUẢN TRỊ) -->
+    <!-- BẢNG ĐIỀU KHIỂN TẬP TRUNG TOÀN WEBSITE -->
     <!-- ========================================== -->
     <main id="dashboard-view" class="hidden flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8 pb-28">
+
+        <!-- Tiêu đề Trung tâm Quản trị Tập trung Toàn Website -->
+        <div class="mb-6 hls-card border-t-2 border-t-red-500 rounded-xl p-5 sm:p-6 flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            <div>
+                <div class="flex items-center gap-2.5 mb-1.5">
+                    <span class="w-5 h-[2px] bg-red-500 shadow-[0_0_8px_rgba(244,42,59,0.8)]"></span>
+                    <span class="text-[11px] font-bold uppercase tracking-[0.18em] text-red-400">Trung tâm Quản trị Tập trung · Full Website CMS</span>
+                </div>
+                <h1 class="text-xl sm:text-2xl font-extrabold text-white tracking-tight">Quản Trị Toàn Bộ Nội Dung Website HLS</h1>
+                <p class="text-xs text-zinc-400 mt-1 max-w-3xl leading-relaxed">
+                    Một bảng điều khiển duy nhất nắm toàn quyền chỉnh sửa 100% nội dung trên mọi trang: Trang chủ, Về chúng tôi, Sự kiện, Tin tức, Đối tác tài trợ, Phòng truyền thống &amp; Liên hệ.
+                </p>
+            </div>
+            <div class="flex flex-wrap items-center gap-2.5 self-start lg:self-center flex-shrink-0">
+                <div class="px-3 py-1.5 rounded-md bg-black/50 border border-white/10 text-xs text-zinc-300">
+                    Tài khoản: <strong id="active-admin-email" class="text-white font-semibold">--</strong>
+                </div>
+                <button type="button" id="banner-open-security-btn" class="hls-btn-obsidian px-3.5 py-1.5 rounded-md text-xs font-semibold">
+                    Bảo mật &amp; Đổi mật khẩu
+                </button>
+            </div>
+        </div>
 
         <!-- Cảnh báo khi chưa kết nối Supabase Cloud -->
         <div id="local-mode-banner" class="hidden mb-6 hls-surface border-l-4 border-l-red-500 rounded-lg p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div class="text-xs text-zinc-300 leading-relaxed">
                 <span class="font-bold text-white">Chế độ Lưu cục bộ trên trình duyệt:</span>
-                Mọi chỉnh sửa hiện chỉ lưu trên máy tính này để kiểm thử. Muốn đồng bộ trực tuyến cho tất cả người xem trên Internet, hãy kết nối cơ sở dữ liệu Supabase.
+                Mọi chỉnh sửa hiện lưu trên máy tính này để kiểm thử. Khi đưa lên Hosting công khai, hãy kết nối Supabase để bảo mật tài khoản phía máy chủ (RLS) và đồng bộ dữ liệu cho mọi người truy cập.
             </div>
             <button type="button" id="banner-open-supabase-btn"
                 class="self-start sm:self-center whitespace-nowrap px-3.5 py-2 rounded-md hls-btn-crimson text-xs font-semibold">
@@ -145,10 +173,13 @@
 
         <!-- Bảng chỉ số tổng quan nhanh (5 KPI Cards) -->
         <div class="grid grid-cols-2 lg:grid-cols-5 gap-3 mb-7">
-            <button type="button" data-jump-tab="members" class="text-left hls-card rounded-xl px-4 py-4">
-                <div class="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Nhiệm kỳ hiện tại</div>
-                <div id="kpi-current-gen" class="text-xl font-extrabold text-white mt-1 tabular-nums">Gen --</div>
-                <div id="kpi-members-count" class="text-[11px] text-zinc-400 mt-0.5">-- hồ sơ · <span id="kpi-current-execs">-- BCN</span></div>
+            <button type="button" id="kpi-join-card" class="col-span-2 lg:col-span-1 text-left hls-card rounded-xl px-4 py-4">
+                <div class="text-[10px] font-semibold uppercase tracking-wider text-red-400">Toàn Web &amp; Liên hệ</div>
+                <div id="kpi-phone-display" class="text-sm font-extrabold text-white mt-1 tabular-nums truncate">SĐT: --</div>
+                <div id="kpi-join-status" class="text-[11px] text-zinc-400 mt-0.5 flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>
+                    <span>Đang kiểm tra...</span>
+                </div>
             </button>
 
             <button type="button" data-jump-tab="events" class="text-left hls-card rounded-xl px-4 py-4">
@@ -169,37 +200,34 @@
                 <div id="kpi-partners-sub" class="text-[11px] text-zinc-400 mt-0.5">Tri ân đồng hành</div>
             </button>
 
-            <button type="button" id="kpi-join-card" class="col-span-2 lg:col-span-1 text-left hls-card rounded-xl px-4 py-4">
-                <div class="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Liên hệ &amp; Tuyển quân</div>
-                <div id="kpi-phone-display" class="text-sm font-extrabold text-red-400 mt-1 tabular-nums truncate">SĐT: --</div>
-                <div id="kpi-join-status" class="text-[11px] text-zinc-400 mt-0.5 flex items-center gap-1.5">
-                    <span class="w-1.5 h-1.5 rounded-full bg-zinc-500"></span>
-                    <span>Đang kiểm tra...</span>
-                </div>
+            <button type="button" data-jump-tab="members" class="text-left hls-card rounded-xl px-4 py-4">
+                <div class="text-[10px] font-semibold uppercase tracking-wider text-zinc-400">Phòng truyền thống</div>
+                <div id="kpi-current-gen" class="text-xl font-extrabold text-white mt-1 tabular-nums">Gen --</div>
+                <div id="kpi-members-count" class="text-[11px] text-zinc-400 mt-0.5">-- hồ sơ · <span id="kpi-current-execs">-- BCN</span></div>
             </button>
         </div>
 
-        <!-- Thanh chuyển đổi 6 phân khu quản trị -->
+        <!-- Thanh chuyển đổi 6 phân khu thuộc cùng 1 Trung tâm Quản trị -->
         <div class="flex items-center gap-1 border-b border-white/10 mb-8 overflow-x-auto no-scrollbar">
-            <button type="button" id="tab-btn-members"
+            <button type="button" id="tab-btn-content"
                 class="px-3.5 py-3 text-xs sm:text-sm font-bold border-b-2 border-red-500 text-white whitespace-nowrap transition-colors">
-                01. Thành viên
+                01. Nội dung Toàn Web &amp; Liên hệ
             </button>
             <button type="button" id="tab-btn-events"
                 class="px-3.5 py-3 text-xs sm:text-sm font-medium border-b-2 border-transparent text-zinc-400 hover:text-white whitespace-nowrap transition-colors">
-                02. Sự kiện
+                02. Hoạt động &amp; Sự kiện
             </button>
             <button type="button" id="tab-btn-news"
                 class="px-3.5 py-3 text-xs sm:text-sm font-medium border-b-2 border-transparent text-zinc-400 hover:text-white whitespace-nowrap transition-colors">
-                03. Tin tức
+                03. Tin tức &amp; Bản tin
             </button>
             <button type="button" id="tab-btn-partners"
                 class="px-3.5 py-3 text-xs sm:text-sm font-medium border-b-2 border-transparent text-zinc-400 hover:text-white whitespace-nowrap transition-colors">
                 04. Nhà tài trợ &amp; Đối tác
             </button>
-            <button type="button" id="tab-btn-content"
+            <button type="button" id="tab-btn-members"
                 class="px-3.5 py-3 text-xs sm:text-sm font-medium border-b-2 border-transparent text-zinc-400 hover:text-white whitespace-nowrap transition-colors">
-                05. Trang chủ &amp; Liên hệ
+                05. Phòng truyền thống
             </button>
             <button type="button" id="tab-btn-handover"
                 class="px-3.5 py-3 text-xs sm:text-sm font-medium border-b-2 border-transparent text-zinc-400 hover:text-white whitespace-nowrap transition-colors">
@@ -211,9 +239,9 @@
         <div id="toast-banner" class="hidden mb-6 px-4 py-3 rounded-lg border text-xs font-medium"></div>
 
         <!-- ===================================================== -->
-        <!-- TAB 01: QUẢN LÝ THÀNH VIÊN & LƯU BÚT -->
+        <!-- PHÂN KHU: PHÒNG TRUYỀN THỐNG & LƯU BÚT -->
         <!-- ===================================================== -->
-        <section id="panel-members">
+        <section id="panel-members" class="hidden">
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-white/10">
                 <div>
                     <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-400">Phòng truyền thống</span>
@@ -422,15 +450,15 @@
         </section>
 
         <!-- ===================================================== -->
-        <!-- TAB 05: NỘI DUNG TRANG CHỦ, VỀ CHÚNG TÔI & LIÊN HỆ -->
+        <!-- TAB 01 (MẶC ĐỊNH): NỘI DUNG TOÀN WEBSITE, VỀ CHÚNG TÔI & LIÊN HỆ -->
         <!-- ===================================================== -->
-        <section id="panel-content" class="hidden">
+        <section id="panel-content">
             <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-white/10">
                 <div>
-                    <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-400">Nội dung trang chủ &amp; Liên hệ</span>
-                    <h1 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1">Logo, Banner, Về chúng tôi &amp; SĐT Liên hệ</h1>
+                    <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-400">01 / Quản trị toàn diện nội dung Website</span>
+                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight mt-1">Thương hiệu, Trang chủ, Các Trang con &amp; Liên hệ</h2>
                     <p class="text-xs text-zinc-400 mt-1.5">
-                        Chỉnh sửa chữ, thay Logo/ảnh và cập nhật SĐT Chủ nhiệm CLB. Nhấn <span class="font-semibold text-white">Lưu toàn bộ nội dung</span> (hoặc Ctrl+S) để áp dụng.
+                        Chỉnh sửa chữ viết, Logo, ảnh minh họa, SĐT Chủ nhiệm CLB và tiêu đề của toàn bộ các trang trên Website. Nhấn <span class="font-semibold text-white">Lưu toàn bộ nội dung</span> (hoặc Ctrl+S) để áp dụng đồng bộ.
                     </p>
                 </div>
 
@@ -456,7 +484,7 @@
             </div>
 
             <div class="mt-5 flex items-center justify-between text-xs text-zinc-400">
-                <span>Nhấn vào tiêu đề từng phân mục (A &rarr; G) để mở rộng hoặc thu gọn · Phím tắt <kbd class="px-1.5 py-0.5 bg-zinc-900 border border-white/15 rounded text-[11px] font-mono text-zinc-200">Ctrl + S</kbd> để lưu nhanh.</span>
+                <span>Nhấn vào tiêu đề từng phân mục (A &rarr; H) để mở rộng hoặc thu gọn · Phím tắt <kbd class="px-1.5 py-0.5 bg-zinc-900 border border-white/15 rounded text-[11px] font-mono text-zinc-200">Ctrl + S</kbd> để lưu nhanh.</span>
                 <button type="button" id="toggle-all-details-btn" class="font-semibold text-zinc-200 hover:text-red-400 whitespace-nowrap ml-3 transition-colors">
                     Mở tất cả các mục
                 </button>
@@ -464,18 +492,36 @@
 
             <div class="mt-3 space-y-4" id="content-editor">
 
-                <!-- A. Logo CLB & Banner đầu trang -->
+                <!-- A. Thương hiệu, Logo CLB & Banner đầu trang -->
                 <details class="group hls-surface rounded-xl" open>
                     <summary class="cursor-pointer list-none px-5 py-4 flex items-center justify-between">
-                        <span class="text-sm font-bold text-white"><span class="text-red-400 mr-2">A.</span>Logo Nhận diện CLB &amp; Banner đầu trang (Hero)</span>
+                        <span class="text-sm font-bold text-white"><span class="text-red-400 mr-2">A.</span>Thương hiệu Toàn Web, Logo CLB &amp; Banner đầu trang (Hero)</span>
                         <span class="text-zinc-400 text-xs group-open:rotate-180 transition-transform">&#9662;</span>
                     </summary>
                     <div class="px-5 pb-5 pt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 border-t border-white/10">
                         <div class="sm:col-span-2">
                             <div data-image-path="hero.logo_url" data-image-label="Logo CLB & Biểu tượng Tab trình duyệt (Favicon) — Khuyến nghị ảnh vuông PNG nền trong suốt hoặc SVG"></div>
                         </div>
+                        <div class="sm:col-span-2 grid grid-cols-1 sm:grid-cols-4 gap-3 p-3.5 rounded-lg bg-black/40 border border-white/10">
+                            <div>
+                                <label class="block text-xs font-semibold text-white mb-1">Tên thương hiệu chính</label>
+                                <input data-path="hero.brand_main" type="text" placeholder="HLS" class="adm-input">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-zinc-300 mb-1">Chữ phụ cạnh Logo</label>
+                                <input data-path="hero.brand_sub" type="text" placeholder="Logistics" class="adm-input">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-red-400 mb-1">Nút kêu gọi trên Menu</label>
+                                <input data-path="hero.nav_cta_label" type="text" placeholder="Tham gia CLB" class="adm-input">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-zinc-300 mb-1">Đơn vị trực thuộc</label>
+                                <input data-path="hero.affiliated_unit" type="text" placeholder="ĐHBK Hà Nội" class="adm-input">
+                            </div>
+                        </div>
                         <div class="sm:col-span-2">
-                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Dòng nhãn nhỏ phía trên</label>
+                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Dòng nhãn nhỏ phía trên Banner</label>
                             <input data-path="hero.eyebrow" type="text" class="adm-input">
                         </div>
                         <div>
@@ -487,7 +533,7 @@
                             <input data-path="hero.title_highlight" type="text" class="adm-input">
                         </div>
                         <div class="sm:col-span-2">
-                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Đoạn mô tả</label>
+                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Đoạn mô tả mở đầu</label>
                             <textarea data-path="hero.description" rows="3" class="adm-input"></textarea>
                         </div>
                         <div>
@@ -580,6 +626,10 @@
                         <span class="text-zinc-400 text-xs group-open:rotate-180 transition-transform">&#9662;</span>
                     </summary>
                     <div class="px-5 pb-5 pt-4 space-y-4 border-t border-white/10">
+                        <div>
+                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Tiêu đề phân mục 03</label>
+                            <input data-path="vision.heading" type="text" class="adm-input">
+                        </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                             <div>
                                 <label class="block text-xs font-semibold text-red-400 mb-1">Tầm nhìn</label>
@@ -602,6 +652,10 @@
                     </summary>
                     <div class="px-5 pb-5 pt-4 space-y-4 border-t border-white/10">
                         <div>
+                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Tiêu đề phân mục 04</label>
+                            <input data-path="organization.heading" type="text" class="adm-input">
+                        </div>
+                        <div>
                             <label class="block text-xs font-semibold text-zinc-300 mb-1">Đoạn giới thiệu cơ cấu</label>
                             <textarea data-path="organization.intro" rows="2" class="adm-input"></textarea>
                         </div>
@@ -609,7 +663,7 @@
                             <input data-path="organization.show_executive_from_hall" type="checkbox" class="w-4 h-4 mt-0.5 accent-red-600">
                             <span class="text-xs text-zinc-300">
                                 <span class="font-semibold text-white">Tự động hiển thị Ban Chủ nhiệm Gen đương nhiệm</span><br>
-                                Lấy từ các thành viên Cấp 2 của Gen mới nhất trong Tab 01 (Phòng truyền thống). Muốn đổi người, hãy cập nhật tại Tab 01.
+                                Lấy từ các thành viên Cấp 2 của Gen mới nhất trong Tab 05 (Phòng truyền thống). Muốn đổi người, hãy cập nhật tại Tab 05.
                             </span>
                         </label>
                         <div data-list="organization.departments"></div>
@@ -623,19 +677,25 @@
                         <span class="text-zinc-400 text-xs group-open:rotate-180 transition-transform">&#9662;</span>
                     </summary>
                     <div class="px-5 pb-5 pt-4 space-y-4 border-t border-white/10">
-                        <div>
-                            <label class="block text-xs font-semibold text-zinc-300 mb-1">Câu dẫn</label>
-                            <input data-path="achievements.intro" type="text" class="adm-input">
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-zinc-300 mb-1">Tiêu đề phân mục 05</label>
+                                <input data-path="achievements.heading" type="text" class="adm-input">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-zinc-300 mb-1">Câu dẫn phụ</label>
+                                <input data-path="achievements.intro" type="text" class="adm-input">
+                            </div>
                         </div>
                         <div data-list="achievements.stats"></div>
                         <div data-list="achievements.awards"></div>
                     </div>
                 </details>
 
-                <!-- G. Liên hệ & Số điện thoại Chủ nhiệm CLB -->
+                <!-- G. Liên hệ, Số điện thoại Chủ nhiệm CLB & Chân trang Footer -->
                 <details class="group hls-surface rounded-xl" id="details-contact-section">
                     <summary class="cursor-pointer list-none px-5 py-4 flex items-center justify-between">
-                        <span class="text-sm font-bold text-white"><span class="text-red-400 mr-2">G.</span>Thông tin liên hệ, Số điện thoại Chủ nhiệm CLB &amp; Link đăng ký</span>
+                        <span class="text-sm font-bold text-white"><span class="text-red-400 mr-2">G.</span>Thông tin Liên hệ, SĐT Chủ nhiệm CLB, Link đăng ký &amp; Chân trang (Footer)</span>
                         <span class="text-zinc-400 text-xs group-open:rotate-180 transition-transform">&#9662;</span>
                     </summary>
                     <div class="px-5 pb-5 pt-4 space-y-4 border-t border-white/10">
@@ -676,6 +736,104 @@
                                 <label class="block text-xs font-semibold text-red-400 mb-1">Link Google Form đăng ký thành viên</label>
                                 <input data-path="contact.join_form_url" type="url" placeholder="https://forms.gle/..." class="adm-input">
                                 <p class="text-[11px] text-zinc-400 mt-1">Khi có link, mọi nút "Tham gia CLB" trên tất cả các trang sẽ tự động mở biểu mẫu này.</p>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-white/10 grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div class="sm:col-span-2 text-xs font-bold uppercase tracking-[0.14em] text-zinc-200">Nội dung Chân trang (Footer) trên toàn Website</div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-xs font-semibold text-zinc-300 mb-1">Đoạn giới thiệu CLB ở Chân trang chủ</label>
+                                <textarea data-path="contact.footer_desc" rows="2" class="adm-input"></textarea>
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-zinc-300 mb-1">Khẩu hiệu ngắn ở Chân trang</label>
+                                <input data-path="contact.footer_quote" type="text" class="adm-input">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-zinc-300 mb-1">Dòng tên CLB ở Chân trang các trang con</label>
+                                <input data-path="contact.footer_sub_tagline" type="text" class="adm-input">
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-xs font-semibold text-zinc-300 mb-1">Dòng bản quyền (Copyright)</label>
+                                <input data-path="contact.copyright" type="text" class="adm-input">
+                            </div>
+                        </div>
+                    </div>
+                </details>
+
+                <!-- H. Tiêu đề & Lời dẫn các Trang chuyên mục (Hoạt động, Tin tức, Phòng truyền thống, Hợp tác) -->
+                <details class="group hls-surface rounded-xl">
+                    <summary class="cursor-pointer list-none px-5 py-4 flex items-center justify-between">
+                        <span class="text-sm font-bold text-white"><span class="text-red-400 mr-2">H.</span>Tiêu đề &amp; Lời mở đầu các Trang con (Hoạt động, Tin tức, Phòng truyền thống &amp; Mời tài trợ)</span>
+                        <span class="text-zinc-400 text-xs group-open:rotate-180 transition-transform">&#9662;</span>
+                    </summary>
+                    <div class="px-5 pb-5 pt-4 space-y-5 border-t border-white/10">
+                        <!-- Trang Hoạt động -->
+                        <div class="p-4 rounded-lg bg-black/40 border border-white/10 space-y-3">
+                            <div class="text-xs font-bold uppercase tracking-[0.14em] text-red-400">1. Chuyên mục Hoạt động &amp; Sự kiện (hoat-dong.html &amp; Mục 06 Trang chủ)</div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Tiêu đề Mục 06 ngoài Trang chủ</label>
+                                    <input data-path="pages.home_activities_title" type="text" class="adm-input">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Nhãn nhỏ đầu trang Hoạt động</label>
+                                    <input data-path="pages.events_eyebrow" type="text" class="adm-input">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Tiêu đề lớn trang Hoạt động (phần trắng)</label>
+                                    <input data-path="pages.events_title" type="text" class="adm-input">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-red-400 mb-1">Tiêu đề lớn trang Hoạt động (phần đỏ)</label>
+                                    <input data-path="pages.events_highlight" type="text" class="adm-input">
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Đoạn lời dẫn trang Hoạt động</label>
+                                    <textarea data-path="pages.events_intro" rows="2" class="adm-input"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trang Phòng truyền thống -->
+                        <div class="p-4 rounded-lg bg-black/40 border border-white/10 space-y-3">
+                            <div class="text-xs font-bold uppercase tracking-[0.14em] text-red-400">2. Trang Phòng truyền thống (phong-truyen-thong.html)</div>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Nhãn nhỏ phía trên</label>
+                                    <input data-path="pages.hall_eyebrow" type="text" class="adm-input">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Tiêu đề (phần trắng)</label>
+                                    <input data-path="pages.hall_title" type="text" class="adm-input">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-red-400 mb-1">Tiêu đề (phần đỏ)</label>
+                                    <input data-path="pages.hall_highlight" type="text" class="adm-input">
+                                </div>
+                                <div class="sm:col-span-3">
+                                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Đoạn giới thiệu đầu trang Phòng truyền thống</label>
+                                    <textarea data-path="pages.hall_intro" rows="2" class="adm-input"></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Trang Tin tức & Khung Kêu gọi Hợp tác Tài trợ -->
+                        <div class="p-4 rounded-lg bg-black/40 border border-white/10 space-y-3">
+                            <div class="text-xs font-bold uppercase tracking-[0.14em] text-red-400">3. Nhãn trang Tin tức &amp; Khung Mời Hợp tác Tài trợ</div>
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                                <div>
+                                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Nhãn nhỏ đầu trang Tin tức (tin-tuc.html)</label>
+                                    <input data-path="pages.news_eyebrow" type="text" class="adm-input">
+                                </div>
+                                <div>
+                                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Tiêu đề hộp Kêu gọi Hợp tác Tài trợ</label>
+                                    <input data-path="partners.cta_title" type="text" class="adm-input">
+                                </div>
+                                <div class="sm:col-span-2">
+                                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Lời mời nhận Hồ sơ Tài trợ (Partnership Proposal)</label>
+                                    <textarea data-path="partners.cta_desc" rows="2" class="adm-input"></textarea>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -820,11 +978,11 @@
 
     </main>
 
-    <!-- Thanh nổi nhắc lưu khi có chỉnh sửa ở Tab 05 -->
+    <!-- Thanh nổi nhắc lưu khi có chỉnh sửa ở Tab 01 -->
     <div id="floating-save-bar" class="hidden fixed bottom-5 left-1/2 -translate-x-1/2 z-40 w-[calc(100%-2rem)] max-w-xl bg-[#0d0d14]/95 backdrop-blur-xl text-white rounded-xl shadow-2xl border border-red-500/40 px-4 py-3 flex items-center justify-between gap-3">
         <div class="flex items-center gap-2.5 text-xs">
             <span class="w-2 h-2 rounded-full bg-red-500 shadow-[0_0_8px_rgba(244,42,59,0.9)]"></span>
-            <span class="font-medium">Có thay đổi nội dung Trang chủ &amp; Liên hệ chưa lưu</span>
+            <span class="font-medium">Có thay đổi Nội dung Toàn Web &amp; Liên hệ chưa lưu</span>
         </div>
         <div class="flex items-center gap-2 flex-shrink-0">
             <button type="button" id="floating-discard-btn" class="hls-btn-obsidian px-3 py-1.5 rounded text-xs font-medium">
@@ -1398,6 +1556,52 @@ create policy "Admin tai anh len" on storage.objects for insert to authenticated
                     </button>
                 </div>
             </div>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 6: BẢO MẬT & ĐỔI MẬT KHẨU QUẢN TRỊ -->
+    <!-- ========================================== -->
+    <div id="security-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto p-4 sm:p-6">
+        <div class="max-w-md mx-auto my-10 hls-surface rounded-xl shadow-2xl overflow-hidden border border-white/15">
+            <div class="px-6 py-4 bg-black/40 border-b border-white/10 flex items-center justify-between">
+                <h2 class="text-base font-bold text-white">Bảo mật &amp; Đổi mật khẩu Quản trị</h2>
+                <button type="button" id="close-security-modal-btn" class="text-zinc-400 hover:text-white text-xl leading-none">&times;</button>
+            </div>
+
+            <form id="security-form" class="p-6 space-y-4">
+                <div class="p-3.5 rounded-lg bg-black/45 border border-white/10 text-xs text-zinc-300 space-y-1">
+                    <div>Tài khoản hiện tại: <strong id="sec-current-email" class="text-white">--</strong></div>
+                    <div id="sec-mode-note" class="text-[11px] text-zinc-400"></div>
+                </div>
+
+                <div id="sec-email-row">
+                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Email quản trị mới (để trống nếu giữ nguyên)</label>
+                    <input id="sec-new-email" type="email" placeholder="VD: bcn.hls@hust.edu.vn" class="adm-input">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Mật khẩu hiện tại *</label>
+                    <input id="sec-current-password" type="password" required placeholder="Nhập mật khẩu đang dùng" class="adm-input">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-red-400 mb-1">Mật khẩu mới (tối thiểu 6 ký tự) *</label>
+                    <input id="sec-new-password" type="password" minlength="6" required placeholder="Nhập mật khẩu mới" class="adm-input">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-zinc-300 mb-1">Xác nhận lại mật khẩu mới *</label>
+                    <input id="sec-confirm-password" type="password" minlength="6" required placeholder="Nhập lại mật khẩu mới" class="adm-input">
+                </div>
+
+                <p id="sec-error" class="hidden text-xs font-medium text-red-300 bg-red-950/60 border border-red-500/40 rounded-md p-3"></p>
+
+                <div class="flex items-center justify-end gap-2.5 pt-3 border-t border-white/10">
+                    <button type="button" id="cancel-security-modal-btn" class="hls-btn-obsidian px-4 py-2 rounded-md text-xs font-semibold">Hủy bỏ</button>
+                    <button type="submit" id="save-security-btn" class="hls-btn-crimson px-5 py-2 rounded-md text-xs font-semibold">Cập nhật mật khẩu</button>
+                </div>
+            </form>
         </div>
     </div>
 

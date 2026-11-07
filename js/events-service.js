@@ -324,7 +324,26 @@
         if (!isSupabaseConfigured()) return null;
         if (!supabaseClient) {
             const cfg = getConfig();
-            supabaseClient = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+            const clientKey = `${cfg.SUPABASE_URL}::${cfg.SUPABASE_ANON_KEY}`;
+            if (window.__hlsSupabaseClient && window.__hlsSupabaseClientKey === clientKey) {
+                supabaseClient = window.__hlsSupabaseClient;
+            } else {
+                let authStorage;
+                try {
+                    authStorage = window.sessionStorage;
+                } catch (_) {
+                    authStorage = undefined;
+                }
+                supabaseClient = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, {
+                    auth: {
+                        storage: authStorage,
+                        persistSession: true,
+                        autoRefreshToken: true
+                    }
+                });
+                window.__hlsSupabaseClient = supabaseClient;
+                window.__hlsSupabaseClientKey = clientKey;
+            }
         }
         return supabaseClient;
     }

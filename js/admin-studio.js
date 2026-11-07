@@ -1,36 +1,38 @@
 // ============================================================================
-// BỘ ĐIỀU KHIỂN TRANG QUẢN TRỊ NỘI BỘ HLS ADMIN (OBSIDIAN DARK STUDIO)
-// Quản lý đồng bộ 6 phân khu:
-// 01. Thành viên Phòng truyền thống · 02. Hoạt động & Sự kiện · 03. Tin tức
-// 04. Nhà tài trợ & Đối tác · 05. Trang chủ & SĐT Liên hệ · 06. Bàn giao & Sao lưu
+// BỘ ĐIỀU KHIỂN TRUNG TÂM QUẢN TRỊ TOÀN DIỆN WEBSITE HLS (OBSIDIAN DARK STUDIO)
+// Quản lý tập trung 100% nội dung trên toàn bộ Website với 1 tài khoản duy nhất:
+// 01. Nội dung Toàn Web & Liên hệ · 02. Hoạt động & Sự kiện · 03. Tin tức
+// 04. Nhà tài trợ & Đối tác · 05. Phòng truyền thống · 06. Bàn giao & Sao lưu
 // ============================================================================
 
 (function () {
     const loginView = document.getElementById("login-view");
     const dashboardView = document.getElementById("dashboard-view");
     const logoutBtn = document.getElementById("logout-btn");
+    const openSecurityBtn = document.getElementById("open-security-modal-btn");
+    const bannerOpenSecurityBtn = document.getElementById("banner-open-security-btn");
+    const activeAdminEmailEl = document.getElementById("active-admin-email");
     const modeBadge = document.getElementById("mode-badge");
-    const demoLoginHint = document.getElementById("demo-login-hint");
     const toastBanner = document.getElementById("toast-banner");
     const localModeBanner = document.getElementById("local-mode-banner");
     const floatingSaveBar = document.getElementById("floating-save-bar");
 
-    // 6 Tab chuyển đổi
-    const TAB_KEYS = ["members", "events", "news", "partners", "content", "handover"];
+    // 6 Phân khu trong cùng 1 Trung tâm Quản trị (Mặc định mở 01: Nội dung Toàn Web & Liên hệ)
+    const TAB_KEYS = ["content", "events", "news", "partners", "members", "handover"];
     const tabButtons = {
-        members: document.getElementById("tab-btn-members"),
+        content: document.getElementById("tab-btn-content"),
         events: document.getElementById("tab-btn-events"),
         news: document.getElementById("tab-btn-news"),
         partners: document.getElementById("tab-btn-partners"),
-        content: document.getElementById("tab-btn-content"),
+        members: document.getElementById("tab-btn-members"),
         handover: document.getElementById("tab-btn-handover")
     };
     const tabPanels = {
-        members: document.getElementById("panel-members"),
+        content: document.getElementById("panel-content"),
         events: document.getElementById("panel-events"),
         news: document.getElementById("panel-news"),
         partners: document.getElementById("panel-partners"),
-        content: document.getElementById("panel-content"),
+        members: document.getElementById("panel-members"),
         handover: document.getElementById("panel-handover")
     };
 
@@ -70,6 +72,9 @@
     let partnerLogoCleared = false;
 
     const guideModal = document.getElementById("supabase-guide-modal");
+    const securityModal = document.getElementById("security-modal");
+    const securityForm = document.getElementById("security-form");
+    let currentSessionInfo = null;
 
     function escapeHtml(str) {
         return String(str || "")
@@ -113,7 +118,7 @@
     }
 
     function switchAdminTab(tabName) {
-        const active = TAB_KEYS.includes(tabName) ? tabName : "members";
+        const active = TAB_KEYS.includes(tabName) ? tabName : "content";
 
         TAB_KEYS.forEach((key) => {
             tabPanels[key].classList.toggle("hidden", active !== key);
@@ -125,7 +130,7 @@
             }`;
         });
 
-        if (active === "members") {
+        if (active === "content") {
             history.replaceState(null, "", window.location.pathname);
         } else {
             history.replaceState(null, "", `#${active}`);
@@ -180,12 +185,10 @@
         if (isCloud) {
             modeBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span>Supabase Cloud</span>`;
             modeBadge.className = "hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-medium border bg-emerald-500/10 border-emerald-500/30 text-emerald-300";
-            demoLoginHint.classList.add("hidden");
             localModeBanner.classList.add("hidden");
         } else {
             modeBadge.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-red-500"></span><span>Lưu cục bộ (Local)</span>`;
             modeBadge.className = "hidden sm:inline-flex items-center gap-1.5 px-2.5 py-1 rounded text-[11px] font-medium border bg-red-500/10 border-red-500/30 text-red-300";
-            demoLoginHint.classList.remove("hidden");
             localModeBanner.classList.remove("hidden");
         }
     }
@@ -233,32 +236,28 @@
         }
     }
 
-    // ================= XỬ LÝ ĐĂNG NHẬP =================
-    document.getElementById("fill-demo-btn").addEventListener("click", () => {
-        const cfg = window.HLS_CONFIG || {};
-        document.getElementById("login-email").value = cfg.DEMO_ADMIN_EMAIL || "admin@hls.hust.edu.vn";
-        document.getElementById("login-password").value = cfg.DEMO_ADMIN_PASSWORD || "hls2026";
-    });
-
+    // ================= XỬ LÝ ĐĂNG NHẬP, BẢO MẬT & KHÓA PHIÊN TỰ ĐỘNG =================
     document.getElementById("login-form").addEventListener("submit", async (e) => {
         e.preventDefault();
         const errEl = document.getElementById("login-error");
         const btn = document.getElementById("login-submit-btn");
+        const passInput = document.getElementById("login-password");
         errEl.classList.add("hidden");
         btn.disabled = true;
-        btn.textContent = "Đang xác thực...";
+        btn.textContent = "Đang xác thực bảo mật...";
 
         try {
             const email = document.getElementById("login-email").value;
-            const pass = document.getElementById("login-password").value;
+            const pass = passInput.value;
             await HLSService.loginAdmin(email, pass);
+            passInput.value = "";
             await checkAuthAndRender();
         } catch (err) {
             errEl.textContent = err.message;
             errEl.classList.remove("hidden");
         } finally {
             btn.disabled = false;
-            btn.textContent = "Đăng nhập hệ thống";
+            btn.textContent = "Mở khóa Trung tâm Quản trị";
         }
     });
 
@@ -266,6 +265,94 @@
         await HLSService.logoutAdmin();
         await checkAuthAndRender();
     });
+
+    function openSecurityModal() {
+        const isCloud = HLSService.isSupabaseConfigured();
+        const emailText = (currentSessionInfo && currentSessionInfo.email) ? currentSessionInfo.email : "--";
+        document.getElementById("sec-current-email").textContent = emailText;
+        document.getElementById("sec-mode-note").textContent = isCloud
+            ? "Đang kết nối Supabase Auth — mật khẩu mới sẽ được mã hóa trực tiếp trên máy chủ Supabase."
+            : "Đang chạy chế độ Lưu cục bộ — mật khẩu được băm SHA-256 trên trình duyệt này.";
+        document.getElementById("sec-email-row").classList.toggle("hidden", isCloud);
+        document.getElementById("sec-new-email").value = "";
+        document.getElementById("sec-current-password").value = "";
+        document.getElementById("sec-new-password").value = "";
+        document.getElementById("sec-confirm-password").value = "";
+        document.getElementById("sec-error").classList.add("hidden");
+        securityModal.classList.remove("hidden");
+    }
+
+    function closeSecurityModal() {
+        securityModal.classList.add("hidden");
+    }
+
+    openSecurityBtn.addEventListener("click", openSecurityModal);
+    bannerOpenSecurityBtn.addEventListener("click", openSecurityModal);
+    document.getElementById("close-security-modal-btn").addEventListener("click", closeSecurityModal);
+    document.getElementById("cancel-security-modal-btn").addEventListener("click", closeSecurityModal);
+
+    securityForm.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const errEl = document.getElementById("sec-error");
+        const submitBtn = document.getElementById("save-security-btn");
+        errEl.classList.add("hidden");
+
+        const currentPassword = document.getElementById("sec-current-password").value;
+        const newPassword = document.getElementById("sec-new-password").value;
+        const confirmPassword = document.getElementById("sec-confirm-password").value;
+        const newEmail = document.getElementById("sec-new-email").value.trim();
+
+        if (newPassword !== confirmPassword) {
+            errEl.textContent = "Mật khẩu xác nhận không khớp với mật khẩu mới.";
+            errEl.classList.remove("hidden");
+            return;
+        }
+
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Đang cập nhật...";
+
+        try {
+            const updatedSession = await HLSService.changeAdminPassword({
+                currentPassword,
+                newPassword,
+                newEmail
+            });
+            currentSessionInfo = updatedSession;
+            if (activeAdminEmailEl && updatedSession && updatedSession.email) {
+                activeAdminEmailEl.textContent = updatedSession.email;
+            }
+            closeSecurityModal();
+            showToast("Đã cập nhật thông tin bảo mật & mật khẩu quản trị thành công.");
+        } catch (err) {
+            errEl.textContent = err.message;
+            errEl.classList.remove("hidden");
+        } finally {
+            submitBtn.disabled = false;
+            submitBtn.textContent = "Cập nhật mật khẩu";
+        }
+    });
+
+    // Gia hạn phiên khi quản trị viên đang thao tác & tự động khóa nếu treo máy quá 30 phút
+    ["pointerdown", "keydown"].forEach((evtType) => {
+        document.addEventListener(evtType, () => {
+            if (!dashboardView.classList.contains("hidden") && HLSService.touchAdminSession) {
+                HLSService.touchAdminSession();
+            }
+        }, { passive: true });
+    });
+
+    setInterval(async () => {
+        if (dashboardView.classList.contains("hidden")) return;
+        const activeSession = await HLSService.getAdminSession();
+        if (!activeSession) {
+            await checkAuthAndRender();
+            const errEl = document.getElementById("login-error");
+            if (errEl) {
+                errEl.textContent = "Phiên quản trị đã tự động khóa sau 30 phút không thao tác để đảm bảo an toàn.";
+                errEl.classList.remove("hidden");
+            }
+        }
+    }, 30000);
 
     // =========================================================================
     // PHẦN 01: QUẢN LÝ THÀNH VIÊN PHÒNG TRUYỀN THỐNG
@@ -1899,7 +1986,7 @@
             if (window.HLSEditorialUI && siteContentDraft.hero) {
                 window.HLSEditorialUI.applyBrandLogo(siteContentDraft.hero.logo_url);
             }
-            showToast("Đã lưu toàn bộ nội dung Trang chủ, Logo & SĐT Liên hệ thành công.");
+            showToast("Đã lưu toàn bộ nội dung Website, Logo & SĐT Liên hệ thành công.");
         } catch (err) {
             showToast(err.message, true);
         } finally {
@@ -1938,7 +2025,7 @@
     document.addEventListener("keydown", (e) => {
         if ((e.ctrlKey || e.metaKey) && e.key.toLowerCase() === "s") {
             const isContentTabActive = !dashboardView.classList.contains("hidden") && !tabPanels.content.classList.contains("hidden");
-            const isAnyModalOpen = [memberModal, eventModal, newsModal, partnerModal, guideModal]
+            const isAnyModalOpen = [memberModal, eventModal, newsModal, partnerModal, guideModal, securityModal]
                 .some((m) => m && !m.classList.contains("hidden"));
             if (isContentTabActive && !isAnyModalOpen) {
                 e.preventDefault();
@@ -1948,7 +2035,7 @@
     });
 
     document.getElementById("reset-content-btn").addEventListener("click", async () => {
-        if (!confirm("Khôi phục toàn bộ nội dung Trang chủ, Tin tức, Đối tác & Liên hệ về bản mặc định ban đầu?")) return;
+        if (!confirm("Khôi phục toàn bộ nội dung Toàn Web, Tin tức, Đối tác & Liên hệ về bản mặc định ban đầu?")) return;
         try {
             siteContentDraft = await HLSContentService.resetContent();
             renderContentEditorForm();
@@ -2078,8 +2165,6 @@
             SUPABASE_ANON_KEY: sbKey,
             STORAGE_BUCKET: baseCfg.STORAGE_BUCKET || "member-photos",
             EVENT_STORAGE_BUCKET: baseCfg.EVENT_STORAGE_BUCKET || "event-photos",
-            DEMO_ADMIN_EMAIL: baseCfg.DEMO_ADMIN_EMAIL || "admin@hls.hust.edu.vn",
-            DEMO_ADMIN_PASSWORD: baseCfg.DEMO_ADMIN_PASSWORD || "hls2026",
             TIERS: baseCfg.TIERS || [],
             DEPARTMENTS: baseCfg.DEPARTMENTS || [],
             EVENT_SUBTYPES: baseCfg.EVENT_SUBTYPES || []
@@ -2090,6 +2175,7 @@
             "// CẤU HÌNH KẾT NỐI CƠ SỞ DỮ LIỆU SUPABASE - WEBSITE CLB HLS (ĐHBK HÀ NỘI)",
             "// Tự động khởi tạo từ Trang Quản trị HLS Admin",
             "// Ghi đè tệp này vào đường dẫn: js/supabase-config.js rồi đẩy lên Git / Hosting",
+            "// Lưu ý bảo mật: Tuyệt đối KHÔNG lưu mật khẩu quản trị trong tệp này.",
             "// ============================================================================",
             "",
             "window.HLS_CONFIG = " + JSON.stringify(nextCfg, null, 4) + ";",
@@ -2106,24 +2192,28 @@
         showToast("Đã tải tệp supabase-config.js. Hãy chép đè vào thư mục js/ của dự án.");
     });
 
-    // Khởi tạo phiên quản trị & điều hướng theo hash (#events, #news, #partners, #content, #handover)
+    // Khởi tạo phiên quản trị tập trung & điều hướng theo hash (#content, #events, #news, #partners, #members, #handover)
     async function checkAuthAndRender() {
         updateModeBadge();
         const session = await HLSService.getAdminSession();
         if (session) {
+            currentSessionInfo = session;
             loginView.classList.add("hidden");
             dashboardView.classList.remove("hidden");
             logoutBtn.classList.remove("hidden");
+            openSecurityBtn.classList.remove("hidden");
+            if (activeAdminEmailEl) {
+                activeAdminEmailEl.textContent = session.email || "admin@hls.hust.edu.vn";
+            }
             await Promise.all([loadMembersToAdmin(), loadEventsToAdmin(), loadSiteContentToAdmin()]);
             const hashTab = (window.location.hash || "").replace(/^#/, "");
-            if (TAB_KEYS.includes(hashTab)) {
-                switchAdminTab(hashTab);
-            } else {
-                syncFloatingSaveBar();
-            }
+            switchAdminTab(TAB_KEYS.includes(hashTab) ? hashTab : "content");
         } else {
+            currentSessionInfo = null;
             dashboardView.classList.add("hidden");
             logoutBtn.classList.add("hidden");
+            openSecurityBtn.classList.add("hidden");
+            if (securityModal) securityModal.classList.add("hidden");
             if (floatingSaveBar) floatingSaveBar.classList.add("hidden");
             loginView.classList.remove("hidden");
         }

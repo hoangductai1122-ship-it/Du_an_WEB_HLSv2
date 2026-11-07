@@ -7,7 +7,27 @@
 
 (function () {
     const LOCAL_STORAGE_KEY = "hls_hall_of_fame_members_v1";
-    const LOCAL_AUTH_KEY = "hls_hall_of_fame_admin_session_v1";
+    const LEGACY_AUTH_KEYS = ["hls_hall_of_fame_admin_session_v1", "hls_admin_session_v1"];
+    const SESSION_AUTH_KEY = "hls_admin_auth_session_v2";
+    const LOCAL_CRED_KEY = "hls_admin_cred_v2";
+    const LOGIN_LOCKOUT_KEY = "hls_admin_lockout_v2";
+    const SESSION_TTL_MS = 30 * 60 * 1000; // Tự động khóa sau 30 phút không thao tác
+    const MAX_FAILED_ATTEMPTS = 5;
+    const LOCKOUT_DURATION_MS = 60 * 1000; // Tạm khóa 60 giây khi nhập sai quá 5 lần
+
+    // Thông tin xác thực mặc định cho chế độ Local (chỉ lưu mã băm SHA-256 có muối, không lưu mật khẩu gốc)
+    const DEFAULT_LOCAL_EMAIL = "admin@hls.hust.edu.vn";
+    const DEFAULT_LOCAL_HASH = "16a8131fa776143ee68a38c26bba312a4c7cb0d49eed501661fae8d4b984e134";
+
+    // Xóa triệt để các phiên đăng nhập cũ từng lưu vĩnh viễn trên localStorage ở phiên bản trước
+    try {
+        LEGACY_AUTH_KEYS.forEach((key) => {
+            localStorage.removeItem(key);
+            sessionStorage.removeItem(key);
+        });
+    } catch (_) {
+        // ignore
+    }
 
     // Dữ liệu mẫu khởi tạo cho các Gen của HLS - ĐHBK Hà Nội
     const SEED_MEMBERS = [
@@ -280,7 +300,26 @@
         if (!isSupabaseConfigured()) return null;
         if (!supabaseClient) {
             const cfg = getConfig();
-            supabaseClient = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY);
+            const clientKey = `${cfg.SUPABASE_URL}::${cfg.SUPABASE_ANON_KEY}`;
+            if (window.__hlsSupabaseClient && window.__hlsSupabaseClientKey === clientKey) {
+                supabaseClient = window.__hlsSupabaseClient;
+            } else {
+                let authStorage;
+                try {
+                    authStorage = window.sessionStorage;
+                } catch (_) {
+                    authStorage = undefined;
+                }
+                supabaseClient = window.supabase.createClient(cfg.SUPABASE_URL, cfg.SUPABASE_ANON_KEY, {
+                    auth: {
+                        storage: authStorage,
+                        persistSession: true,
+                        autoRefreshToken: true
+                    }
+                });
+                window.__hlsSupabaseClient = supabaseClient;
+                window.__hlsSupabaseClientKey = clientKey;
+            }
         }
         return supabaseClient;
     }
@@ -558,72 +597,324 @@
         return items.length;
     }
 
-    // ================= XÁC THỰC ADMIN =================
+    // ================= XÁC THỰC & BẢO MẬT QUẢN TRỊ VIÊN =================
+    // Băm SHA-256 thuần JS dự phòng khi mở trực tiếp qua giao thức file:// (nơi crypto.subtle bị ẩn)
+    function sha256PureHex(str) {
+        const utf8 = typeof TextEncoder !== "undefined"
+            ? Array.from(new TextEncoder().encode(str))
+            : Array.from(unescape(encodeURIComponent(str))).map((ch) => ch.charCodeAt(0));
+
+        const K = [
+            0x428a2f98, 0x71374491, 0xb5c0fbcf, 0xe9b5dba5, 0x3956c25b, 0x59f111f1, 0x923f82a4, 0xab1c5ed5,
+            0xd807aa98, 0x12835b01, 0x243185be, 0x550c7dc3, 0x72be5d74, 0x80deb1fe, 0x9bdc06a7, 0xc19bf174,
+            0xe49b69c1, 0xefbe4786, 0x0fc19dc6, 0x240ca1cc, 0x2de92c6f, 0x4a7484aa, 0x5cb0a9dc, 0x76f988da,
+            0x983e5152, 0xa831c66d, 0xb00327c8, 0xbf597fc7, 0xc6e00bf3, 0xd5a79147, 0x06ca6351, 0x14292967,
+            0x27b70a85, 0x2e1b2138, 0x4d2c6dfc, 0x53380d13, 0x650a7354, 0x766a0abb, 0x81c2c92e, 0x92722c85,
+            0xa2bfe8a1, 0xa81a664b, 0xc24b8b70, 0xc76c51a3, 0xd192e819, 0xd6990624, 0xf40e3585, 0x106aa070,
+            0x19a4c116, 0x1e376c08, 0x2748774c, 0x34b0bcb5, 0x391c0cb3, 0x4ed8aa4a, 0x5b9cca4f, 0x682e6ff3,
+            0x748f82ee, 0x78a5636f, 0x84c87814, 0x8cc70208, 0x90befffa, 0xa4506ceb, 0xbef9a3f7, 0xc67178f2
+        ];
+
+        let h0 = 0x6a09e667, h1 = 0xbb67ae85, h2 = 0x3c6ef372, h3 = 0xa54ff53a;
+        let h4 = 0x510e527f, h5 = 0x9b05688c, h6 = 0x1f83d9ab, h7 = 0x5be0cd19;
+
+        const bitLen = utf8.length * 8;
+        utf8.push(0x80);
+        while ((utf8.length % 64) !== 56) utf8.push(0);
+
+        const hi = Math.floor(bitLen / 0x100000000);
+        const lo = bitLen >>> 0;
+        utf8.push((hi >>> 24) & 255, (hi >>> 16) & 255, (hi >>> 8) & 255, hi & 255);
+        utf8.push((lo >>> 24) & 255, (lo >>> 16) & 255, (lo >>> 8) & 255, lo & 255);
+
+        const rrot = (x, n) => (x >>> n) | (x << (32 - n));
+        const w = new Array(64);
+
+        for (let i = 0; i < utf8.length; i += 64) {
+            for (let j = 0; j < 16; j++) {
+                const idx = i + j * 4;
+                w[j] = ((utf8[idx] << 24) | (utf8[idx + 1] << 16) | (utf8[idx + 2] << 8) | utf8[idx + 3]) >>> 0;
+            }
+            for (let j = 16; j < 64; j++) {
+                const s0 = rrot(w[j - 15], 7) ^ rrot(w[j - 15], 18) ^ (w[j - 15] >>> 3);
+                const s1 = rrot(w[j - 2], 17) ^ rrot(w[j - 2], 19) ^ (w[j - 2] >>> 10);
+                w[j] = (w[j - 16] + s0 + w[j - 7] + s1) >>> 0;
+            }
+
+            let a = h0, b = h1, c = h2, d = h3, e = h4, f = h5, g = h6, h = h7;
+            for (let j = 0; j < 64; j++) {
+                const S1 = rrot(e, 6) ^ rrot(e, 11) ^ rrot(e, 25);
+                const ch = (e & f) ^ ((~e) & g);
+                const temp1 = (h + S1 + ch + K[j] + w[j]) >>> 0;
+                const S0 = rrot(a, 2) ^ rrot(a, 13) ^ rrot(a, 22);
+                const maj = (a & b) ^ (a & c) ^ (b & c);
+                const temp2 = (S0 + maj) >>> 0;
+
+                h = g; g = f; f = e;
+                e = (d + temp1) >>> 0;
+                d = c; c = b; b = a;
+                a = (temp1 + temp2) >>> 0;
+            }
+
+            h0 = (h0 + a) >>> 0; h1 = (h1 + b) >>> 0; h2 = (h2 + c) >>> 0; h3 = (h3 + d) >>> 0;
+            h4 = (h4 + e) >>> 0; h5 = (h5 + f) >>> 0; h6 = (h6 + g) >>> 0; h7 = (h7 + h) >>> 0;
+        }
+
+        return [h0, h1, h2, h3, h4, h5, h6, h7]
+            .map((v) => v.toString(16).padStart(8, "0"))
+            .join("");
+    }
+
+    async function computeAuthDigest(email, password) {
+        const normalizedEmail = String(email || "").trim().toLowerCase();
+        const payload = `hls-auth-v2:${normalizedEmail}:${String(password || "")}`;
+        if (window.crypto && window.crypto.subtle && typeof TextEncoder !== "undefined") {
+            try {
+                const buf = await window.crypto.subtle.digest("SHA-256", new TextEncoder().encode(payload));
+                return Array.from(new Uint8Array(buf))
+                    .map((b) => b.toString(16).padStart(2, "0"))
+                    .join("");
+            } catch (_) {
+                return sha256PureHex(payload);
+            }
+        }
+        return sha256PureHex(payload);
+    }
+
+    function getLocalStoredCredential() {
+        try {
+            const raw = localStorage.getItem(LOCAL_CRED_KEY);
+            if (raw) {
+                const parsed = JSON.parse(raw);
+                if (parsed && parsed.email && parsed.hash) {
+                    return {
+                        email: String(parsed.email).trim().toLowerCase(),
+                        hash: String(parsed.hash),
+                        isCustom: true
+                    };
+                }
+            }
+        } catch (_) {
+            // ignore
+        }
+        return {
+            email: DEFAULT_LOCAL_EMAIL,
+            hash: DEFAULT_LOCAL_HASH,
+            isCustom: false
+        };
+    }
+
+    function readLockoutState() {
+        try {
+            const raw = localStorage.getItem(LOGIN_LOCKOUT_KEY);
+            return raw ? JSON.parse(raw) : { attempts: 0, lockedUntil: 0 };
+        } catch (_) {
+            return { attempts: 0, lockedUntil: 0 };
+        }
+    }
+
+    function checkLockoutBeforeLogin() {
+        const state = readLockoutState();
+        const now = Date.now();
+        if (state.lockedUntil && state.lockedUntil > now) {
+            const remainSec = Math.ceil((state.lockedUntil - now) / 1000);
+            throw new Error(`Tài khoản đang tạm khóa bảo mật do nhập sai nhiều lần. Vui lòng thử lại sau ${remainSec} giây.`);
+        }
+    }
+
+    function recordFailedAttempt() {
+        const state = readLockoutState();
+        const nextAttempts = (Number(state.attempts) || 0) + 1;
+        if (nextAttempts >= MAX_FAILED_ATTEMPTS) {
+            const lockedUntil = Date.now() + LOCKOUT_DURATION_MS;
+            try {
+                localStorage.setItem(LOGIN_LOCKOUT_KEY, JSON.stringify({ attempts: 0, lockedUntil }));
+            } catch (_) {}
+            throw new Error("Bạn đã nhập sai 5 lần liên tiếp. Hệ thống tạm khóa đăng nhập trong 60 giây để bảo vệ tài khoản.");
+        }
+        try {
+            localStorage.setItem(LOGIN_LOCKOUT_KEY, JSON.stringify({ attempts: nextAttempts, lockedUntil: 0 }));
+        } catch (_) {}
+        return MAX_FAILED_ATTEMPTS - nextAttempts;
+    }
+
+    function clearLockoutState() {
+        try {
+            localStorage.removeItem(LOGIN_LOCKOUT_KEY);
+        } catch (_) {}
+    }
+
+    function readSessionMeta() {
+        try {
+            const raw = sessionStorage.getItem(SESSION_AUTH_KEY);
+            return raw ? JSON.parse(raw) : null;
+        } catch (_) {
+            return null;
+        }
+    }
+
+    function writeSessionMeta(mode, email) {
+        const now = Date.now();
+        const meta = {
+            mode,
+            email: String(email || "").trim().toLowerCase(),
+            loggedInAt: now,
+            lastActiveAt: now
+        };
+        try {
+            sessionStorage.setItem(SESSION_AUTH_KEY, JSON.stringify(meta));
+        } catch (_) {}
+        return meta;
+    }
+
+    let lastTouchTime = 0;
+    function touchAdminSession() {
+        const now = Date.now();
+        if (now - lastTouchTime < 15000) return;
+        lastTouchTime = now;
+        const meta = readSessionMeta();
+        if (!meta) return;
+        if (now - Number(meta.lastActiveAt || 0) > SESSION_TTL_MS) return;
+        meta.lastActiveAt = now;
+        try {
+            sessionStorage.setItem(SESSION_AUTH_KEY, JSON.stringify(meta));
+        } catch (_) {}
+    }
+
     async function getAdminSession() {
+        const meta = readSessionMeta();
+        if (!meta || !meta.lastActiveAt || (Date.now() - Number(meta.lastActiveAt) > SESSION_TTL_MS)) {
+            await logoutAdmin();
+            return null;
+        }
+
         const sb = getSupabase();
         if (sb) {
             const { data } = await sb.auth.getSession();
             if (data && data.session && data.session.user) {
                 return {
                     mode: "supabase",
-                    email: data.session.user.email
+                    email: data.session.user.email,
+                    expiresAt: Number(meta.lastActiveAt) + SESSION_TTL_MS
                 };
             }
+            await logoutAdmin();
             return null;
         }
 
-        try {
-            const raw = sessionStorage.getItem(LOCAL_AUTH_KEY) || localStorage.getItem(LOCAL_AUTH_KEY);
-            if (!raw) return null;
-            return JSON.parse(raw);
-        } catch {
-            return null;
+        if (meta.mode === "local" && meta.email) {
+            return {
+                mode: "local",
+                email: meta.email,
+                expiresAt: Number(meta.lastActiveAt) + SESSION_TTL_MS
+            };
         }
+        return null;
     }
 
     async function loginAdmin(email, password) {
+        checkLockoutBeforeLogin();
+        const normalizedEmail = String(email || "").trim().toLowerCase();
+        const rawPass = String(password || "");
+
         const sb = getSupabase();
         if (sb) {
             const { data, error } = await sb.auth.signInWithPassword({
-                email: email.trim(),
-                password
+                email: normalizedEmail,
+                password: rawPass
             });
             if (error) {
-                throw new Error("Đăng nhập thất bại: " + error.message);
+                const remain = recordFailedAttempt();
+                throw new Error(`Đăng nhập thất bại: Sai email hoặc mật khẩu (còn ${remain} lần thử).`);
             }
-            return {
-                mode: "supabase",
-                email: data.user.email
-            };
+            clearLockoutState();
+            return writeSessionMeta("supabase", data.user.email);
         }
 
-        const cfg = getConfig();
-        const demoEmail = (cfg.DEMO_ADMIN_EMAIL || "admin@hls.hust.edu.vn").toLowerCase();
-        const demoPass = cfg.DEMO_ADMIN_PASSWORD || "hls2026";
+        const activeCred = getLocalStoredCredential();
+        const inputHash = await computeAuthDigest(normalizedEmail, rawPass);
 
-        if (email.trim().toLowerCase() === demoEmail && password === demoPass) {
-            const session = { mode: "local", email: demoEmail, loggedInAt: Date.now() };
-            try {
-                localStorage.setItem(LOCAL_AUTH_KEY, JSON.stringify(session));
-            } catch {
-                // ignore
-            }
-            return session;
+        if (normalizedEmail === activeCred.email && inputHash === activeCred.hash) {
+            clearLockoutState();
+            return writeSessionMeta("local", activeCred.email);
         }
-        throw new Error("Sai email hoặc mật khẩu quản trị viên.");
+
+        const remain = recordFailedAttempt();
+        throw new Error(`Sai email hoặc mật khẩu quản trị viên (còn ${remain} lần thử trước khi tạm khóa).`);
+    }
+
+    async function changeAdminPassword({ currentPassword, newPassword, newEmail } = {}) {
+        const curPass = String(currentPassword || "");
+        const nextPass = String(newPassword || "");
+
+        if (!curPass) {
+            throw new Error("Vui lòng nhập mật khẩu hiện tại để xác minh quyền quản trị.");
+        }
+        if (nextPass.length < 6) {
+            throw new Error("Mật khẩu mới phải có ít nhất 6 ký tự.");
+        }
+
+        const sb = getSupabase();
+        if (sb) {
+            const { data: sessionData } = await sb.auth.getSession();
+            const activeUser = sessionData && sessionData.session && sessionData.session.user;
+            if (!activeUser || !activeUser.email) {
+                throw new Error("Phiên đăng nhập đã hết hạn. Vui lòng đăng nhập lại.");
+            }
+
+            const { error: verifyErr } = await sb.auth.signInWithPassword({
+                email: activeUser.email,
+                password: curPass
+            });
+            if (verifyErr) {
+                throw new Error("Mật khẩu hiện tại không chính xác.");
+            }
+
+            const { error: updateErr } = await sb.auth.updateUser({ password: nextPass });
+            if (updateErr) {
+                throw new Error("Không thể cập nhật mật khẩu trên Supabase: " + updateErr.message);
+            }
+            return writeSessionMeta("supabase", activeUser.email);
+        }
+
+        const activeCred = getLocalStoredCredential();
+        const verifyHash = await computeAuthDigest(activeCred.email, curPass);
+        if (verifyHash !== activeCred.hash) {
+            throw new Error("Mật khẩu hiện tại không chính xác.");
+        }
+
+        const targetEmail = (newEmail ? String(newEmail).trim().toLowerCase() : activeCred.email) || activeCred.email;
+        const nextHash = await computeAuthDigest(targetEmail, nextPass);
+        try {
+            localStorage.setItem(
+                LOCAL_CRED_KEY,
+                JSON.stringify({
+                    email: targetEmail,
+                    hash: nextHash,
+                    updatedAt: new Date().toISOString()
+                })
+            );
+        } catch (_) {
+            throw new Error("Không thể lưu thông tin bảo mật vào trình duyệt.");
+        }
+
+        return writeSessionMeta("local", targetEmail);
     }
 
     async function logoutAdmin() {
+        try {
+            sessionStorage.removeItem(SESSION_AUTH_KEY);
+            LEGACY_AUTH_KEYS.forEach((k) => {
+                localStorage.removeItem(k);
+                sessionStorage.removeItem(k);
+            });
+        } catch (_) {}
+
         const sb = getSupabase();
         if (sb) {
-            await sb.auth.signOut();
-            return;
-        }
-        try {
-            localStorage.removeItem(LOCAL_AUTH_KEY);
-            sessionStorage.removeItem(LOCAL_AUTH_KEY);
-        } catch {
-            // ignore
+            try {
+                await sb.auth.signOut();
+            } catch (_) {}
         }
     }
 
@@ -648,6 +939,8 @@
         getAdminSession,
         loginAdmin,
         logoutAdmin,
+        touchAdminSession,
+        changeAdminPassword,
         getTierMeta,
         sortMembersHierarchy
     };

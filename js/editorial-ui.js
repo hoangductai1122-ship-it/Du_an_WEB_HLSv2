@@ -375,6 +375,16 @@
                 : "";
             applyBrandLogo(logoUrl);
 
+            // Đồng bộ toàn bộ văn bản động (tiêu đề trang con, thương hiệu, chân trang...) từ Admin
+            document.querySelectorAll("[data-site-text]").forEach((el) => {
+                const path = el.getAttribute("data-site-text");
+                if (!path) return;
+                const val = path.split(".").reduce((acc, k) => (acc && acc[k] !== undefined ? acc[k] : undefined), content);
+                if (typeof val === "string" && val.trim()) {
+                    el.textContent = val;
+                }
+            });
+
             // Đồng bộ SĐT & Email liên hệ cho các phần tử [data-sync-phone] / [data-sync-email] trên trang con
             const ct = (content && content.contact) || {};
             if (ct.phone) {
@@ -418,6 +428,12 @@
         initScrollChrome();
         refresh(document);
         syncJoinLinks();
+    });
+
+    window.addEventListener("storage", (e) => {
+        if (window.HLSContentService && e.key === window.HLSContentService.LOCAL_CONTENT_KEY) {
+            syncJoinLinks();
+        }
     });
 
     window.HLSEditorialUI = {
