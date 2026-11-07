@@ -4,11 +4,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Lưu bút Thành viên - HLS ĐHBK Hà Nội</title>
+    <title>Lưu bút Thành viên — HLS ĐHBK Hà Nội</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/editorial.css">
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -29,22 +31,29 @@
 </head>
 
 <body class="bg-white text-neutral-950 font-sans antialiased min-h-screen flex flex-col selection:bg-red-700 selection:text-white">
+    <div id="reading-progress" class="hls-reading-bar"></div>
 
     <!-- Thanh điều hướng tối giản đầu trang -->
-    <nav class="bg-white/95 backdrop-blur-sm border-b border-neutral-200 sticky top-0 z-50">
+    <nav class="hls-nav bg-white/95 backdrop-blur-sm border-b border-neutral-200 sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
             <a href="phong-truyen-thong.html"
-                class="text-sm font-medium text-neutral-600 hover:text-red-700 transition-colors flex items-center gap-2">
-                <span>&larr;</span>
+                class="group text-sm font-medium text-neutral-600 hover:text-red-700 transition-colors flex items-center gap-2">
+                <span class="transition-transform duration-200 group-hover:-translate-x-0.5">&larr;</span>
                 <span>Phòng truyền thống HLS</span>
             </a>
 
-            <a href="index.html" class="flex items-center gap-2">
-                <span class="w-1.5 h-4 bg-red-700 inline-block"></span>
-                <span class="text-sm font-extrabold uppercase tracking-tight text-neutral-950">
-                    HLS <span class="font-medium text-neutral-500">Logistics</span>
-                </span>
-            </a>
+            <div class="flex items-center gap-4">
+                <button id="copy-confession-link-btn" type="button"
+                    class="text-xs font-medium text-neutral-500 hover:text-neutral-950 border border-neutral-200 hover:border-neutral-950 rounded px-2.5 py-1 transition-colors">
+                    Chia sẻ lưu bút
+                </button>
+                <a href="index.html" class="flex items-center gap-2">
+                    <span class="w-1.5 h-4 bg-red-700 inline-block"></span>
+                    <span class="text-sm font-extrabold uppercase tracking-tight text-neutral-950">
+                        HLS <span class="font-medium text-neutral-500">Logistics</span>
+                    </span>
+                </a>
+            </div>
         </div>
     </nav>
 
@@ -66,8 +75,16 @@
     <!-- Nhúng cấu hình & dịch vụ -->
     <script src="js/supabase-config.js"></script>
     <script src="js/hall-of-fame-service.js"></script>
+    <script src="js/editorial-ui.js"></script>
 
     <script>
+        document.getElementById("copy-confession-link-btn").addEventListener("click", async (e) => {
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                e.target.textContent = "Đã sao chép link";
+                setTimeout(() => (e.target.textContent = "Chia sẻ lưu bút"), 2000);
+            } catch (_) {}
+        });
         function escapeHtml(str) {
             return String(str || "")
                 .replace(/&/g, "&amp;")
@@ -169,10 +186,10 @@
                     : "";
 
                 container.innerHTML = `
-                    <article class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
+                    <article class="hls-fade-swap grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 
                         <!-- Cột trái: Chân dung & Thông tin hồ sơ -->
-                        <aside class="lg:col-span-4 lg:sticky lg:top-24">
+                        <aside data-reveal class="lg:col-span-4 lg:sticky lg:top-24">
                             <div class="bg-[#F7F7F5] p-2.5 border border-neutral-200 rounded-lg mb-6">
                                 <div class="aspect-[3/4] w-full overflow-hidden rounded bg-neutral-200">
                                     <img src="${escapeHtml(member.avatar_url)}"
@@ -214,7 +231,7 @@
                         </aside>
 
                         <!-- Cột phải: Tâm thư / Confession -->
-                        <div class="lg:col-span-8">
+                        <div data-reveal data-reveal-delay="80" class="lg:col-span-8">
                             <div class="flex items-center gap-3 mb-4">
                                 <span class="w-6 h-[2px] bg-red-700"></span>
                                 <span class="text-xs font-semibold uppercase tracking-[0.2em] text-red-700">
@@ -253,6 +270,7 @@
 
                     ${peersHtml}
                 `;
+                if (window.HLSEditorialUI) window.HLSEditorialUI.refresh(container);
             } catch (err) {
                 container.innerHTML = `
                     <div class="bg-red-50 border border-red-200 rounded-lg p-8 text-center max-w-md mx-auto">

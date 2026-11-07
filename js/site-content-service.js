@@ -19,7 +19,9 @@
             title_highlight: "Phát triển bền vững.",
             description: "Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội — không gian học thuật chuyên sâu kết nối sinh viên, giảng viên và mạng lưới doanh nghiệp Chuỗi cung ứng.",
             primary_cta_label: "Xem hoạt động nổi bật",
-            secondary_cta_label: "Phòng truyền thống"
+            secondary_cta_label: "Phòng truyền thống",
+            image_url: "https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=1000&auto=format&fit=crop",
+            image_caption: "Tư duy hệ thống kỹ thuật & quản trị vận hành chuỗi cung ứng thực tiễn · ĐHBK Hà Nội"
         },
 
         about: {

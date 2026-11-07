@@ -4,11 +4,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>HLS - CLB Logistics và Quản lý chuỗi cung ứng ĐHBK Hà Nội</title>
+    <meta name="description" content="HLS — Câu lạc bộ Logistics và Quản lý chuỗi cung ứng Đại học Bách Khoa Hà Nội (HUST). Cộng đồng học thuật, nghiên cứu và kết nối thực tiễn doanh nghiệp chuỗi cung ứng.">
+    <title>HLS — CLB Logistics và Quản lý chuỗi cung ứng ĐHBK Hà Nội</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/editorial.css">
 
     <!-- Nhúng "thanh gươm" Tailwind CSS vào trang web -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -34,14 +37,14 @@
     <!-- ========================================== -->
     <!-- THANH MENU & ĐIỀU HƯỚNG (HEADER / NAV) -->
     <!-- ========================================== -->
-    <nav class="bg-white/95 backdrop-blur-sm border-b border-neutral-200 fixed w-full top-0 z-50">
+    <nav class="hls-nav bg-white/95 backdrop-blur-sm border-b border-neutral-200 fixed w-full top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
 
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center gap-3">
                     <a href="index.html" class="flex items-center gap-2.5 group">
-                        <span class="w-2 h-6 bg-red-700 inline-block"></span>
+                        <span class="w-2 h-6 bg-red-700 inline-block transition-transform duration-200 group-hover:scale-y-110"></span>
                         <span class="text-xl font-extrabold text-neutral-950 tracking-tight uppercase">
                             HLS <span class="font-medium text-neutral-500 group-hover:text-red-700 transition-colors duration-200">Logistics</span>
                         </span>
@@ -51,16 +54,16 @@
                 <!-- Menu Ngang (Chỉ hiện trên máy tính - md:flex ẩn trên điện thoại) -->
                 <div class="hidden md:flex items-center space-x-8 text-sm">
                     <a href="#about"
-                        class="text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-red-700">Về
+                        class="hls-nav-link text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200">Về
                         chúng tôi</a>
-                    <a href="#activities"
-                        class="text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-red-700">Hoạt
+                    <a href="hoat-dong.html"
+                        class="hls-nav-link text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200">Hoạt
                         động</a>
                     <a href="#achievements"
-                        class="text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-red-700">Thành
+                        class="hls-nav-link text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200">Thành
                         tích</a>
                     <a href="phong-truyen-thong.html"
-                        class="text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-red-700">Phòng
+                        class="hls-nav-link text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200">Phòng
                         truyền thống</a>
                 </div>
 
@@ -74,7 +77,7 @@
 
                 <!-- Nút 3 gạch (Hamburger Menu - Chỉ hiện trên điện thoại) -->
                 <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-button"
+                    <button id="mobile-menu-button" aria-label="Mở menu điều hướng"
                         class="text-neutral-700 hover:text-neutral-950 focus:outline-none p-2">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <!-- Biểu tượng 3 gạch -->
@@ -93,9 +96,9 @@
                 <a href="#about"
                     class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md transition-colors">Về
                     chúng tôi</a>
-                <a href="#activities"
+                <a href="hoat-dong.html"
                     class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md transition-colors">Hoạt
-                    động</a>
+                    động &amp; Sự kiện</a>
                 <a href="#achievements"
                     class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md transition-colors">Thành
                     tích</a>
@@ -112,36 +115,72 @@
         </div>
     </nav>
 
-    <!-- Khu vực Banner chính (Hero Section) — nội dung quản lý tại admin.html > Tab 03 -->
-    <main class="pt-36 pb-20 md:pt-44 md:pb-28 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <div class="max-w-3xl">
-            <div class="flex items-center gap-3 mb-6">
-                <span class="w-8 h-[2px] bg-red-700"></span>
-                <p id="hero-eyebrow" class="text-xs font-semibold uppercase tracking-[0.2em] text-red-700">
-                    Đại học Bách Khoa Hà Nội · HUST
+    <!-- Khu vực Banner chính (Hero Section) — bố cục Editorial 12 cột bất đối xứng, quản lý tại admin.html > Tab 03 -->
+    <main class="pt-32 pb-20 md:pt-40 md:pb-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+            <!-- Cột trái (7/12): Tuyên ngôn học thuật & Điều hướng -->
+            <div id="hero-text-col" class="lg:col-span-7" data-reveal>
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="w-8 h-[2px] bg-red-700"></span>
+                    <p id="hero-eyebrow" class="text-xs font-semibold uppercase tracking-[0.2em] text-red-700">
+                        Đại học Bách Khoa Hà Nội · HUST
+                    </p>
+                </div>
+
+                <h1 class="text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold text-neutral-950 tracking-tight leading-[1.1] mb-6">
+                    <span id="hero-title-line1">Kết nối. Học hỏi.</span><br>
+                    <span id="hero-title-highlight" class="text-red-700">Phát triển bền vững.</span>
+                </h1>
+
+                <p id="hero-description" class="text-base sm:text-lg text-neutral-600 leading-relaxed max-w-2xl mb-9">
+                    Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội —
+                    không gian học thuật chuyên sâu kết nối sinh viên, giảng viên và mạng lưới doanh nghiệp Chuỗi cung ứng.
                 </p>
+
+                <div class="flex flex-wrap items-center gap-3.5">
+                    <a href="#activities" id="hero-primary-cta"
+                        class="bg-red-700 hover:bg-neutral-950 text-white text-sm font-semibold px-7 py-3.5 rounded-md transition-colors duration-200">
+                        Xem hoạt động nổi bật
+                    </a>
+                    <a href="phong-truyen-thong.html"
+                        class="group bg-white border border-neutral-300 hover:border-neutral-950 text-neutral-950 text-sm font-semibold px-7 py-3.5 rounded-md transition-colors duration-200 inline-flex items-center gap-2">
+                        <span id="hero-secondary-cta">Phòng truyền thống</span>
+                        <span class="hls-arrow">&rarr;</span>
+                    </a>
+                </div>
+
+                <!-- Thanh chỉ mục thông tin tổ chức -->
+                <dl class="mt-12 pt-6 border-t border-neutral-200 grid grid-cols-3 gap-4 max-w-xl text-xs">
+                    <div>
+                        <dt class="text-neutral-400 uppercase tracking-wider">Thành lập</dt>
+                        <dd id="hero-meta-year" class="font-bold text-neutral-950 text-sm mt-0.5 tabular-nums">Năm 2022</dd>
+                    </div>
+                    <div>
+                        <dt class="text-neutral-400 uppercase tracking-wider">Trực thuộc</dt>
+                        <dd class="font-bold text-neutral-950 text-sm mt-0.5">ĐHBK Hà Nội</dd>
+                    </div>
+                    <div>
+                        <dt class="text-neutral-400 uppercase tracking-wider">Mô hình</dt>
+                        <dd id="hero-meta-depts" class="font-bold text-neutral-950 text-sm mt-0.5 tabular-nums">05 Ban chuyên môn</dd>
+                    </div>
+                </dl>
             </div>
 
-            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-neutral-950 tracking-tight leading-[1.12] mb-6">
-                <span id="hero-title-line1">Kết nối. Học hỏi.</span><br>
-                <span id="hero-title-highlight" class="text-red-700">Phát triển bền vững.</span>
-            </h1>
-
-            <p id="hero-description" class="text-base sm:text-lg text-neutral-600 leading-relaxed max-w-2xl mb-10">
-                Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội —
-                không gian học thuật chuyên sâu kết nối sinh viên, giảng viên và mạng lưới doanh nghiệp Chuỗi cung ứng.
-            </p>
-
-            <div class="flex flex-wrap items-center gap-4">
-                <a href="#activities" id="hero-primary-cta"
-                    class="bg-red-700 hover:bg-neutral-950 text-white text-sm font-semibold px-7 py-3.5 rounded-md transition-colors duration-200">
-                    Xem hoạt động nổi bật
-                </a>
-                <a href="phong-truyen-thong.html"
-                    class="bg-white border border-neutral-300 hover:border-neutral-950 text-neutral-950 text-sm font-semibold px-7 py-3.5 rounded-md transition-colors duration-200">
-                    <span id="hero-secondary-cta">Phòng truyền thống</span> &rarr;
-                </a>
-            </div>
+            <!-- Cột phải (5/12): Khung ảnh tư liệu biên tập (quản lý trực tiếp trong Tab 03) -->
+            <figure id="hero-visual-col" class="lg:col-span-5" data-reveal data-reveal-delay="110">
+                <div class="bg-[#F7F7F5] p-2.5 border border-neutral-200 rounded-lg">
+                    <div class="aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] overflow-hidden rounded bg-neutral-100 relative">
+                        <img id="hero-image"
+                             src="https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=1000&auto=format&fit=crop"
+                             alt="Không gian học thuật & thực tiễn chuỗi cung ứng HLS"
+                             class="w-full h-full object-cover">
+                    </div>
+                    <figcaption class="pt-3 px-1 pb-0.5 flex items-start justify-between gap-3 text-xs text-neutral-500">
+                        <span id="hero-image-caption" class="leading-snug">Tư duy hệ thống kỹ thuật &amp; quản trị vận hành chuỗi cung ứng thực tiễn · ĐHBK Hà Nội</span>
+                        <span class="font-bold text-red-700 uppercase tracking-wider whitespace-nowrap tabular-nums">HLS · HUST</span>
+                    </figcaption>
+                </div>
+            </figure>
         </div>
     </main>
 
@@ -274,6 +313,7 @@
     <script src="js/events-service.js"></script>
     <script src="js/hall-of-fame-service.js"></script>
     <script src="js/site-content-service.js"></script>
+    <script src="js/editorial-ui.js"></script>
     <script>
         // Lấy nút bấm và cái menu thả xuống từ HTML
         const btn = document.getElementById('mobile-menu-button');
@@ -335,7 +375,7 @@
                                     const stagesCount = Array.isArray(evt.activities) ? evt.activities.length : 0;
                                     const editionsCount = Array.isArray(evt.editions) ? evt.editions.length : 0;
                                     return `
-                                        <article class="group bg-white border border-neutral-200 border-t-2 border-t-red-700 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 flex flex-col">
+                                        <article data-reveal class="hls-card group bg-white border border-neutral-200 border-t-2 border-t-red-700 hover:border-neutral-950 rounded-lg overflow-hidden flex flex-col">
                                             <a href="su-kien.html?id=${encodeURIComponent(evt.id)}" class="h-60 overflow-hidden bg-neutral-100 block relative">
                                                 <img src="${escapeHtml(evt.cover_url)}"
                                                      alt="${escapeHtml(evt.title)}"
@@ -364,7 +404,7 @@
                                                     <a href="su-kien.html?id=${encodeURIComponent(evt.id)}"
                                                        class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold transition-colors">
                                                         <span>Xem chi tiết</span>
-                                                        <span>&rarr;</span>
+                                                        <span class="hls-arrow">&rarr;</span>
                                                     </a>
                                                 </div>
                                             </div>
@@ -384,15 +424,16 @@
                                     <span class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950">Hoạt động đồng hành, học thuật &amp; ngoài lề</span>
                                     <span class="hidden sm:inline-block w-12 h-px bg-neutral-200"></span>
                                 </div>
-                                <a href="hoat-dong.html#side" class="text-xs font-semibold text-neutral-500 hover:text-neutral-950 transition-colors">
-                                    Xem thêm hoạt động &rarr;
+                                <a href="hoat-dong.html#side" class="group text-xs font-semibold text-neutral-500 hover:text-neutral-950 transition-colors inline-flex items-center gap-1">
+                                    <span>Xem thêm hoạt động</span>
+                                    <span class="hls-arrow">&rarr;</span>
                                 </a>
                             </div>
 
                             <!-- Bố cục dạng Lưới (Grid): 1 cột trên ĐT, 3 cột trên Máy tính -->
                             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
                                 ${sideToShow.map((evt) => `
-                                    <article class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 flex flex-col">
+                                    <article data-reveal class="hls-card group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden flex flex-col">
                                         <a href="su-kien.html?id=${encodeURIComponent(evt.id)}" class="overflow-hidden bg-neutral-100 h-52 block relative">
                                             <img src="${escapeHtml(evt.cover_url)}"
                                                  alt="${escapeHtml(evt.title)}"
@@ -417,7 +458,7 @@
                                             <a href="su-kien.html?id=${encodeURIComponent(evt.id)}"
                                                class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold text-sm transition-colors">
                                                 <span>Đọc chi tiết</span>
-                                                <span>&rarr;</span>
+                                                <span class="hls-arrow">&rarr;</span>
                                             </a>
                                         </div>
                                     </article>
@@ -428,6 +469,7 @@
                 }
 
                 container.innerHTML = html;
+                if (window.HLSEditorialUI) window.HLSEditorialUI.refresh(container);
             } catch (err) {
                 container.innerHTML = `<p class="text-sm text-red-700">Không thể tải dữ liệu sự kiện: ${escapeHtml(err.message)}</p>`;
             }
@@ -462,7 +504,7 @@
 
         function sectionHeader(index, label, title, aside) {
             return `
-                <div class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 pb-6 border-b border-neutral-200">
+                <div data-reveal class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 pb-6 border-b border-neutral-200">
                     <div class="max-w-2xl">
                         <span class="text-red-700 font-semibold uppercase tracking-[0.18em] text-xs">${index} / ${escapeHtml(label)}</span>
                         <h2 class="text-3xl md:text-4xl font-extrabold text-neutral-950 tracking-tight mt-2 leading-snug">${title}</h2>
@@ -488,13 +530,36 @@
         }
 
         function renderHero(c) {
-            const h = c.hero;
+            const h = c.hero || {};
             setText("hero-eyebrow", h.eyebrow);
             setText("hero-title-line1", h.title_line1);
             setText("hero-title-highlight", h.title_highlight);
             setText("hero-description", h.description);
             setText("hero-primary-cta", h.primary_cta_label);
             setText("hero-secondary-cta", h.secondary_cta_label);
+
+            const visualCol = document.getElementById("hero-visual-col");
+            const textCol = document.getElementById("hero-text-col");
+            const heroImg = document.getElementById("hero-image");
+            if (visualCol && heroImg) {
+                const hasImg = Boolean(h.image_url && String(h.image_url).trim());
+                visualCol.classList.toggle("hidden", !hasImg);
+                if (textCol) {
+                    textCol.className = hasImg ? "lg:col-span-7" : "lg:col-span-9";
+                }
+                if (hasImg) {
+                    heroImg.src = h.image_url;
+                }
+            }
+            setText("hero-image-caption", h.image_caption || "HLS · Đại học Bách Khoa Hà Nội");
+
+            if (c.story && c.story.founded_year) {
+                setText("hero-meta-year", "Năm " + c.story.founded_year);
+            }
+            if (c.organization && Array.isArray(c.organization.departments)) {
+                const deptLen = String(c.organization.departments.length).padStart(2, "0");
+                setText("hero-meta-depts", `${deptLen} Ban chức năng`);
+            }
         }
 
         function renderContact(c) {
@@ -552,7 +617,7 @@
                     <div class="max-w-6xl mx-auto">
                         <div class="grid md:grid-cols-12 gap-12 items-center">
                             <!-- Cột bên trái: Nội dung chữ -->
-                            <div class="md:col-span-6">
+                            <div class="md:col-span-6" data-reveal>
                                 <span class="text-red-700 font-semibold uppercase tracking-[0.18em] text-xs">01 / Về chúng tôi</span>
                                 <h2 class="text-3xl md:text-4xl font-extrabold text-neutral-950 tracking-tight mt-3 mb-6 leading-snug">
                                     ${escapeHtml(a.title)} <span class="text-red-700">${escapeHtml(a.title_highlight)}</span>
@@ -567,7 +632,7 @@
                             </div>
 
                             <!-- Cột bên phải: Hình ảnh minh họa -->
-                            <div class="md:col-span-6">
+                            <div class="md:col-span-6" data-reveal data-reveal-delay="100">
                                 <div class="bg-white p-2.5 border border-neutral-200 rounded-lg shadow-sm">
                                     <img src="${escapeHtml(a.image_url)}" alt="Hình ảnh giới thiệu CLB HLS" class="w-full h-80 md:h-96 object-cover rounded bg-neutral-100">
                                 </div>
@@ -575,7 +640,7 @@
                         </div>
 
                         <!-- Mục lục nhanh các phần giới thiệu -->
-                        <nav class="mt-14 pt-6 border-t border-neutral-200 grid grid-cols-2 md:grid-cols-4 gap-px bg-neutral-200 border border-neutral-200 rounded-lg overflow-hidden">
+                        <nav data-reveal class="mt-14 pt-6 border-t border-neutral-200 grid grid-cols-2 md:grid-cols-4 gap-px bg-neutral-200 border border-neutral-200 rounded-lg overflow-hidden">
                             ${[
                                 ["#story", "02", "Câu chuyện thành lập"],
                                 ["#vision", "03", "Tầm nhìn & Sứ mệnh"],
@@ -603,7 +668,7 @@
                         ${sectionHeader("02", "Câu chuyện thành lập", escapeHtml(s.title), s.founded_year ? "Thành lập năm " + s.founded_year : "")}
 
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
-                            <div class="lg:col-span-7">
+                            <div class="lg:col-span-7" data-reveal>
                                 <div class="space-y-5">
                                     ${paragraphsHtml(s.content, "text-neutral-700 text-base md:text-[17px] leading-[1.85]")}
                                 </div>
@@ -625,7 +690,7 @@
                             </div>
 
                             <!-- Dòng thời gian các mốc phát triển -->
-                            <div class="lg:col-span-5">
+                            <div class="lg:col-span-5" data-reveal data-reveal-delay="100">
                                 <div class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950 mb-6">Các mốc phát triển</div>
                                 <ol class="relative border-l border-neutral-200 ml-1.5 space-y-8">
                                     ${milestones.map((m) => `
@@ -651,11 +716,11 @@
                         ${sectionHeader("03", "Tầm nhìn & Sứ mệnh", "Định hướng phát triển của HLS", "")}
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
-                            <div class="bg-white border border-neutral-200 border-t-2 border-t-red-700 rounded-lg p-7 sm:p-8">
+                            <div data-reveal class="bg-white border border-neutral-200 border-t-2 border-t-red-700 rounded-lg p-7 sm:p-8">
                                 <div class="text-xs font-bold uppercase tracking-[0.18em] text-red-700 mb-4">Tầm nhìn</div>
                                 <p class="text-lg md:text-xl font-semibold text-neutral-950 leading-relaxed">${escapeHtml(v.vision)}</p>
                             </div>
-                            <div class="bg-white border border-neutral-200 border-t-2 border-t-neutral-950 rounded-lg p-7 sm:p-8">
+                            <div data-reveal data-reveal-delay="80" class="bg-white border border-neutral-200 border-t-2 border-t-neutral-950 rounded-lg p-7 sm:p-8">
                                 <div class="text-xs font-bold uppercase tracking-[0.18em] text-neutral-950 mb-4">Sứ mệnh</div>
                                 <p class="text-lg md:text-xl font-semibold text-neutral-950 leading-relaxed">${escapeHtml(v.mission)}</p>
                             </div>
@@ -663,7 +728,7 @@
 
                         ${values.length ? `
                         <div class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950 mb-6">Giá trị cốt lõi</div>
-                        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-200 border border-neutral-200 rounded-lg overflow-hidden">
+                        <div data-reveal class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-200 border border-neutral-200 rounded-lg overflow-hidden">
                             ${values.map((val, i) => `
                                 <div class="bg-white p-6">
                                     <div class="text-2xl font-extrabold text-red-700 tabular-nums mb-3">${String(i + 1).padStart(2, "0")}</div>
@@ -685,12 +750,15 @@
                         <div class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950">
                             Ban Chủ nhiệm <span class="text-neutral-400 font-medium normal-case tracking-normal">· Gen ${escapeHtml(executives[0].gen)}${executives[0].term ? " (" + escapeHtml(executives[0].term) + ")" : ""}</span>
                         </div>
-                        <a href="phong-truyen-thong.html" class="text-xs font-semibold text-neutral-500 hover:text-red-700 transition-colors">Phòng truyền thống &rarr;</a>
+                        <a href="phong-truyen-thong.html" class="group text-xs font-semibold text-neutral-500 hover:text-red-700 transition-colors inline-flex items-center gap-1">
+                            <span>Phòng truyền thống</span>
+                            <span class="hls-arrow">&rarr;</span>
+                        </a>
                     </div>
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
                         ${executives.map((m) => `
-                            <a href="confession.html?id=${encodeURIComponent(m.id)}" target="_blank" rel="noopener noreferrer"
-                               class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors">
+                            <a data-reveal href="confession.html?id=${encodeURIComponent(m.id)}" target="_blank" rel="noopener noreferrer"
+                               class="hls-card group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden">
                                 <div class="aspect-[3/4] bg-neutral-100 overflow-hidden">
                                     <img src="${escapeHtml(m.avatar_url)}" alt="${escapeHtml(m.name)}"
                                          onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name || "HLS")}&background=111111&color=ffffff&size=512&bold=true';"
@@ -698,7 +766,7 @@
                                 </div>
                                 <div class="p-3.5">
                                     <div class="text-[11px] font-semibold uppercase tracking-wider text-red-700 line-clamp-1">${escapeHtml(m.role)}</div>
-                                    <div class="text-sm font-bold text-neutral-950 mt-0.5">${escapeHtml(m.name)}</div>
+                                    <div class="text-sm font-bold text-neutral-950 group-hover:text-red-700 transition-colors mt-0.5">${escapeHtml(m.name)}</div>
                                 </div>
                             </a>
                         `).join("")}
@@ -715,9 +783,9 @@
 
                         ${departments.length ? `
                         <div class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950 mb-6">Các ban chức năng</div>
-                        <div class="border border-neutral-200 rounded-lg divide-y divide-neutral-200">
+                        <div data-reveal class="border border-neutral-200 rounded-lg divide-y divide-neutral-200">
                             ${departments.map((d, i) => `
-                                <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6 items-start">
+                                <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6 items-start hover:bg-[#F7F7F5]/70 transition-colors">
                                     <div class="md:col-span-4 flex items-baseline gap-3">
                                         <span class="text-sm font-extrabold text-red-700 tabular-nums">${String(i + 1).padStart(2, "0")}</span>
                                         <span class="text-base font-bold text-neutral-950">${escapeHtml(d.name)}</span>
@@ -742,10 +810,10 @@
                         ${sectionHeader("05", "Thành tích nổi bật", "Những dấu ấn của HLS", ac.intro)}
 
                         ${stats.length ? `
-                        <div class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-200 border border-neutral-200 rounded-lg overflow-hidden mb-14">
+                        <div data-reveal class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-200 border border-neutral-200 rounded-lg overflow-hidden mb-14">
                             ${stats.map((st) => `
                                 <div class="bg-white px-6 py-7">
-                                    <div class="text-3xl md:text-4xl font-extrabold text-neutral-950 tabular-nums tracking-tight">${escapeHtml(st.value)}</div>
+                                    <div data-countup="${escapeHtml(st.value)}" class="text-3xl md:text-4xl font-extrabold text-neutral-950 tabular-nums tracking-tight">${escapeHtml(st.value)}</div>
                                     <div class="w-6 h-[2px] bg-red-700 my-3"></div>
                                     <div class="text-sm text-neutral-600">${escapeHtml(st.label)}</div>
                                 </div>
@@ -754,9 +822,9 @@
 
                         ${awards.length ? `
                         <div class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950 mb-6">Giải thưởng & ghi nhận</div>
-                        <div class="bg-white border border-neutral-200 rounded-lg divide-y divide-neutral-200">
+                        <div data-reveal class="bg-white border border-neutral-200 rounded-lg divide-y divide-neutral-200">
                             ${awards.map((aw) => `
-                                <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6">
+                                <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6 hover:bg-[#F7F7F5]/50 transition-colors">
                                     <div class="md:col-span-2 text-sm font-extrabold text-red-700 tabular-nums">${escapeHtml(aw.year)}</div>
                                     <div class="md:col-span-10">
                                         <div class="text-base font-bold text-neutral-950">${escapeHtml(aw.title)}</div>
@@ -770,6 +838,7 @@
             `;
 
             root.innerHTML = introHtml + storyHtml + visionHtml + organizationHtml + achievementsHtml;
+            if (window.HLSEditorialUI) window.HLSEditorialUI.refresh(root);
 
             // Nếu URL có sẵn #story, #vision... thì cuộn tới sau khi nội dung được render
             if (window.location.hash && document.querySelector(window.location.hash)) {

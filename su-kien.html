@@ -3,11 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chi tiết Sự kiện - HLS Logistics</title>
+    <title>Chi tiết Sự kiện — HLS ĐHBK Hà Nội</title>
+    <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/editorial.css">
 
     <!-- Nhúng Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -27,20 +29,22 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body class="bg-white text-neutral-950 font-sans antialiased min-h-screen flex flex-col selection:bg-red-700 selection:text-white">
+    <div id="reading-progress" class="hls-reading-bar"></div>
 
     <!-- Thanh điều hướng tối giản -->
-    <header class="border-b border-neutral-200 bg-white/95 backdrop-blur-sm sticky top-0 z-40">
+    <header class="hls-nav border-b border-neutral-200 bg-white/95 backdrop-blur-sm sticky top-0 z-40">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
             <!-- Nút Quay lại trang danh sách hoạt động -->
-            <a href="hoat-dong.html" class="text-sm font-medium text-neutral-600 hover:text-red-700 transition-colors flex items-center gap-2">
-                <span>&larr;</span>
+            <a href="hoat-dong.html" class="group text-sm font-medium text-neutral-600 hover:text-red-700 transition-colors flex items-center gap-2">
+                <span class="transition-transform duration-200 group-hover:-translate-x-0.5">&larr;</span>
                 <span>Chuyên mục Hoạt động</span>
             </a>
 
-            <div class="flex items-center gap-6">
-                <a href="phong-truyen-thong.html" class="hidden sm:inline text-xs font-medium text-neutral-500 hover:text-neutral-950 transition-colors">
-                    Phòng truyền thống
-                </a>
+            <div class="flex items-center gap-4 sm:gap-6">
+                <button id="copy-event-link-btn" type="button"
+                    class="text-xs font-medium text-neutral-500 hover:text-neutral-950 border border-neutral-200 hover:border-neutral-950 rounded px-2.5 py-1 transition-colors">
+                    Sao chép liên kết
+                </button>
                 <a href="index.html" class="flex items-center gap-2">
                     <span class="w-1.5 h-4 bg-red-700 inline-block"></span>
                     <span class="text-sm font-extrabold uppercase tracking-tight text-neutral-950">HLS <span class="font-medium text-neutral-500">Logistics</span></span>
@@ -84,8 +88,16 @@
     <!-- Nhúng cấu hình & dịch vụ -->
     <script src="js/supabase-config.js"></script>
     <script src="js/events-service.js"></script>
+    <script src="js/editorial-ui.js"></script>
 
     <script>
+        document.getElementById("copy-event-link-btn").addEventListener("click", async (e) => {
+            try {
+                await navigator.clipboard.writeText(window.location.href);
+                e.target.textContent = "Đã sao chép";
+                setTimeout(() => (e.target.textContent = "Sao chép liên kết"), 2000);
+            } catch (_) {}
+        });
         let currentGallery = [];
         let currentPhotoIndex = 0;
 
@@ -291,9 +303,9 @@
                     : "";
 
                 container.innerHTML = `
-                    <article>
+                    <article class="hls-fade-swap">
                         <!-- Nhãn chuyên mục -->
-                        <div class="flex flex-wrap items-center gap-3 mb-4">
+                        <div data-reveal class="flex flex-wrap items-center gap-3 mb-4">
                             <span class="w-6 h-[2px] bg-red-700"></span>
                             <span class="text-xs font-bold uppercase tracking-[0.18em] text-red-700">${escapeHtml(categoryLabel)}</span>
                             <span class="text-neutral-300">·</span>
@@ -301,12 +313,12 @@
                         </div>
 
                         <!-- Tiêu đề chính -->
-                        <h1 class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-neutral-950 tracking-tight leading-[1.16] mb-8">
+                        <h1 data-reveal class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-neutral-950 tracking-tight leading-[1.16] mb-8">
                             ${escapeHtml(evt.title)}
                         </h1>
 
                         <!-- Thanh thông tin tóm tắt 4 cột -->
-                        <dl class="grid grid-cols-2 md:grid-cols-4 gap-4 py-5 border-y border-neutral-200 mb-10 text-xs">
+                        <dl data-reveal class="grid grid-cols-2 md:grid-cols-4 gap-4 py-5 border-y border-neutral-200 mb-10 text-xs">
                             <div>
                                 <dt class="text-neutral-400 uppercase tracking-wider mb-1">Chu kỳ / Thời điểm</dt>
                                 <dd class="font-semibold text-neutral-950">${escapeHtml(evt.annual_cycle || evt.date_label || ("Năm " + evt.year))}</dd>
@@ -326,7 +338,7 @@
                         </dl>
 
                         <!-- Ảnh bìa chính -->
-                        <figure class="mb-10 bg-[#F7F7F5] p-2 border border-neutral-200 rounded-lg">
+                        <figure data-reveal class="mb-10 bg-[#F7F7F5] p-2 border border-neutral-200 rounded-lg">
                             <img src="${escapeHtml(evt.cover_url)}"
                                  alt="${escapeHtml(evt.title)}"
                                  class="w-full h-64 sm:h-[440px] object-cover rounded">
@@ -334,12 +346,12 @@
 
                         <!-- Trích dẫn điểm nhấn + Nội dung tổng quan -->
                         ${evt.highlight_quote ? `
-                            <blockquote class="bg-[#F7F7F5] border-l-2 border-red-700 px-6 py-5 mb-8">
+                            <blockquote data-reveal class="bg-[#F7F7F5] border-l-2 border-red-700 px-6 py-5 mb-8">
                                 <p class="font-serif italic text-neutral-900 text-lg">“${escapeHtml(evt.highlight_quote)}”</p>
                             </blockquote>
                         ` : ""}
 
-                        <div class="space-y-6 text-base sm:text-[17px]">
+                        <div data-reveal class="space-y-6 text-base sm:text-[17px]">
                             ${formatParagraphs(evt.content || evt.summary)}
                         </div>
 
@@ -349,6 +361,7 @@
                         ${relatedHtml}
                     </article>
                 `;
+                if (window.HLSEditorialUI) window.HLSEditorialUI.refresh(container);
 
                 container.querySelectorAll(".gallery-trigger").forEach((el) => {
                     el.addEventListener("click", () => {
