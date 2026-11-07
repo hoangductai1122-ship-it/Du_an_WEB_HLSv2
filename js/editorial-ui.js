@@ -273,8 +273,16 @@
 
     function initScrollChrome() {
         const nav = document.querySelector(".hls-nav");
-        const bar = document.getElementById("reading-progress");
-        if (!nav && !bar) return;
+        let bar = document.getElementById("reading-progress");
+        if (!bar) {
+            bar = document.createElement("div");
+            bar.id = "reading-progress";
+            bar.className = "hls-reading-bar";
+            document.body.insertBefore(bar, document.body.firstChild);
+        }
+
+        // Tự động sáng gạch chân đỏ ở menu trang chủ khi cuộn qua từng mục (Về chúng tôi / Đối tác...)
+        const hashNavLinks = Array.from(document.querySelectorAll('.hls-nav .hls-nav-link[href^="#"]'));
 
         function onScroll() {
             const y = window.scrollY || window.pageYOffset || 0;
@@ -283,8 +291,29 @@
             }
             if (bar) {
                 const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-                const pct = docHeight > 40 ? Math.min(100, Math.max(0, (y / docHeight) * 100)) : 0;
-                bar.style.width = pct.toFixed(1) + "%";
+                const rawPct = docHeight > 40 ? Math.min(100, Math.max(0, (y / docHeight) * 100)) : 0;
+                // Luôn giữ khe sáng đỏ tối thiểu 16% ở góc trái trên cùng ngay cả khi ở đầu trang
+                const displayPct = Math.max(16, rawPct);
+                bar.style.width = displayPct.toFixed(1) + "%";
+            }
+            if (hashNavLinks.length) {
+                const probeY = y + 180;
+                let activeHref = "";
+                const partnersSec = document.getElementById("partners");
+                const aboutSec = document.getElementById("about-root") || document.getElementById("about");
+
+                if (partnersSec && probeY >= partnersSec.offsetTop) {
+                    activeHref = "#partners";
+                } else if (aboutSec && probeY >= aboutSec.offsetTop) {
+                    activeHref = "#about";
+                }
+
+                hashNavLinks.forEach((link) => {
+                    const isMatch = link.getAttribute("href") === activeHref;
+                    link.classList.toggle("is-active", isMatch);
+                    link.classList.toggle("text-white", isMatch);
+                    link.classList.toggle("font-semibold", isMatch);
+                });
             }
         }
 

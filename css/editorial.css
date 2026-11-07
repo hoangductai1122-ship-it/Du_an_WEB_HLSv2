@@ -115,7 +115,7 @@ body > footer {
     inset: 0;
     background-image: url("../assets/bg-obsidian-cubes.jpg");
     background-size: cover;
-    background-position: center;
+    background-position: center 40%;
     opacity: 0.44;
     filter: contrast(1.12) saturate(1.28) brightness(1.08);
     transform: scale(1.02);
@@ -127,7 +127,8 @@ body > footer {
     position: absolute;
     inset: 0;
     background:
-        radial-gradient(circle at 68% 38%, rgba(255, 48, 64, 0.23), transparent 56%),
+        radial-gradient(circle at 20% 22%, rgba(255, 48, 64, 0.24), transparent 52%),
+        radial-gradient(circle at 72% 38%, rgba(255, 48, 64, 0.22), transparent 56%),
         linear-gradient(180deg, rgba(6, 6, 9, 0.40) 0%, rgba(6, 6, 9, 0.72) 76%, rgba(6, 6, 9, 0.96) 100%);
     pointer-events: none;
     z-index: 0;
@@ -368,17 +369,20 @@ a:hover > .hls-arrow-diag {
     animation: hlsContentFade 0.3s var(--hls-ease) both;
 }
 
-/* Thanh laser tiến độ đọc bài viết (2px trên đỉnh trang) */
+/* Khe sáng laser đỏ trên đỉnh trang & tiến độ cuộn (hiển thị xuyên suốt mọi trang) */
 .hls-reading-bar {
     position: fixed;
     top: 0;
     left: 0;
-    height: 2px;
-    width: 0%;
-    background: linear-gradient(90deg, #991b1b 0%, #ef4444 70%, #fb7185 100%);
-    box-shadow: 0 0 12px rgba(239, 68, 68, 0.8);
+    height: 2.5px;
+    width: 16%;
+    background: linear-gradient(90deg, #b91c1c 0%, #ff3344 68%, #fb7185 100%);
+    box-shadow:
+        0 0 14px rgba(255, 51, 68, 0.9),
+        0 2px 20px rgba(239, 43, 61, 0.55);
     z-index: 60;
-    transition: width 0.08s linear;
+    pointer-events: none;
+    transition: width 0.1s linear;
 }
 
 @media (prefers-reduced-motion: reduce) {
