@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="scroll-smooth">
+<html lang="vi" class="scroll-smooth dark">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,10 +11,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/editorial.css">
 
-    <!-- Nhúng Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -25,69 +25,68 @@
             }
         };
     </script>
-    <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
-<body class="bg-white text-neutral-950 font-sans antialiased min-h-screen flex flex-col selection:bg-red-700 selection:text-white">
+<body class="bg-[#050507] text-zinc-100 font-sans antialiased min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
     <div id="reading-progress" class="hls-reading-bar"></div>
 
     <!-- Thanh điều hướng tối giản -->
-    <header class="hls-nav border-b border-neutral-200 bg-white/95 backdrop-blur-sm sticky top-0 z-40">
+    <nav class="hls-nav sticky top-0 z-40">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-            <!-- Nút Quay lại trang danh sách hoạt động -->
-            <a href="hoat-dong.html" class="group text-sm font-medium text-neutral-600 hover:text-red-700 transition-colors flex items-center gap-2">
+            <a href="hoat-dong.html" class="group text-sm font-medium text-zinc-400 hover:text-red-400 transition-colors flex items-center gap-2">
                 <span class="transition-transform duration-200 group-hover:-translate-x-0.5">&larr;</span>
                 <span>Chuyên mục Hoạt động</span>
             </a>
 
             <div class="flex items-center gap-4 sm:gap-6">
                 <button id="copy-event-link-btn" type="button"
-                    class="text-xs font-medium text-neutral-500 hover:text-neutral-950 border border-neutral-200 hover:border-neutral-950 rounded px-2.5 py-1 transition-colors">
+                    class="hls-btn-obsidian text-xs font-medium rounded px-3 py-1.5">
                     Sao chép liên kết
                 </button>
                 <a href="index.html" class="flex items-center gap-2">
-                    <span class="w-1.5 h-4 bg-red-700 inline-block"></span>
-                    <span class="text-sm font-extrabold uppercase tracking-tight text-neutral-950">HLS <span class="font-medium text-neutral-500">Logistics</span></span>
+                    <span data-brand-bar class="w-1.5 h-4 bg-red-600 inline-block shadow-[0_0_8px_rgba(239,68,68,0.65)]"></span>
+                    <span class="text-sm font-extrabold uppercase tracking-tight text-white">HLS <span class="font-medium text-zinc-400">Logistics</span></span>
                 </a>
             </div>
         </div>
-    </header>
+    </nav>
 
     <!-- Nội dung chi tiết bài viết -->
     <main class="flex-1 py-12 md:py-16 px-4 sm:px-6">
         <div id="event-detail-container" class="max-w-4xl mx-auto">
-            <div class="text-center py-20 text-neutral-500 text-sm">
-                <div class="inline-block w-7 h-7 border-2 border-neutral-200 border-t-red-700 rounded-full animate-spin mb-3"></div>
+            <div class="text-center py-20 text-zinc-500 text-sm">
+                <div class="inline-block w-7 h-7 border-2 border-white/15 border-t-red-500 rounded-full animate-spin mb-3"></div>
                 <p>Đang tải nội dung sự kiện...</p>
             </div>
         </div>
     </main>
 
     <!-- Chân trang -->
-    <footer class="bg-[#F7F7F5] border-t border-neutral-200 py-8 px-4 text-xs text-neutral-500">
+    <footer class="bg-[#08080c]/95 border-t border-white/10 py-8 px-4 text-xs text-zinc-400">
         <div class="max-w-5xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-3">
             <span>&copy; 2026 HLS — CLB Logistics và Quản lý chuỗi cung ứng Đại học Bách Khoa Hà Nội</span>
             <div class="flex items-center gap-5 font-medium">
-                <a href="hoat-dong.html" class="hover:text-red-700 transition-colors">Tất cả sự kiện</a>
-                <a href="admin.html#events" class="hover:text-red-700 transition-colors">Chỉnh sửa sự kiện</a>
+                <a href="hoat-dong.html" class="hover:text-red-400 transition-colors">Tất cả sự kiện</a>
+                <a href="tin-tuc.html" class="hover:text-red-400 transition-colors">Tin tức</a>
+                <a href="admin.html#events" class="hover:text-red-400 transition-colors">Chỉnh sửa sự kiện</a>
             </div>
         </div>
     </footer>
 
     <!-- Lightbox phóng to ảnh tư liệu -->
-    <div id="lightbox-modal" class="hidden fixed inset-0 z-50 bg-neutral-950/90 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="lightbox-modal" class="hidden fixed inset-0 z-50 bg-black/95 backdrop-blur-md flex items-center justify-center p-4">
         <button id="lightbox-close" type="button" class="absolute top-5 right-6 text-white/70 hover:text-white text-3xl leading-none">&times;</button>
-        <button id="lightbox-prev" type="button" class="absolute left-4 sm:left-8 text-white/70 hover:text-white px-3 py-2 border border-white/20 rounded-md text-sm font-medium">&larr;</button>
+        <button id="lightbox-prev" type="button" class="absolute left-4 sm:left-8 text-white/70 hover:text-white hover:border-red-500 px-3 py-2 border border-white/20 rounded-md text-sm font-medium transition-colors">&larr;</button>
         <figure class="max-w-4xl w-full flex flex-col items-center">
-            <img id="lightbox-img" src="" alt="Tư liệu sự kiện" class="max-h-[78vh] w-auto object-contain rounded">
-            <figcaption id="lightbox-caption" class="text-neutral-300 text-xs sm:text-sm mt-4 text-center max-w-2xl"></figcaption>
+            <img id="lightbox-img" src="" alt="Tư liệu sự kiện" class="max-h-[78vh] w-auto object-contain rounded-lg border border-white/10">
+            <figcaption id="lightbox-caption" class="text-zinc-300 text-xs sm:text-sm mt-4 text-center max-w-2xl"></figcaption>
         </figure>
-        <button id="lightbox-next" type="button" class="absolute right-4 sm:right-8 text-white/70 hover:text-white px-3 py-2 border border-white/20 rounded-md text-sm font-medium">&rarr;</button>
+        <button id="lightbox-next" type="button" class="absolute right-4 sm:right-8 text-white/70 hover:text-white hover:border-red-500 px-3 py-2 border border-white/20 rounded-md text-sm font-medium transition-colors">&rarr;</button>
     </div>
 
-    <!-- Nhúng cấu hình & dịch vụ -->
     <script src="js/supabase-config.js"></script>
     <script src="js/events-service.js"></script>
+    <script src="js/site-content-service.js"></script>
     <script src="js/editorial-ui.js"></script>
 
     <script>
@@ -98,6 +97,7 @@
                 setTimeout(() => (e.target.textContent = "Sao chép liên kết"), 2000);
             } catch (_) {}
         });
+
         let currentGallery = [];
         let currentPhotoIndex = 0;
 
@@ -115,11 +115,10 @@
             if (!raw) return "";
             return raw
                 .split(/\n\s*\n/)
-                .map((p) => `<p class="leading-[1.88] text-neutral-700">${escapeHtml(p).replace(/\n/g, "<br>")}</p>`)
+                .map((p) => `<p class="leading-[1.9] text-zinc-300">${escapeHtml(p).replace(/\n/g, "<br>")}</p>`)
                 .join("");
         }
 
-        // Điều khiển Lightbox ảnh
         const lightboxModal = document.getElementById("lightbox-modal");
         const lightboxImg = document.getElementById("lightbox-img");
         const lightboxCaption = document.getElementById("lightbox-caption");
@@ -127,9 +126,9 @@
         function openLightbox(idx) {
             if (!currentGallery.length) return;
             currentPhotoIndex = (idx + currentGallery.length) % currentGallery.length;
-            const item = currentGallery[currentPhotoIndex];
-            lightboxImg.src = item.url;
-            lightboxCaption.textContent = item.caption || `Ảnh ${currentPhotoIndex + 1} / ${currentGallery.length}`;
+            const photo = currentGallery[currentPhotoIndex];
+            lightboxImg.src = photo.url;
+            lightboxCaption.textContent = `${photo.caption || ""} (${currentPhotoIndex + 1}/${currentGallery.length})`;
             lightboxModal.classList.remove("hidden");
         }
 
@@ -163,10 +162,10 @@
 
                 if (!evt) {
                     container.innerHTML = `
-                        <div class="bg-[#F7F7F5] border border-neutral-200 rounded-lg p-10 text-center max-w-md mx-auto">
-                            <h1 class="text-xl font-bold text-neutral-950 mb-2">Không tìm thấy sự kiện</h1>
-                            <p class="text-neutral-600 text-sm mb-6">Sự kiện này có thể đã được cập nhật hoặc xóa khỏi chuyên mục.</p>
-                            <a href="hoat-dong.html" class="inline-block bg-neutral-950 hover:bg-red-700 text-white text-sm font-semibold px-6 py-2.5 rounded-md transition-colors">
+                        <div class="hls-surface rounded-xl p-10 text-center max-w-md mx-auto">
+                            <h1 class="text-xl font-bold text-white mb-2">Không tìm thấy sự kiện</h1>
+                            <p class="text-zinc-400 text-sm mb-6">Sự kiện này có thể đã được cập nhật hoặc xóa khỏi chuyên mục.</p>
+                            <a href="hoat-dong.html" class="hls-btn-crimson inline-block text-sm font-semibold px-6 py-2.5 rounded-md">
                                 Về chuyên mục Hoạt động
                             </a>
                         </div>
@@ -180,30 +179,29 @@
                 const isCore = evt.category === "core";
                 const categoryLabel = isCore ? "Sự kiện Core thường niên" : "Hoạt động đồng hành & Nội bộ";
 
-                // 1. Khối chi tiết các hoạt động / chặng trong sự kiện
                 const activities = Array.isArray(evt.activities) ? evt.activities : [];
                 const activitiesHtml = activities.length
                     ? `
-                    <section class="mt-14 pt-12 border-t border-neutral-200">
+                    <section class="mt-14 pt-12 border-t border-white/10">
                         <div class="flex items-center gap-3 mb-3">
-                            <span class="w-6 h-[2px] bg-red-700"></span>
-                            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-red-700">Cấu trúc chương trình</span>
+                            <span class="w-6 h-[2px] bg-red-500"></span>
+                            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-red-400">Cấu trúc chương trình</span>
                         </div>
-                        <h2 class="text-2xl font-extrabold text-neutral-950 tracking-tight mb-8">
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight mb-8">
                             Chi tiết các hạng mục hoạt động
                         </h2>
 
-                        <div class="border border-neutral-200 rounded-lg divide-y divide-neutral-200 bg-white">
+                        <div class="hls-surface rounded-xl divide-y divide-white/10 overflow-hidden">
                             ${activities.map((act, idx) => `
-                                <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6">
+                                <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-3 md:gap-6 hover:bg-white/[0.02] transition-colors">
                                     <div class="md:col-span-4">
-                                        <span class="text-xs font-bold text-red-700 tabular-nums uppercase tracking-wider block">
+                                        <span class="text-xs font-bold text-red-400 tabular-nums uppercase tracking-wider block">
                                             0${idx + 1} ${act.stage ? "· " + escapeHtml(act.stage) : ""}
                                         </span>
                                     </div>
                                     <div class="md:col-span-8">
-                                        <h3 class="text-base font-bold text-neutral-950 mb-1.5">${escapeHtml(act.title)}</h3>
-                                        <p class="text-sm text-neutral-600 leading-relaxed">${escapeHtml(act.description)}</p>
+                                        <h3 class="text-base font-bold text-white mb-1.5">${escapeHtml(act.title)}</h3>
+                                        <p class="text-sm text-zinc-400 leading-relaxed">${escapeHtml(act.description)}</p>
                                     </div>
                                 </div>
                             `).join("")}
@@ -212,26 +210,25 @@
                     `
                     : "";
 
-                // 2. Khối lịch sử các mùa tổ chức (cho Sự kiện Core hằng năm)
                 const editions = Array.isArray(evt.editions) ? evt.editions : [];
                 const editionsHtml = editions.length
                     ? `
-                    <section class="mt-14 pt-12 border-t border-neutral-200">
+                    <section class="mt-14 pt-12 border-t border-white/10">
                         <div class="flex items-center gap-3 mb-3">
-                            <span class="w-6 h-[2px] bg-red-700"></span>
-                            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-red-700">Dấu ấn thường niên</span>
+                            <span class="w-6 h-[2px] bg-red-500"></span>
+                            <span class="text-xs font-semibold uppercase tracking-[0.18em] text-red-400">Dấu ấn thường niên</span>
                         </div>
-                        <h2 class="text-2xl font-extrabold text-neutral-950 tracking-tight mb-8">
+                        <h2 class="text-2xl font-extrabold text-white tracking-tight mb-8">
                             Lịch sử các mùa tổ chức
                         </h2>
 
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
                             ${editions.map((ed) => `
-                                <div class="bg-[#F7F7F5] border border-neutral-200 rounded-lg p-5 flex flex-col justify-between">
+                                <div class="hls-card border-t-2 border-t-red-600 rounded-xl p-5 flex flex-col justify-between">
                                     <div>
-                                        <div class="text-2xl font-extrabold text-red-700 tabular-nums mb-1">${escapeHtml(ed.year)}</div>
-                                        <div class="text-sm font-bold text-neutral-950 mb-2">${escapeHtml(ed.theme || "Mùa giải thường niên")}</div>
-                                        <p class="text-xs text-neutral-600 leading-relaxed">${escapeHtml(ed.summary)}</p>
+                                        <div class="text-2xl font-extrabold text-red-400 tabular-nums mb-1">${escapeHtml(ed.year)}</div>
+                                        <div class="text-sm font-bold text-white mb-2">${escapeHtml(ed.theme || "Mùa giải thường niên")}</div>
+                                        <p class="text-xs text-zinc-400 leading-relaxed">${escapeHtml(ed.summary)}</p>
                                     </div>
                                 </div>
                             `).join("")}
@@ -240,33 +237,32 @@
                     `
                     : "";
 
-                // 3. Khối Album ảnh sự kiện
                 const galleryHtml = currentGallery.length
                     ? `
-                    <section class="mt-14 pt-12 border-t border-neutral-200">
+                    <section class="mt-14 pt-12 border-t border-white/10">
                         <div class="flex items-baseline justify-between mb-8">
                             <div>
                                 <div class="flex items-center gap-3 mb-2">
-                                    <span class="w-6 h-[2px] bg-red-700"></span>
-                                    <span class="text-xs font-semibold uppercase tracking-[0.18em] text-red-700">Tư liệu hình ảnh</span>
+                                    <span class="w-6 h-[2px] bg-red-500"></span>
+                                    <span class="text-xs font-semibold uppercase tracking-[0.18em] text-red-400">Tư liệu hình ảnh</span>
                                 </div>
-                                <h2 class="text-2xl font-extrabold text-neutral-950 tracking-tight">
+                                <h2 class="text-2xl font-extrabold text-white tracking-tight">
                                     Khoảnh khắc tại sự kiện
                                 </h2>
                             </div>
-                            <span class="text-xs text-neutral-400 tabular-nums">${currentGallery.length} hình ảnh (Nhấn để phóng to)</span>
+                            <span class="text-xs text-zinc-500 tabular-nums">${currentGallery.length} hình ảnh (Nhấn để phóng to)</span>
                         </div>
 
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
                             ${currentGallery.map((photo, idx) => `
-                                <figure data-photo-idx="${idx}" class="gallery-trigger cursor-pointer group bg-[#F7F7F5] border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors flex flex-col">
-                                    <div class="h-52 overflow-hidden bg-neutral-200">
+                                <figure data-photo-idx="${idx}" class="gallery-trigger cursor-pointer hls-card group rounded-xl overflow-hidden flex flex-col">
+                                    <div class="h-52 overflow-hidden bg-zinc-900">
                                         <img src="${escapeHtml(photo.url)}"
                                              alt="${escapeHtml(photo.caption || evt.title)}"
                                              loading="lazy"
                                              class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500">
                                     </div>
-                                    ${photo.caption ? `<figcaption class="p-3 text-xs text-neutral-600 leading-snug">${escapeHtml(photo.caption)}</figcaption>` : ""}
+                                    ${photo.caption ? `<figcaption class="p-3 text-xs text-zinc-400 leading-snug">${escapeHtml(photo.caption)}</figcaption>` : ""}
                                 </figure>
                             `).join("")}
                         </div>
@@ -274,26 +270,25 @@
                     `
                     : "";
 
-                // 4. Các sự kiện liên quan khác
                 const related = allEvents.filter((item) => String(item.id) !== String(evt.id)).slice(0, 3);
                 const relatedHtml = related.length
                     ? `
-                    <section class="mt-16 pt-12 border-t border-neutral-200">
+                    <section class="mt-16 pt-12 border-t border-white/10">
                         <div class="flex items-baseline justify-between mb-8">
-                            <h2 class="text-xl font-extrabold text-neutral-950">Các hoạt động khác của HLS</h2>
-                            <a href="hoat-dong.html" class="text-xs font-semibold text-neutral-600 hover:text-red-700 transition-colors">Xem toàn bộ &rarr;</a>
+                            <h2 class="text-xl font-extrabold text-white">Các hoạt động khác của HLS</h2>
+                            <a href="hoat-dong.html" class="text-xs font-semibold text-zinc-400 hover:text-red-400 transition-colors">Xem toàn bộ &rarr;</a>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                             ${related.map((r) => `
-                                <a href="su-kien.html?id=${encodeURIComponent(r.id)}" class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors flex flex-col">
-                                    <div class="h-40 overflow-hidden bg-neutral-100">
-                                        <img src="${escapeHtml(r.cover_url)}" alt="${escapeHtml(r.title)}" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
+                                <a href="su-kien.html?id=${encodeURIComponent(r.id)}" class="hls-card group rounded-xl overflow-hidden flex flex-col">
+                                    <div class="h-40 overflow-hidden bg-zinc-900">
+                                        <img src="${escapeHtml(r.cover_url)}" alt="${escapeHtml(r.title)}" class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500">
                                     </div>
                                     <div class="p-4">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wider text-red-700 mb-1">
+                                        <div class="text-[10px] font-semibold uppercase tracking-wider text-red-400 mb-1">
                                             ${r.category === "core" ? "Sự kiện Core" : escapeHtml(r.sub_type)}
                                         </div>
-                                        <h3 class="text-sm font-bold text-neutral-950 group-hover:text-red-700 transition-colors line-clamp-2">${escapeHtml(r.title)}</h3>
+                                        <h3 class="text-sm font-bold text-white group-hover:text-red-400 transition-colors line-clamp-2">${escapeHtml(r.title)}</h3>
                                     </div>
                                 </a>
                             `).join("")}
@@ -304,50 +299,45 @@
 
                 container.innerHTML = `
                     <article class="hls-fade-swap">
-                        <!-- Nhãn chuyên mục -->
                         <div data-reveal class="flex flex-wrap items-center gap-3 mb-4">
-                            <span class="w-6 h-[2px] bg-red-700"></span>
-                            <span class="text-xs font-bold uppercase tracking-[0.18em] text-red-700">${escapeHtml(categoryLabel)}</span>
-                            <span class="text-neutral-300">·</span>
-                            <span class="text-xs font-medium text-neutral-500">${escapeHtml(evt.sub_type)}</span>
+                            <span class="w-6 h-[2px] bg-red-500"></span>
+                            <span class="text-xs font-bold uppercase tracking-[0.18em] text-red-400">${escapeHtml(categoryLabel)}</span>
+                            <span class="text-zinc-600">·</span>
+                            <span class="text-xs font-medium text-zinc-400">${escapeHtml(evt.sub_type)}</span>
                         </div>
 
-                        <!-- Tiêu đề chính -->
-                        <h1 data-reveal class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-neutral-950 tracking-tight leading-[1.16] mb-8">
+                        <h1 data-reveal class="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight leading-[1.16] mb-8">
                             ${escapeHtml(evt.title)}
                         </h1>
 
-                        <!-- Thanh thông tin tóm tắt 4 cột -->
-                        <dl data-reveal class="grid grid-cols-2 md:grid-cols-4 gap-4 py-5 border-y border-neutral-200 mb-10 text-xs">
+                        <dl data-reveal class="grid grid-cols-2 md:grid-cols-4 gap-4 py-5 border-y border-white/10 mb-10 text-xs">
                             <div>
-                                <dt class="text-neutral-400 uppercase tracking-wider mb-1">Chu kỳ / Thời điểm</dt>
-                                <dd class="font-semibold text-neutral-950">${escapeHtml(evt.annual_cycle || evt.date_label || ("Năm " + evt.year))}</dd>
+                                <dt class="text-zinc-500 uppercase tracking-wider mb-1">Chu kỳ / Thời điểm</dt>
+                                <dd class="font-semibold text-white">${escapeHtml(evt.annual_cycle || evt.date_label || ("Năm " + evt.year))}</dd>
                             </div>
                             <div>
-                                <dt class="text-neutral-400 uppercase tracking-wider mb-1">Mốc gần nhất</dt>
-                                <dd class="font-semibold text-neutral-950">${escapeHtml(evt.date_label || ("Năm " + evt.year))}</dd>
+                                <dt class="text-zinc-500 uppercase tracking-wider mb-1">Mốc gần nhất</dt>
+                                <dd class="font-semibold text-white">${escapeHtml(evt.date_label || ("Năm " + evt.year))}</dd>
                             </div>
                             <div>
-                                <dt class="text-neutral-400 uppercase tracking-wider mb-1">Địa điểm</dt>
-                                <dd class="font-semibold text-neutral-950">${escapeHtml(evt.location || "ĐHBK Hà Nội")}</dd>
+                                <dt class="text-zinc-500 uppercase tracking-wider mb-1">Địa điểm</dt>
+                                <dd class="font-semibold text-white">${escapeHtml(evt.location || "ĐHBK Hà Nội")}</dd>
                             </div>
                             <div>
-                                <dt class="text-neutral-400 uppercase tracking-wider mb-1">Quy mô</dt>
-                                <dd class="font-semibold text-neutral-950">${escapeHtml(evt.scale || "Sinh viên HUST")}</dd>
+                                <dt class="text-zinc-500 uppercase tracking-wider mb-1">Quy mô</dt>
+                                <dd class="font-semibold text-white">${escapeHtml(evt.scale || "Sinh viên HUST")}</dd>
                             </div>
                         </dl>
 
-                        <!-- Ảnh bìa chính -->
-                        <figure data-reveal class="mb-10 bg-[#F7F7F5] p-2 border border-neutral-200 rounded-lg">
+                        <figure data-reveal class="mb-10 hls-card p-2 rounded-xl">
                             <img src="${escapeHtml(evt.cover_url)}"
                                  alt="${escapeHtml(evt.title)}"
-                                 class="w-full h-64 sm:h-[440px] object-cover rounded">
+                                 class="w-full h-64 sm:h-[440px] object-cover rounded-lg">
                         </figure>
 
-                        <!-- Trích dẫn điểm nhấn + Nội dung tổng quan -->
                         ${evt.highlight_quote ? `
-                            <blockquote data-reveal class="bg-[#F7F7F5] border-l-2 border-red-700 px-6 py-5 mb-8">
-                                <p class="font-serif italic text-neutral-900 text-lg">“${escapeHtml(evt.highlight_quote)}”</p>
+                            <blockquote data-reveal class="hls-surface border-l-2 border-l-red-600 rounded-r-xl px-6 py-5 mb-8">
+                                <p class="font-serif italic text-zinc-100 text-lg">“${escapeHtml(evt.highlight_quote)}”</p>
                             </blockquote>
                         ` : ""}
 
@@ -371,9 +361,9 @@
                 });
             } catch (err) {
                 container.innerHTML = `
-                    <div class="bg-red-50 border border-red-200 rounded-lg p-8 text-center max-w-md mx-auto">
-                        <p class="text-red-700 font-bold mb-1">Không thể tải nội dung sự kiện</p>
-                        <p class="text-sm text-neutral-600">${escapeHtml(err.message)}</p>
+                    <div class="hls-surface border-red-500/40 rounded-xl p-8 text-center max-w-md mx-auto">
+                        <p class="text-red-400 font-bold mb-1">Không thể tải nội dung sự kiện</p>
+                        <p class="text-sm text-zinc-400">${escapeHtml(err.message)}</p>
                     </div>
                 `;
             }

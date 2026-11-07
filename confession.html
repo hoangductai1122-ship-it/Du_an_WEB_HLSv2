@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="scroll-smooth">
+<html lang="vi" class="scroll-smooth dark">
 
 <head>
     <meta charset="UTF-8">
@@ -12,10 +12,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/editorial.css">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -26,31 +26,30 @@
             }
         };
     </script>
-    <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
-<body class="bg-white text-neutral-950 font-sans antialiased min-h-screen flex flex-col selection:bg-red-700 selection:text-white">
+<body class="bg-[#050507] text-zinc-100 font-sans antialiased min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
     <div id="reading-progress" class="hls-reading-bar"></div>
 
     <!-- Thanh điều hướng tối giản đầu trang -->
-    <nav class="hls-nav bg-white/95 backdrop-blur-sm border-b border-neutral-200 sticky top-0 z-50">
+    <nav class="hls-nav sticky top-0 z-50">
         <div class="max-w-5xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
             <a href="phong-truyen-thong.html"
-                class="group text-sm font-medium text-neutral-600 hover:text-red-700 transition-colors flex items-center gap-2">
+                class="group text-sm font-medium text-zinc-400 hover:text-red-400 transition-colors flex items-center gap-2">
                 <span class="transition-transform duration-200 group-hover:-translate-x-0.5">&larr;</span>
                 <span>Phòng truyền thống HLS</span>
             </a>
 
             <div class="flex items-center gap-4">
                 <button id="copy-confession-link-btn" type="button"
-                    class="text-xs font-medium text-neutral-500 hover:text-neutral-950 border border-neutral-200 hover:border-neutral-950 rounded px-2.5 py-1 transition-colors">
+                    class="hls-btn-obsidian text-xs font-medium rounded px-3 py-1.5">
                     Chia sẻ lưu bút
                 </button>
                 <a href="index.html" class="flex items-center gap-2">
-                    <span class="w-1.5 h-4 bg-red-700 inline-block"></span>
-                    <span class="text-sm font-extrabold uppercase tracking-tight text-neutral-950">
-                        HLS <span class="font-medium text-neutral-500">Logistics</span>
+                    <span data-brand-bar class="w-1.5 h-4 bg-red-600 inline-block shadow-[0_0_8px_rgba(239,68,68,0.65)]"></span>
+                    <span class="text-sm font-extrabold uppercase tracking-tight text-white">
+                        HLS <span class="font-medium text-zinc-400">Logistics</span>
                     </span>
                 </a>
             </div>
@@ -60,21 +59,21 @@
     <!-- Khu vực nội dung chính -->
     <main class="flex-1 py-12 md:py-16 px-4 sm:px-6">
         <div id="confession-container" class="max-w-5xl mx-auto">
-            <div class="text-center py-20 text-neutral-500 text-sm">
-                <div class="inline-block w-7 h-7 border-2 border-neutral-200 border-t-red-700 rounded-full animate-spin mb-3"></div>
+            <div class="text-center py-20 text-zinc-500 text-sm">
+                <div class="inline-block w-7 h-7 border-2 border-white/15 border-t-red-500 rounded-full animate-spin mb-3"></div>
                 <p>Đang tải trang lưu bút...</p>
             </div>
         </div>
     </main>
 
     <!-- Chân trang -->
-    <footer class="bg-[#F7F7F5] border-t border-neutral-200 py-6 px-4 text-center text-xs text-neutral-500">
+    <footer class="bg-[#08080c]/95 border-t border-white/10 py-6 px-4 text-center text-xs text-zinc-500">
         &copy; 2026 HLS — CLB Logistics và Quản lý chuỗi cung ứng Đại học Bách Khoa Hà Nội
     </footer>
 
-    <!-- Nhúng cấu hình & dịch vụ -->
     <script src="js/supabase-config.js"></script>
     <script src="js/hall-of-fame-service.js"></script>
+    <script src="js/site-content-service.js"></script>
     <script src="js/editorial-ui.js"></script>
 
     <script>
@@ -85,6 +84,7 @@
                 setTimeout(() => (e.target.textContent = "Chia sẻ lưu bút"), 2000);
             } catch (_) {}
         });
+
         function escapeHtml(str) {
             return String(str || "")
                 .replace(/&/g, "&amp;")
@@ -95,13 +95,13 @@
         }
 
         function formatParagraphs(text) {
-            const raw = String(text || "").trim();
+            const raw = (text || "").trim();
             if (!raw) {
-                return `<p class="italic text-neutral-500">Thành viên này đang cập nhật lưu bút gửi tới đại gia đình HLS.</p>`;
+                return `<p class="text-zinc-400 italic">Thành viên hiện chưa cập nhật lưu bút chi tiết, nhưng dấu ấn đồng hành cùng HLS luôn còn mãi.</p>`;
             }
             return raw
                 .split(/\n\s*\n/)
-                .map((para) => `<p class="leading-[1.88] text-neutral-700">${escapeHtml(para).replace(/\n/g, "<br>")}</p>`)
+                .map((p) => `<p class="leading-[1.92] text-zinc-300">${escapeHtml(p).replace(/\n/g, "<br>")}</p>`)
                 .join("");
         }
 
@@ -112,10 +112,10 @@
 
             if (!memberId) {
                 container.innerHTML = `
-                    <div class="bg-[#F7F7F5] border border-neutral-200 rounded-lg p-10 text-center max-w-md mx-auto">
-                        <h1 class="text-xl font-bold text-neutral-950 mb-2">Chưa chọn hồ sơ thành viên</h1>
-                        <p class="text-neutral-600 text-sm mb-6">Vui lòng quay lại Phòng truyền thống và chọn một thành viên để xem lưu bút.</p>
-                        <a href="phong-truyen-thong.html" class="inline-block bg-neutral-950 hover:bg-red-700 text-white text-sm font-semibold px-6 py-2.5 rounded-md transition-colors">
+                    <div class="hls-surface rounded-xl p-10 text-center max-w-md mx-auto">
+                        <h1 class="text-xl font-bold text-white mb-2">Chưa chọn hồ sơ thành viên</h1>
+                        <p class="text-zinc-400 text-sm mb-6">Vui lòng quay lại Phòng truyền thống và chọn một thành viên để xem lưu bút.</p>
+                        <a href="phong-truyen-thong.html" class="hls-btn-crimson inline-block text-sm font-semibold px-6 py-2.5 rounded-md">
                             Về Phòng truyền thống
                         </a>
                     </div>
@@ -131,10 +131,10 @@
 
                 if (!member) {
                     container.innerHTML = `
-                        <div class="bg-[#F7F7F5] border border-neutral-200 rounded-lg p-10 text-center max-w-md mx-auto">
-                            <h1 class="text-xl font-bold text-neutral-950 mb-2">Không tìm thấy hồ sơ</h1>
-                            <p class="text-neutral-600 text-sm mb-6">Hồ sơ thành viên này có thể đã được thay đổi hoặc xóa.</p>
-                            <a href="phong-truyen-thong.html" class="inline-block bg-neutral-950 hover:bg-red-700 text-white text-sm font-semibold px-6 py-2.5 rounded-md transition-colors">
+                        <div class="hls-surface rounded-xl p-10 text-center max-w-md mx-auto">
+                            <h1 class="text-xl font-bold text-white mb-2">Không tìm thấy hồ sơ</h1>
+                            <p class="text-zinc-400 text-sm mb-6">Hồ sơ thành viên này có thể đã được thay đổi hoặc xóa.</p>
+                            <a href="phong-truyen-thong.html" class="hls-btn-crimson inline-block text-sm font-semibold px-6 py-2.5 rounded-md">
                                 Về Phòng truyền thống
                             </a>
                         </div>
@@ -145,38 +145,37 @@
                 document.title = `${member.name} — Lưu bút Phòng Truyền Thống HLS`;
                 const tierMeta = HLSService.getTierMeta(member.tier);
 
-                // Các thành viên cùng Gen
                 const peers = allMembers
                     .filter((m) => Number(m.gen) === Number(member.gen) && String(m.id) !== String(member.id))
                     .slice(0, 4);
 
                 const peersHtml = peers.length
                     ? `
-                    <section class="mt-20 pt-12 border-t border-neutral-200">
+                    <section class="mt-20 pt-12 border-t border-white/10">
                         <div class="flex items-baseline justify-between mb-8">
                             <div>
-                                <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-700">Cùng thế hệ</span>
-                                <h2 class="text-xl font-extrabold text-neutral-950 mt-1">
+                                <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-400">Cùng thế hệ</span>
+                                <h2 class="text-xl font-extrabold text-white mt-1">
                                     Đồng đội Gen ${escapeHtml(member.gen)}
                                 </h2>
                             </div>
-                            <a href="phong-truyen-thong.html" class="text-xs font-semibold text-neutral-600 hover:text-red-700 transition-colors">
+                            <a href="phong-truyen-thong.html" class="text-xs font-semibold text-zinc-400 hover:text-red-400 transition-colors">
                                 Xem tất cả &rarr;
                             </a>
                         </div>
                         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
                             ${peers.map((p) => `
                                 <a href="confession.html?id=${encodeURIComponent(p.id)}"
-                                   class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden flex items-center sm:flex-col p-3 sm:p-0 gap-3 sm:gap-0 transition-colors">
-                                    <div class="w-16 h-20 sm:w-full sm:h-48 overflow-hidden bg-neutral-100 rounded sm:rounded-none flex-shrink-0">
+                                   class="hls-card group rounded-xl overflow-hidden flex items-center sm:flex-col p-3 sm:p-0 gap-3 sm:gap-0">
+                                    <div class="w-16 h-20 sm:w-full sm:h-48 overflow-hidden bg-zinc-900 rounded sm:rounded-none flex-shrink-0">
                                         <img src="${escapeHtml(p.avatar_url)}"
                                              alt="${escapeHtml(p.name)}"
-                                             onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(p.name || "HLS")}&background=111111&color=ffffff&size=256&bold=true';"
-                                             class="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-500">
+                                             onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(p.name || "HLS")}&background=111116&color=ffffff&size=256&bold=true';"
+                                             class="w-full h-full object-cover object-top group-hover:scale-[1.04] transition-transform duration-500">
                                     </div>
                                     <div class="sm:p-3.5 text-left w-full">
-                                        <div class="text-[10px] font-semibold uppercase tracking-wider text-red-700 line-clamp-1">${escapeHtml(p.role)}</div>
-                                        <div class="text-sm font-bold text-neutral-950 group-hover:text-red-700 transition-colors mt-0.5 line-clamp-1">${escapeHtml(p.name)}</div>
+                                        <div class="text-[10px] font-semibold uppercase tracking-wider text-red-400 line-clamp-1">${escapeHtml(p.role)}</div>
+                                        <div class="text-sm font-bold text-white group-hover:text-red-400 transition-colors mt-0.5 line-clamp-1">${escapeHtml(p.name)}</div>
                                     </div>
                                 </a>
                             `).join("")}
@@ -188,64 +187,62 @@
                 container.innerHTML = `
                     <article class="hls-fade-swap grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-start">
 
-                        <!-- Cột trái: Chân dung & Thông tin hồ sơ -->
                         <aside data-reveal class="lg:col-span-4 lg:sticky lg:top-24">
-                            <div class="bg-[#F7F7F5] p-2.5 border border-neutral-200 rounded-lg mb-6">
-                                <div class="aspect-[3/4] w-full overflow-hidden rounded bg-neutral-200">
+                            <div class="hls-card border-t-2 border-t-red-600 p-2.5 rounded-xl mb-6">
+                                <div class="aspect-[3/4] w-full overflow-hidden rounded-lg bg-zinc-900">
                                     <img src="${escapeHtml(member.avatar_url)}"
                                          alt="${escapeHtml(member.name)}"
-                                         onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name || "HLS")}&background=111111&color=ffffff&size=512&bold=true';"
+                                         onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name || "HLS")}&background=111116&color=ffffff&size=512&bold=true';"
                                          class="w-full h-full object-cover object-top">
                                 </div>
                             </div>
 
                             <div class="mb-5">
-                                <h1 class="text-2xl font-extrabold text-neutral-950 tracking-tight">
+                                <h1 class="text-2xl font-extrabold text-white tracking-tight">
                                     ${escapeHtml(member.name)}
                                 </h1>
-                                <p class="text-sm font-semibold text-red-700 mt-1">
+                                <p class="text-sm font-semibold text-red-400 mt-1">
                                     ${escapeHtml(member.role || "Thành viên HLS")}
                                 </p>
                             </div>
 
-                            <dl class="border-t border-b border-neutral-200 divide-y divide-neutral-200 text-xs">
+                            <dl class="border-t border-b border-white/10 divide-y divide-white/10 text-xs">
                                 <div class="py-2.5 flex justify-between gap-4">
-                                    <dt class="text-neutral-500">Thế hệ</dt>
-                                    <dd class="font-semibold text-neutral-950 text-right">Gen ${escapeHtml(member.gen)}${member.term ? " (" + escapeHtml(member.term) + ")" : ""}</dd>
+                                    <dt class="text-zinc-500">Thế hệ</dt>
+                                    <dd class="font-semibold text-white text-right">Gen ${escapeHtml(member.gen)}${member.term ? " (" + escapeHtml(member.term) + ")" : ""}</dd>
                                 </div>
                                 <div class="py-2.5 flex justify-between gap-4">
-                                    <dt class="text-neutral-500">Cấp bậc</dt>
-                                    <dd class="font-semibold text-neutral-950 text-right">${escapeHtml(tierMeta.name)}</dd>
+                                    <dt class="text-zinc-500">Cấp bậc</dt>
+                                    <dd class="font-semibold text-white text-right">${escapeHtml(tierMeta.name)}</dd>
                                 </div>
                                 ${member.department ? `
                                 <div class="py-2.5 flex justify-between gap-4">
-                                    <dt class="text-neutral-500">Ban chuyên trách</dt>
-                                    <dd class="font-semibold text-neutral-950 text-right">${escapeHtml(member.department)}</dd>
+                                    <dt class="text-zinc-500">Ban chuyên trách</dt>
+                                    <dd class="font-semibold text-white text-right">${escapeHtml(member.department)}</dd>
                                 </div>` : ""}
                                 ${member.cohort ? `
                                 <div class="py-2.5 flex justify-between gap-4">
-                                    <dt class="text-neutral-500">Thông tin khóa</dt>
-                                    <dd class="font-semibold text-neutral-950 text-right">${escapeHtml(member.cohort)}</dd>
+                                    <dt class="text-zinc-500">Thông tin khóa</dt>
+                                    <dd class="font-semibold text-white text-right">${escapeHtml(member.cohort)}</dd>
                                 </div>` : ""}
                             </dl>
                         </aside>
 
-                        <!-- Cột phải: Tâm thư / Confession -->
                         <div data-reveal data-reveal-delay="80" class="lg:col-span-8">
                             <div class="flex items-center gap-3 mb-4">
-                                <span class="w-6 h-[2px] bg-red-700"></span>
-                                <span class="text-xs font-semibold uppercase tracking-[0.2em] text-red-700">
+                                <span class="w-6 h-[2px] bg-red-500"></span>
+                                <span class="text-xs font-semibold uppercase tracking-[0.2em] text-red-400">
                                     Lưu bút &amp; Confession thành viên
                                 </span>
                             </div>
 
-                            <h2 class="text-2xl sm:text-4xl font-extrabold text-neutral-950 tracking-tight leading-[1.2] mb-8">
+                            <h2 class="text-2xl sm:text-4xl font-extrabold text-white tracking-tight leading-[1.2] mb-8">
                                 ${escapeHtml(member.confession_title || `Gửi đại gia đình HLS từ ${member.name}`)}
                             </h2>
 
                             ${member.quote ? `
-                                <blockquote class="bg-[#F7F7F5] border-l-2 border-red-700 px-6 py-4 mb-8">
-                                    <p class="font-serif italic text-base sm:text-lg text-neutral-900">“${escapeHtml(member.quote)}”</p>
+                                <blockquote class="hls-surface border-l-2 border-l-red-600 rounded-r-xl px-6 py-4 mb-8">
+                                    <p class="font-serif italic text-base sm:text-lg text-zinc-100">“${escapeHtml(member.quote)}”</p>
                                 </blockquote>
                             ` : ""}
 
@@ -253,15 +250,14 @@
                                 ${formatParagraphs(member.confession)}
                             </div>
 
-                            <!-- Chữ ký cuối thư -->
-                            <div class="mt-12 pt-8 border-t border-neutral-200 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
-                                <div class="text-xs text-neutral-400">
+                            <div class="mt-12 pt-8 border-t border-white/10 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+                                <div class="text-xs text-zinc-500">
                                     Lưu trữ tại Phòng Truyền Thống HLS · Đại học Bách Khoa Hà Nội
                                 </div>
                                 <div class="sm:text-right">
-                                    <p class="font-serif italic text-sm text-neutral-500">Thân gửi HLS,</p>
-                                    <p class="text-base font-bold text-neutral-950 mt-1">${escapeHtml(member.name)}</p>
-                                    <p class="text-xs text-red-700 font-medium">${escapeHtml(member.role)} · Gen ${escapeHtml(member.gen)}</p>
+                                    <p class="font-serif italic text-sm text-zinc-400">Thân gửi HLS,</p>
+                                    <p class="text-base font-bold text-white mt-1">${escapeHtml(member.name)}</p>
+                                    <p class="text-xs text-red-400 font-medium">${escapeHtml(member.role)} · Gen ${escapeHtml(member.gen)}</p>
                                 </div>
                             </div>
                         </div>
@@ -273,9 +269,9 @@
                 if (window.HLSEditorialUI) window.HLSEditorialUI.refresh(container);
             } catch (err) {
                 container.innerHTML = `
-                    <div class="bg-red-50 border border-red-200 rounded-lg p-8 text-center max-w-md mx-auto">
-                        <p class="text-red-700 font-bold mb-1">Không thể tải lưu bút</p>
-                        <p class="text-sm text-neutral-600">${escapeHtml(err.message)}</p>
+                    <div class="hls-surface border-red-500/40 rounded-xl p-8 text-center max-w-md mx-auto">
+                        <p class="text-red-400 font-bold mb-1">Không thể tải lưu bút</p>
+                        <p class="text-sm text-zinc-400">${escapeHtml(err.message)}</p>
                     </div>
                 `;
             }

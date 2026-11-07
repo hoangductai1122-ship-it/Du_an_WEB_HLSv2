@@ -1,7 +1,7 @@
 // ============================================================================
-// DỊCH VỤ QUẢN LÝ NỘI DUNG TRANG CHỦ - HLS ĐHBK HÀ NỘI
+// DỊCH VỤ QUẢN LÝ NỘI DUNG TRANG CHỦ, TIN TỨC, ĐỐI TÁC & LIÊN HỆ - HLS HUST
 // Quản lý: Banner (Hero), Về chúng tôi, Câu chuyện thành lập, Tầm nhìn & Sứ mệnh,
-//          Cơ cấu tổ chức, Thành tích nổi bật và Thông tin liên hệ.
+//          Cơ cấu tổ chức, Thành tích, Tin tức, Đối tác/Nhà tài trợ & Liên hệ.
 // Hỗ trợ song song:
 // - Supabase Cloud (bảng `site_content`, 1 dòng id = 'main', cột `data` dạng jsonb)
 // - Local Storage (lưu cục bộ trên trình duyệt) khi chưa cấu hình Supabase
@@ -11,9 +11,9 @@
     const LOCAL_CONTENT_KEY = "hls_site_content_v1";
     const CONTENT_ROW_ID = "main";
 
-    // Nội dung mặc định (mẫu) — chỉnh sửa trực tiếp trong admin.html > Tab 03
     const DEFAULT_CONTENT = {
         hero: {
+            logo_url: "",
             eyebrow: "Đại học Bách Khoa Hà Nội · HUST",
             title_line1: "Kết nối. Học hỏi.",
             title_highlight: "Phát triển bền vững.",
@@ -85,11 +85,128 @@
             ]
         },
 
+        news: {
+            title: "Bản Tin HLS & Điểm Tin Chuỗi Cung Ứng",
+            intro: "Cập nhật tin tức hoạt động Câu lạc bộ, thông báo tuyển thành viên và góc nhìn chuyên sâu về Logistics & Supply Chain.",
+            items: [
+                {
+                    id: "news-vylt-2026",
+                    title: "Khởi động Vòng Cấp Trường Vietnam Young Logistics Talents 2026 tại ĐHBK Hà Nội",
+                    category: "Tin hoạt động CLB",
+                    published_at: "18/09/2026",
+                    author: "Ban Truyền thông HLS",
+                    is_featured: true,
+                    cover_url: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1000&auto=format&fit=crop",
+                    summary: "Sân chơi học thuật lớn nhất năm dành cho sinh viên đam mê Logistics chính thức mở đơn đăng ký đội thi với chuỗi cố vấn chuyên môn từ giảng viên và chuyên gia doanh nghiệp.",
+                    content: "Tháng 9 hằng năm đánh dấu sự trở lại của Vietnam Young Logistics Talents (VYLT) tại Đại học Bách Khoa Hà Nội do CLB HLS trực tiếp phối hợp tổ chức Vòng Cấp Trường.\n\nNăm 2026, đề thi tập trung vào bài toán chuyển đổi xanh trong vận tải đa phương thức và tối ưu hóa mạng lưới kho phân phối đô thị bằng mô hình định lượng.\n\nCác đội thi vượt qua vòng sơ loại sẽ bước vào chuỗi Mentoring 1-1 cùng giảng viên Trường Kinh tế – ĐHBK Hà Nội và các quản lý vận hành cấp cao từ doanh nghiệp đối tác trước khi tranh tài tại Đêm Chung kết Hội trường C2.",
+                    external_url: ""
+                },
+                {
+                    id: "news-green-supply-chain",
+                    title: "HLS Insights: Xu hướng Kho thông minh & Tự động hóa AS/RS tại miền Bắc Việt Nam",
+                    category: "Điểm tin Logistics",
+                    published_at: "04/10/2026",
+                    author: "Ban Chuyên môn HLS",
+                    is_featured: true,
+                    cover_url: "https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=1000&auto=format&fit=crop",
+                    summary: "Tổng hợp báo cáo chuyên đề từ nhóm nghiên cứu Ban Chuyên môn HLS sau chuyến thực tế tại các trung tâm phân phối hiện đại khu vực Bắc Ninh – Hải Phòng.",
+                    content: "Sự bùng nổ của thương mại điện tử và dịch vụ fulfillment tốc độ cao đang thúc đẩy làn sóng đầu tư mạnh mẽ vào hệ thống lưu trữ và truy xuất tự động (AS/RS) cùng đội robot tự hành AGV/AMR tại các hành lang công nghiệp Bắc Ninh, Hưng Yên và Hải Phòng.\n\nDưới góc nhìn của sinh viên khối kỹ thuật – quản trị ĐHBK Hà Nội, bài toán cốt lõi không chỉ nằm ở phần cứng tự động hóa mà ở thuật toán phân bổ SKU (Slotting Optimization) và tích hợp dữ liệu thời gian thực trên hệ thống WMS.\n\nBản tin chuyên môn tháng 10 của HLS phân tích 3 mô hình vận hành tiêu biểu và gợi ý hướng đề tài nghiên cứu khoa học cho sinh viên năm 3–4.",
+                    external_url: ""
+                },
+                {
+                    id: "news-tuyen-gen-moi",
+                    title: "Đợt Tuyển Thành Viên Thường Niên HLS: Tìm Kiếm Những Mảnh Ghép Kế Cận",
+                    category: "Tuyển thành viên",
+                    published_at: "25/10/2026",
+                    author: "Ban Nhân sự HLS",
+                    is_featured: true,
+                    cover_url: "https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop",
+                    summary: "Cơ hội gia nhập 5 ban chức năng của CLB Logistics & Quản lý chuỗi cung ứng ĐHBK Hà Nội dành cho sinh viên toàn trường yêu thích học thuật và hoạt động thực tiễn.",
+                    content: "Đợt tuyển thành viên thường niên của HLS mở rộng cánh cửa chào đón các bạn tân sinh viên và sinh viên các khóa tại Đại học Bách Khoa Hà Nội có mong muốn rèn luyện chuyên môn, kỹ năng tổ chức dự án và mở rộng mạng lưới kết nối trong ngành Chuỗi cung ứng.\n\nQuy trình tuyển chọn gồm 3 vòng: Vòng Đơn trực tuyến (Application Form), Vòng Phỏng vấn cá nhân (Interview) và Vòng Làm việc nhóm giải tình huống thực tế (Teamwork Challenge).\n\nỨng viên có thể theo dõi Fanpage chính thức hoặc nhấn vào nút 'Tham gia CLB' ngay trên website để điền biểu mẫu đăng ký trong thời gian mở đơn.",
+                    external_url: ""
+                },
+                {
+                    id: "news-workshop-python-scm",
+                    title: "Tổng kết chuỗi Workshop Phân tích Dữ liệu Tồn kho & Dự báo Nhu cầu bằng Python",
+                    category: "Góc Học thuật",
+                    published_at: "02/11/2026",
+                    author: "Ban Chuyên môn HLS",
+                    is_featured: false,
+                    cover_url: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop",
+                    summary: "Hơn 150 sinh viên tham gia thực hành trực tiếp trên bộ dữ liệu chuỗi bán lẻ với mô hình phân loại ABC-XYZ và tính toán mức tồn kho an toàn.",
+                    content: "Chuỗi Workshop kỹ năng phân tích định lượng do Ban Chuyên môn HLS tổ chức đã khép lại với 3 buổi thực hành chuyên sâu kéo dài 9 giờ làm việc trực tiếp cùng dữ liệu thực.\n\nNgười tham dự được hướng dẫn làm sạch dữ liệu đơn hàng với thư viện Pandas, trực quan hóa biến động nhu cầu theo mùa vụ và xây dựng mô hình tối ưu điểm đặt hàng lại (Reorder Point) dưới điều kiện thời gian giao hàng (Lead Time) biến thiên.",
+                    external_url: ""
+                }
+            ]
+        },
+
+        partners: {
+            title: "Nhà Tài Trợ & Đối Tác Đồng Hành",
+            intro: "HLS trân trọng gửi lời tri ân sâu sắc tới các đơn vị bảo trợ, Quý Nhà tài trợ, Doanh nghiệp Logistics và Đối tác truyền thông đã luôn tin tưởng, đồng hành cùng các thế hệ sinh viên ĐHBK Hà Nội.",
+            items: [
+                {
+                    id: "partner-1",
+                    name: "Trường Kinh tế — ĐHBK Hà Nội",
+                    group: "enterprise",
+                    tier_label: "Đơn vị Bảo trợ Chuyên môn",
+                    logo_url: "",
+                    website_url: "https://hust.edu.vn",
+                    description: "Định hướng học thuật, cố vấn hội đồng giám khảo và bảo trợ các chương trình chuyên môn của CLB."
+                },
+                {
+                    id: "partner-2",
+                    name: "Mạng lưới CLB Sinh viên Logistics Việt Nam",
+                    group: "enterprise",
+                    tier_label: "Đối tác Học thuật",
+                    logo_url: "",
+                    website_url: "",
+                    description: "Kết nối giao lưu học thuật, phối hợp tổ chức các sân chơi sinh viên Logistics quy mô toàn quốc."
+                },
+                {
+                    id: "partner-3",
+                    name: "Doanh nghiệp Cảng & Vận tải Biển Đối tác",
+                    group: "sponsor",
+                    tier_label: "Nhà tài trợ Kim cương",
+                    logo_url: "",
+                    website_url: "",
+                    description: "Tài trợ hiện kim, học bổng thực tập và tiếp đón sinh viên HLS trong chuỗi Company Tour thường niên."
+                },
+                {
+                    id: "partner-4",
+                    name: "Tập đoàn Giải pháp Chuỗi cung ứng & 3PL",
+                    group: "sponsor",
+                    tier_label: "Nhà tài trợ Vàng",
+                    logo_url: "",
+                    website_url: "",
+                    description: "Đồng hành chuyên môn, cung cấp đề bài Case Study thực tế và giải thưởng cuộc thi học thuật."
+                },
+                {
+                    id: "partner-5",
+                    name: "Học viện Đào tạo Logistics & Xuất nhập khẩu",
+                    group: "sponsor",
+                    tier_label: "Nhà tài trợ Đồng hành",
+                    logo_url: "",
+                    website_url: "",
+                    description: "Tài trợ suất học bổng khóa học nghiệp vụ chuyên sâu dành cho các đội thi xuất sắc nhất."
+                },
+                {
+                    id: "partner-6",
+                    name: "Kênh Thông tin Sinh viên & Báo chí Chuyên ngành",
+                    group: "media",
+                    tier_label: "Đối tác Truyền thông",
+                    logo_url: "",
+                    website_url: "",
+                    description: "Bảo trợ thông tin, lan tỏa hình ảnh các sự kiện và hoạt động học thuật của HLS tới cộng đồng sinh viên."
+                }
+            ]
+        },
+
         contact: {
             address_line1: "Đại học Bách Khoa Hà Nội",
             address_line2: "Số 1 Đại Cồ Việt, Hai Bà Trưng, Hà Nội",
             email: "hls.hust@gmail.com",
-            phone: "",
+            phone: "0912 345 678",
+            phone_label: "Chủ nhiệm CLB đương nhiệm",
             fanpage_url: "https://www.facebook.com/",
             join_form_url: ""
         }
@@ -124,15 +241,29 @@
         return JSON.parse(JSON.stringify(obj));
     }
 
-    // Gộp dữ liệu đã lưu với mặc định: thiếu trường nào lấy trường mặc định đó
     function mergeWithDefaults(stored) {
         const result = clone(DEFAULT_CONTENT);
         if (!stored || typeof stored !== "object") return result;
+
         Object.keys(result).forEach((section) => {
             if (stored[section] && typeof stored[section] === "object") {
                 result[section] = { ...result[section], ...stored[section] };
             }
         });
+
+        // Nếu dữ liệu cũ chưa từng có phone_label và phone đang trống, hiển thị mẫu để Admin dễ nhận biết
+        if (stored.contact && !("phone_label" in stored.contact) && !stored.contact.phone) {
+            result.contact.phone = DEFAULT_CONTENT.contact.phone;
+            result.contact.phone_label = DEFAULT_CONTENT.contact.phone_label;
+        }
+
+        if (!Array.isArray(result.news.items)) {
+            result.news.items = clone(DEFAULT_CONTENT.news.items);
+        }
+        if (!Array.isArray(result.partners.items)) {
+            result.partners.items = clone(DEFAULT_CONTENT.partners.items);
+        }
+
         return result;
     }
 
@@ -193,8 +324,11 @@
         return getDefaultContent();
     }
 
-    // Nén ảnh trước khi lưu (tối đa 1400px chiều ngang)
-    function compressImage(file, maxWidth = 1400, quality = 0.82) {
+    // Nén ảnh trước khi lưu (giữ kênh trong suốt PNG cho Logo đối tác/CLB nếu là ảnh PNG nhỏ, hoặc nén WebP/JPEG)
+    function compressImage(file, maxWidth = 1400, quality = 0.84) {
+        const isPng = file && file.type === "image/png";
+        const outMime = isPng ? "image/png" : "image/jpeg";
+
         return new Promise((resolve, reject) => {
             const reader = new FileReader();
             reader.onerror = () => reject(new Error("Không thể đọc tệp hình ảnh."));
@@ -203,18 +337,26 @@
                 img.onerror = () => reject(new Error("Tệp hình ảnh không hợp lệ."));
                 img.onload = () => {
                     let { width, height } = img;
-                    if (width > maxWidth) {
-                        height = Math.round((height * maxWidth) / width);
-                        width = maxWidth;
+                    const cap = isPng ? Math.min(maxWidth, 800) : maxWidth;
+                    if (width > cap) {
+                        height = Math.round((height * cap) / width);
+                        width = cap;
                     }
                     const canvas = document.createElement("canvas");
                     canvas.width = width;
                     canvas.height = height;
-                    canvas.getContext("2d").drawImage(img, 0, 0, width, height);
+                    const ctx = canvas.getContext("2d");
+                    ctx.clearRect(0, 0, width, height);
+                    ctx.drawImage(img, 0, 0, width, height);
                     canvas.toBlob(
-                        (blob) => resolve({ blob, dataUrl: canvas.toDataURL("image/jpeg", quality) }),
-                        "image/jpeg",
-                        quality
+                        (blob) => resolve({
+                            blob,
+                            mime: outMime,
+                            ext: isPng ? "png" : "jpg",
+                            dataUrl: isPng ? canvas.toDataURL("image/png") : canvas.toDataURL("image/jpeg", quality)
+                        }),
+                        outMime,
+                        isPng ? undefined : quality
                     );
                 };
                 img.src = e.target.result;
@@ -223,19 +365,27 @@
         });
     }
 
-    // Tải ảnh trang chủ lên Supabase Storage (kho event-photos, thư mục site/) hoặc trả DataURL khi lưu cục bộ
     async function uploadSiteImage(file) {
+        if (file && file.type === "image/svg+xml") {
+            return new Promise((resolve, reject) => {
+                const r = new FileReader();
+                r.onerror = () => reject(new Error("Không đọc được tệp SVG."));
+                r.onload = () => resolve(r.result);
+                r.readAsDataURL(file);
+            });
+        }
+
         const compressed = await compressImage(file);
         const sb = getSupabase();
         if (!sb) return compressed.dataUrl;
 
         const bucket = getConfig().EVENT_STORAGE_BUCKET || "event-photos";
         const safeName = file.name.replace(/[^a-zA-Z0-9._-]/g, "_").replace(/\.[^.]+$/, "");
-        const filePath = `site/${Date.now()}_${safeName}.jpg`;
+        const filePath = `site/${Date.now()}_${safeName}.${compressed.ext}`;
 
         const { error } = await sb.storage
             .from(bucket)
-            .upload(filePath, compressed.blob, { contentType: "image/jpeg", upsert: false });
+            .upload(filePath, compressed.blob, { contentType: compressed.mime, upsert: false });
         if (error) throw new Error("Lỗi tải ảnh lên Supabase Storage: " + error.message);
 
         const { data } = sb.storage.from(bucket).getPublicUrl(filePath);
@@ -251,4 +401,3 @@
         uploadSiteImage
     };
 })();
-

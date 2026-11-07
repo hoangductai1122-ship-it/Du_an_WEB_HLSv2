@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="scroll-smooth">
+<html lang="vi" class="scroll-smooth dark">
 
 <head>
     <meta charset="UTF-8">
@@ -13,10 +13,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/editorial.css">
 
-    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -27,85 +27,60 @@
             }
         };
     </script>
-    <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
-<body class="bg-white text-neutral-950 font-sans antialiased min-h-screen flex flex-col selection:bg-red-700 selection:text-white">
+<body class="bg-[#050507] text-zinc-100 font-sans antialiased min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
 
     <!-- ========================================== -->
-    <!-- THANH MENU & ĐIỀU HƯỚNG (HEADER / NAV) -->
+    <!-- THANH MENU & ĐIỀU HƯỚNG (OBSIDIAN GLASS NAV) -->
     <!-- ========================================== -->
-    <nav class="hls-nav bg-white/95 backdrop-blur-sm border-b border-neutral-200 fixed w-full top-0 z-50">
+    <nav class="hls-nav fixed w-full top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
 
-                <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center gap-3">
                     <a href="index.html" class="flex items-center gap-2.5 group">
-                        <span class="w-2 h-6 bg-red-700 inline-block transition-transform duration-200 group-hover:scale-y-110"></span>
-                        <span class="text-xl font-extrabold text-neutral-950 tracking-tight uppercase">
-                            HLS <span class="font-medium text-neutral-500 group-hover:text-red-700 transition-colors duration-200">Logistics</span>
+                        <span data-brand-bar class="w-2 h-6 bg-gradient-to-b from-red-500 to-red-800 rounded-[1px] inline-block shadow-[0_0_12px_rgba(239,68,68,0.65)] transition-transform duration-200 group-hover:scale-y-110"></span>
+                        <span class="text-xl font-extrabold text-white tracking-tight uppercase">
+                            HLS <span class="font-medium text-zinc-400 group-hover:text-red-500 transition-colors duration-200">Logistics</span>
                         </span>
                     </a>
                 </div>
 
-                <!-- Menu Ngang -->
-                <div class="hidden md:flex items-center space-x-8 text-sm">
-                    <a href="index.html#about"
-                        class="hls-nav-link text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200">Về
-                        chúng tôi</a>
-                    <a href="hoat-dong.html"
-                        class="hls-nav-link text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200">Hoạt
-                        động</a>
-                    <a href="index.html#achievements"
-                        class="hls-nav-link text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200">Thành
-                        tích</a>
-                    <a href="phong-truyen-thong.html"
-                        class="hls-nav-link is-active text-neutral-950 font-semibold">Phòng
-                        truyền thống</a>
+                <div class="hidden lg:flex items-center space-x-7 text-sm">
+                    <a href="index.html#about" class="hls-nav-link text-zinc-300 font-medium hover:text-white transition-colors">Về chúng tôi</a>
+                    <a href="hoat-dong.html" class="hls-nav-link text-zinc-300 font-medium hover:text-white transition-colors">Hoạt động</a>
+                    <a href="tin-tuc.html" class="hls-nav-link text-zinc-300 font-medium hover:text-white transition-colors">Tin tức</a>
+                    <a href="index.html#partners" class="hls-nav-link text-zinc-300 font-medium hover:text-white transition-colors">Đối tác</a>
+                    <a href="phong-truyen-thong.html" class="hls-nav-link is-active text-white font-semibold">Phòng truyền thống</a>
                 </div>
 
-                <!-- Cụm nút bên phải -->
-                <div class="hidden md:flex items-center gap-3">
-                    <a href="index.html#contact" data-join-link
-                        class="bg-neutral-950 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-md transition-colors">
+                <div class="hidden lg:flex items-center gap-3">
+                    <a href="index.html#contact" data-join-link class="hls-btn-crimson text-sm font-semibold py-2.5 px-5 rounded-md">
                         Tham gia CLB
                     </a>
                 </div>
 
-                <!-- Nút 3 gạch trên điện thoại -->
-                <div class="md:hidden flex items-center">
-                    <button id="mobile-menu-button" aria-label="Mở menu điều hướng"
-                        class="text-neutral-700 hover:text-neutral-950 focus:outline-none p-2">
+                <div class="lg:hidden flex items-center">
+                    <button id="mobile-menu-button" aria-label="Mở menu điều hướng" class="text-zinc-300 hover:text-white focus:outline-none p-2">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
-                                d="M4 6h16M4 12h16M4 18h16" />
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
                 </div>
             </div>
         </div>
 
-        <!-- Menu Dọc trên điện thoại -->
-        <div id="mobile-menu"
-            class="hidden md:hidden bg-white border-t border-neutral-200 shadow-lg absolute w-full">
+        <div id="mobile-menu" class="hidden lg:hidden bg-[#09090d]/95 backdrop-blur-xl border-t border-white/10 shadow-2xl absolute w-full">
             <div class="px-4 pt-3 pb-6 space-y-1 text-sm">
-                <a href="index.html#about"
-                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md">Về
-                    chúng tôi</a>
-                <a href="hoat-dong.html"
-                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md">Hoạt
-                    động &amp; Sự kiện</a>
-                <a href="index.html#achievements"
-                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md">Thành
-                    tích</a>
-                <a href="phong-truyen-thong.html"
-                    class="block bg-neutral-100 text-red-700 font-semibold py-3 px-3 rounded-md">Phòng
-                    truyền thống</a>
+                <a href="index.html#about" class="block text-zinc-300 hover:bg-white/5 hover:text-red-400 font-medium py-3 px-3 rounded-md">Về chúng tôi</a>
+                <a href="hoat-dong.html" class="block text-zinc-300 hover:bg-white/5 hover:text-red-400 font-medium py-3 px-3 rounded-md">Hoạt động &amp; Sự kiện</a>
+                <a href="tin-tuc.html" class="block text-zinc-300 hover:bg-white/5 hover:text-red-400 font-medium py-3 px-3 rounded-md">Tin tức &amp; Bản tin</a>
+                <a href="index.html#partners" class="block text-zinc-300 hover:bg-white/5 hover:text-red-400 font-medium py-3 px-3 rounded-md">Nhà tài trợ &amp; Đối tác</a>
+                <a href="phong-truyen-thong.html" class="block bg-red-600/15 text-red-400 font-semibold py-3 px-3 rounded-md">Phòng truyền thống</a>
                 <div class="pt-3">
-                    <a href="index.html#contact" data-join-link
-                        class="block text-center bg-neutral-950 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-md transition-colors">
+                    <a href="index.html#contact" data-join-link class="hls-btn-crimson block text-center font-semibold py-3 px-4 rounded-md">
                         Tham gia CLB
                     </a>
                 </div>
@@ -116,39 +91,38 @@
     <!-- ========================================== -->
     <!-- BANNER ĐẦU TRANG PHÒNG TRUYỀN THỐNG -->
     <!-- ========================================== -->
-    <header class="pt-32 pb-14 px-4 sm:px-6 lg:px-8 bg-[#F7F7F5] border-b border-neutral-200">
+    <header class="hls-subpage-header pt-32 pb-14 px-4 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-10">
             <div class="max-w-2xl" data-reveal>
                 <div class="flex items-center gap-3 mb-4">
-                    <span class="w-8 h-[2px] bg-red-700"></span>
-                    <span class="text-xs font-semibold uppercase tracking-[0.2em] text-red-700">
+                    <span class="w-8 h-[2px] bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]"></span>
+                    <span class="text-xs font-semibold uppercase tracking-[0.2em] text-red-400">
                         Lưu trữ Kỷ yếu · HLS ĐHBK Hà Nội
                     </span>
                 </div>
 
-                <h1 class="text-3xl sm:text-5xl font-extrabold text-neutral-950 tracking-tight leading-[1.14] mb-4">
-                    Phòng Truyền Thống <span class="text-red-700">HLS</span>
+                <h1 class="text-3xl sm:text-5xl font-extrabold text-white tracking-tight leading-[1.14] mb-4">
+                    Phòng Truyền Thống <span class="text-red-500">HLS</span>
                 </h1>
 
-                <p class="text-neutral-600 text-base leading-relaxed">
+                <p class="text-zinc-400 text-base leading-relaxed">
                     Nơi lưu giữ dấu ấn của các thế hệ thành viên từ ngày đầu thành lập đến nay.
                     Nhấn vào chân dung mỗi thành viên để mở trang Lưu bút &amp; Confession cá nhân trong tab mới.
                 </p>
             </div>
 
-            <!-- Thống kê tối giản dạng bảng mảnh -->
-            <div data-reveal data-reveal-delay="90" class="grid grid-cols-3 border border-neutral-200 bg-white rounded-lg divide-x divide-neutral-200 self-start lg:self-auto">
+            <div data-reveal data-reveal-delay="90" class="grid grid-cols-3 hls-surface rounded-xl divide-x divide-white/10 self-start lg:self-auto">
                 <div class="px-5 py-4">
-                    <div id="stat-gens" class="text-2xl font-extrabold text-neutral-950 tabular-nums">--</div>
-                    <div class="text-[11px] font-medium text-neutral-500 uppercase tracking-wider mt-0.5">Thế hệ</div>
+                    <div id="stat-gens" class="text-2xl font-extrabold text-white tabular-nums">--</div>
+                    <div class="text-[11px] font-medium text-zinc-400 uppercase tracking-wider mt-0.5">Thế hệ</div>
                 </div>
                 <div class="px-5 py-4">
-                    <div id="stat-members" class="text-2xl font-extrabold text-red-700 tabular-nums">--</div>
-                    <div class="text-[11px] font-medium text-neutral-500 uppercase tracking-wider mt-0.5">Thành viên</div>
+                    <div id="stat-members" class="text-2xl font-extrabold text-red-400 tabular-nums">--</div>
+                    <div class="text-[11px] font-medium text-zinc-400 uppercase tracking-wider mt-0.5">Thành viên</div>
                 </div>
                 <div class="px-5 py-4">
-                    <div class="text-2xl font-extrabold text-neutral-950 tabular-nums">04</div>
-                    <div class="text-[11px] font-medium text-neutral-500 uppercase tracking-wider mt-0.5">Cấp bậc</div>
+                    <div class="text-2xl font-extrabold text-white tabular-nums">04</div>
+                    <div class="text-[11px] font-medium text-zinc-400 uppercase tracking-wider mt-0.5">Cấp bậc</div>
                 </div>
             </div>
         </div>
@@ -157,26 +131,20 @@
     <!-- ========================================== -->
     <!-- THANH CHỌN GEN & BỘ LỌC TÌM KIẾM -->
     <!-- ========================================== -->
-    <section class="sticky top-20 z-40 bg-white/95 backdrop-blur-sm border-b border-neutral-200 py-3.5 px-4 sm:px-6 lg:px-8">
+    <section class="sticky top-20 z-40 bg-[#08080c]/90 backdrop-blur-xl border-b border-white/10 py-3.5 px-4 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+            <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1 lg:pb-0" id="gen-tabs-container"></div>
 
-            <!-- Các nút chọn Gen từ Gen 1 -> hiện tại -->
-            <div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0" id="gen-tabs-container">
-                <!-- Render tự động bằng JS -->
-            </div>
-
-            <!-- Tìm kiếm & Lọc theo Ban -->
             <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
                 <div class="relative">
                     <input id="search-input" type="text" placeholder="Tìm họ tên, chức vụ..."
-                        class="w-full sm:w-56 bg-white border border-neutral-300 focus:border-neutral-950 rounded-md pl-9 pr-3.5 py-2 text-sm text-neutral-950 placeholder-neutral-400 focus:outline-none transition-colors">
-                    <svg class="w-4 h-4 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        class="hls-input w-full sm:w-56 !pl-9">
+                    <svg class="w-4 h-4 text-zinc-500 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
                     </svg>
                 </div>
 
-                <select id="department-filter"
-                    class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-700 focus:outline-none transition-colors">
+                <select id="department-filter" class="hls-input sm:w-48">
                     <option value="all">Tất cả các ban</option>
                 </select>
             </div>
@@ -186,10 +154,10 @@
     <!-- ========================================== -->
     <!-- KHU VỰC HIỂN THỊ SƠ ĐỒ THÀNH VIÊN THEO CẤP -->
     <!-- ========================================== -->
-    <main class="flex-1 py-14 px-4 sm:px-6 lg:px-8 bg-white">
+    <main class="flex-1 py-14 px-4 sm:px-6 lg:px-8">
         <div class="max-w-6xl mx-auto" id="hall-content">
-            <div class="text-center py-20 text-neutral-500 text-sm">
-                <div class="inline-block w-7 h-7 border-2 border-neutral-200 border-t-red-700 rounded-full animate-spin mb-3"></div>
+            <div class="text-center py-20 text-zinc-500 text-sm">
+                <div class="inline-block w-7 h-7 border-2 border-white/15 border-t-red-500 rounded-full animate-spin mb-3"></div>
                 <p>Đang tải hồ sơ Phòng truyền thống...</p>
             </div>
         </div>
@@ -198,34 +166,32 @@
     <!-- ========================================== -->
     <!-- CHÂN TRANG (FOOTER) -->
     <!-- ========================================== -->
-    <footer class="bg-[#F7F7F5] text-neutral-950 border-t border-neutral-200 py-8">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-neutral-500">
+    <footer class="bg-[#08080c]/95 text-zinc-400 border-t border-white/10 py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs">
             <div class="flex items-center gap-2">
-                <span class="w-1.5 h-4 bg-red-700 inline-block"></span>
-                <span class="font-bold text-neutral-950 uppercase">HLS Logistics</span>
-                <span class="text-neutral-300">|</span>
+                <span class="w-1.5 h-4 bg-red-600 inline-block"></span>
+                <span class="font-bold text-white uppercase">HLS Logistics</span>
+                <span class="text-zinc-600">|</span>
                 <span>CLB Logistics và Quản lý chuỗi cung ứng — Đại học Bách Khoa Hà Nội</span>
             </div>
             <div class="flex items-center gap-6 font-medium">
-                <a href="index.html" class="hover:text-red-700 transition-colors">Trang chủ</a>
-                <a href="admin.html" class="hover:text-red-700 transition-colors">Quản trị Phòng truyền thống</a>
+                <a href="index.html" class="hover:text-red-400 transition-colors">Trang chủ</a>
+                <a href="tin-tuc.html" class="hover:text-red-400 transition-colors">Tin tức</a>
+                <a href="admin.html" class="hover:text-red-400 transition-colors">Quản trị Phòng truyền thống</a>
             </div>
         </div>
     </footer>
 
-    <!-- Nhúng cấu hình và dịch vụ dữ liệu -->
     <script src="js/supabase-config.js"></script>
     <script src="js/hall-of-fame-service.js"></script>
     <script src="js/site-content-service.js"></script>
     <script src="js/editorial-ui.js"></script>
 
     <script>
-        // Menu di động
         const mobileBtn = document.getElementById("mobile-menu-button");
         const mobileMenu = document.getElementById("mobile-menu");
         mobileBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
 
-        // Trạng thái bộ lọc
         let allMembers = [];
         let selectedGen = null;
         let searchQuery = "";
@@ -270,8 +236,8 @@
                     ? `Gen 1 · Sáng lập`
                     : (g === maxGen ? `Gen ${g} · Đương nhiệm` : `Gen ${g}`);
                 const cls = isActive
-                    ? "bg-neutral-950 text-white border-neutral-950"
-                    : "bg-white text-neutral-600 border-neutral-200 hover:border-neutral-950 hover:text-neutral-950";
+                    ? "bg-red-600 text-white border-red-500 shadow-[0_0_16px_rgba(220,38,38,0.45)]"
+                    : "bg-zinc-900/80 text-zinc-400 border-white/10 hover:border-red-500/40 hover:text-white";
                 return `<button data-gen="${g}" class="gen-tab whitespace-nowrap px-3.5 py-1.5 rounded-md border text-xs font-semibold transition-colors ${cls}">
                     ${escapeHtml(label)}
                 </button>`;
@@ -280,8 +246,8 @@
             const allActive = selectedGen === "all";
             const allBtn = `<button data-gen="all" class="gen-tab whitespace-nowrap px-3.5 py-1.5 rounded-md border text-xs font-semibold transition-colors ${
                 allActive
-                    ? "bg-neutral-950 text-white border-neutral-950"
-                    : "bg-white text-neutral-600 border-neutral-200 hover:border-neutral-950 hover:text-neutral-950"
+                    ? "bg-red-600 text-white border-red-500 shadow-[0_0_16px_rgba(220,38,38,0.45)]"
+                    : "bg-zinc-900/80 text-zinc-400 border-white/10 hover:border-red-500/40 hover:text-white"
             }">Tất cả các Gen</button>`;
 
             genTabsEl.innerHTML = buttonsHtml + allBtn;
@@ -296,7 +262,6 @@
             });
         }
 
-        // Tạo thẻ chân dung thành viên theo phong cách kỷ yếu / triển lãm
         function createMemberCard(member, tierLevel) {
             const widthClass = tierLevel === 1 || tierLevel === 2
                 ? "w-full sm:w-64 md:w-72"
@@ -305,13 +270,13 @@
                 : "w-full sm:w-52 md:w-56";
 
             const topAccent = tierLevel === 1 || tierLevel === 2
-                ? "border-t-2 border-t-red-700"
+                ? "border-t-2 border-t-red-600"
                 : tierLevel === 3
-                ? "border-t-2 border-t-neutral-950"
+                ? "border-t-2 border-t-zinc-400"
                 : "";
 
             const shortQuote = member.quote
-                ? `<p class="font-serif italic text-xs text-neutral-500 line-clamp-2 mt-2.5">“${escapeHtml(member.quote)}”</p>`
+                ? `<p class="font-serif italic text-xs text-zinc-400 line-clamp-2 mt-2.5">“${escapeHtml(member.quote)}”</p>`
                 : "";
 
             const confessionUrl = `confession.html?id=${encodeURIComponent(member.id)}`;
@@ -319,39 +284,37 @@
             return `
                 <a data-reveal href="${confessionUrl}" target="_blank" rel="noopener noreferrer"
                    title="Mở lưu bút của ${escapeHtml(member.name)} trong tab mới"
-                   class="${widthClass} ${topAccent} hls-card group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden flex flex-col">
+                   class="${widthClass} ${topAccent} hls-card group rounded-xl overflow-hidden flex flex-col">
                     
-                    <!-- Khung ảnh chân dung 3:4 -->
-                    <div class="relative aspect-[3/4] w-full overflow-hidden bg-neutral-100">
+                    <div class="relative aspect-[3/4] w-full overflow-hidden bg-zinc-900">
                         <img src="${escapeHtml(member.avatar_url)}"
                              alt="${escapeHtml(member.name)}"
                              loading="lazy"
-                             onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name || "HLS")}&background=111111&color=ffffff&size=512&bold=true';"
-                             class="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-500">
+                             onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name || "HLS")}&background=111116&color=ffffff&size=512&bold=true';"
+                             class="w-full h-full object-cover object-top group-hover:scale-[1.04] transition-transform duration-500">
 
-                        <span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-white/90 backdrop-blur-sm text-[10px] font-bold uppercase tracking-wider text-neutral-900 border border-neutral-200/80">
+                        <span class="absolute top-2.5 left-2.5 px-2 py-0.5 rounded bg-black/80 backdrop-blur-md text-[10px] font-bold uppercase tracking-wider text-zinc-200 border border-white/15">
                             Gen ${escapeHtml(member.gen)}
                         </span>
                     </div>
 
-                    <!-- Bảng tên chân dung -->
                     <div class="p-4 flex-1 flex flex-col justify-between">
                         <div>
-                            <div class="text-[11px] font-semibold uppercase tracking-wider text-red-700 line-clamp-1">
+                            <div class="text-[11px] font-semibold uppercase tracking-wider text-red-400 line-clamp-1">
                                 ${escapeHtml(member.role || "Thành viên")}
                             </div>
-                            <h3 class="text-base font-bold text-neutral-950 group-hover:text-red-700 transition-colors mt-1">
+                            <h3 class="text-base font-bold text-white group-hover:text-red-400 transition-colors mt-1">
                                 ${escapeHtml(member.name)}
                             </h3>
-                            <p class="text-xs text-neutral-500 mt-0.5 line-clamp-1">
+                            <p class="text-xs text-zinc-400 mt-0.5 line-clamp-1">
                                 ${escapeHtml(member.department || "")}${member.cohort ? " · " + escapeHtml(member.cohort) : ""}
                             </p>
                             ${shortQuote}
                         </div>
 
-                        <div class="mt-4 pt-3 border-t border-neutral-100 flex items-center justify-between text-xs font-medium text-neutral-500 group-hover:text-neutral-950 transition-colors">
+                        <div class="mt-4 pt-3 border-t border-white/10 flex items-center justify-between text-xs font-medium text-zinc-400 group-hover:text-white transition-colors">
                             <span>Đọc lưu bút</span>
-                            <svg class="hls-arrow-diag w-3.5 h-3.5 text-neutral-400 group-hover:text-red-700 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="hls-arrow-diag w-3.5 h-3.5 text-zinc-500 group-hover:text-red-400 transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M7 17L17 7M17 7H8M17 7V16" />
                             </svg>
                         </div>
@@ -360,7 +323,6 @@
             `;
         }
 
-        // Vẽ 1 khối Gen theo đúng thứ tự phân cấp 4 tầng từ trên xuống dưới
         function renderSingleGenSection(genNumber, genMembers, showGenBanner) {
             const sampleTerm = (genMembers.find((m) => m.term) || {}).term || "";
             const tiers = (window.HLS_CONFIG && window.HLS_CONFIG.TIERS) || [
@@ -380,18 +342,16 @@
 
                 return `
                     <div class="mb-14 last:mb-0">
-                        <!-- Thanh phân tầng tối giản -->
                         <div class="flex items-center gap-4 mb-8">
-                            <span class="text-xs font-bold uppercase tracking-[0.18em] text-red-700 whitespace-nowrap">
+                            <span class="text-xs font-bold uppercase tracking-[0.18em] text-red-400 whitespace-nowrap">
                                 0${tierObj.level} / ${escapeHtml(tierObj.name)}
                             </span>
-                            <div class="h-px bg-neutral-200 flex-1"></div>
-                            <span class="hidden sm:inline text-xs text-neutral-400">
+                            <div class="h-px bg-white/10 flex-1"></div>
+                            <span class="hidden sm:inline text-xs text-zinc-500">
                                 ${list.length} thành viên
                             </span>
                         </div>
 
-                        <!-- Lưới căn giữa kim tự tháp -->
                         <div class="flex flex-wrap justify-center gap-6">
                             ${cardsHtml}
                         </div>
@@ -400,16 +360,16 @@
             }).filter(Boolean).join("");
 
             const genHeader = showGenBanner ? `
-                <div class="mb-10 pb-4 border-b-2 border-neutral-950 flex flex-wrap items-baseline justify-between gap-2">
-                    <h2 class="text-2xl font-extrabold text-neutral-950 tracking-tight">
+                <div class="mb-10 pb-4 border-b border-red-500/40 flex flex-wrap items-baseline justify-between gap-2">
+                    <h2 class="text-2xl font-extrabold text-white tracking-tight">
                         Thế hệ Gen ${escapeHtml(genNumber)}
                     </h2>
-                    ${sampleTerm ? `<span class="text-xs font-semibold uppercase tracking-widest text-neutral-500">Nhiệm kỳ ${escapeHtml(sampleTerm)}</span>` : ""}
+                    ${sampleTerm ? `<span class="text-xs font-semibold uppercase tracking-widest text-zinc-400">Nhiệm kỳ ${escapeHtml(sampleTerm)}</span>` : ""}
                 </div>
             ` : (sampleTerm ? `
-                <div class="mb-8 flex items-center justify-between text-xs text-neutral-500">
-                    <span>Nhiệm kỳ hoạt động: <strong class="font-semibold text-neutral-900">${escapeHtml(sampleTerm)}</strong></span>
-                    <span>Tổng số: <strong class="font-semibold text-neutral-900">${genMembers.length} thành viên</strong></span>
+                <div class="mb-8 flex items-center justify-between text-xs text-zinc-400">
+                    <span>Nhiệm kỳ hoạt động: <strong class="font-semibold text-white">${escapeHtml(sampleTerm)}</strong></span>
+                    <span>Tổng số: <strong class="font-semibold text-white">${genMembers.length} thành viên</strong></span>
                 </div>
             ` : "");
 
@@ -436,10 +396,10 @@
 
             if (filtered.length === 0) {
                 hallContentEl.innerHTML = `
-                    <div class="hls-fade-swap bg-[#F7F7F5] border border-neutral-200 rounded-lg p-12 text-center max-w-lg mx-auto">
-                        <p class="text-base font-bold text-neutral-950 mb-1.5">Không tìm thấy hồ sơ phù hợp</p>
-                        <p class="text-sm text-neutral-500 mb-6">Không có thành viên nào khớp với từ khóa hoặc bộ lọc ban chuyên trách hiện tại.</p>
-                        <button type="button" id="reset-hall-filter-btn" class="inline-block bg-neutral-950 hover:bg-red-700 text-white font-semibold px-5 py-2.5 rounded-md text-xs transition-colors">
+                    <div class="hls-fade-swap hls-surface rounded-xl p-12 text-center max-w-lg mx-auto">
+                        <p class="text-base font-bold text-white mb-1.5">Không tìm thấy hồ sơ phù hợp</p>
+                        <p class="text-sm text-zinc-400 mb-6">Không có thành viên nào khớp với từ khóa hoặc bộ lọc ban chuyên trách hiện tại.</p>
+                        <button type="button" id="reset-hall-filter-btn" class="hls-btn-crimson inline-block font-semibold px-5 py-2.5 rounded-md text-xs">
                             Đặt lại bộ lọc
                         </button>
                     </div>
@@ -493,9 +453,9 @@
                 renderHall();
             } catch (err) {
                 hallContentEl.innerHTML = `
-                    <div class="bg-red-50 border border-red-200 rounded-lg p-8 text-center max-w-lg mx-auto">
-                        <p class="text-red-700 font-bold mb-1">Không thể tải dữ liệu</p>
-                        <p class="text-sm text-neutral-600">${escapeHtml(err.message)}</p>
+                    <div class="hls-surface border-red-500/40 rounded-xl p-8 text-center max-w-lg mx-auto">
+                        <p class="text-red-400 font-bold mb-1">Không thể tải dữ liệu</p>
+                        <p class="text-sm text-zinc-400">${escapeHtml(err.message)}</p>
                     </div>
                 `;
             }
@@ -512,7 +472,7 @@
         });
 
         window.addEventListener("storage", (e) => {
-            if (e.key === "hls_hall_of_fame_members_v1") {
+            if (e.key === "hls_hall_of_fame_members_v1" || e.key === "hls_hall_of_fame_members_v2") {
                 initHallOfFame();
             }
         });

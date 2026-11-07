@@ -1,6 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
-  <rect width="64" height="64" rx="10" fill="#0A0A0A"/>
-  <rect x="10" y="14" width="6" height="36" fill="#B91C1C"/>
-  <path d="M23 18H29.5V29H40.5V18H47V46H40.5V34.8H29.5V46H23V18Z" fill="#FFFFFF"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="HLS HUST">
+  <defs>
+    <linearGradient id="crimson" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#EF4444"/>
+      <stop offset="100%" stop-color="#991B1B"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="12" fill="#07070A"/>
+  <rect x="1.5" y="1.5" width="61" height="61" rx="10.5" fill="none" stroke="#DC2626" stroke-opacity="0.45" stroke-width="1.5"/>
+  <rect x="12" y="14" width="6" height="36" rx="1.5" fill="url(#crimson)"/>
+  <path d="M25 14h6.5v14.5h11V14H49v36h-6.5V34.5h-11V50H25V14z" fill="#FAFAFA"/>
 </svg>
-

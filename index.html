@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="vi" class="scroll-smooth">
+<html lang="vi" class="scroll-smooth dark">
 
 <head>
     <meta charset="UTF-8">
@@ -13,10 +13,11 @@
     <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/editorial.css">
 
-    <!-- Nhúng "thanh gươm" Tailwind CSS vào trang web -->
+    <!-- Nhúng Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
@@ -31,56 +32,47 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
-<body class="bg-white text-neutral-950 font-sans antialiased selection:bg-red-700 selection:text-white">
+<body class="bg-[#050507] text-zinc-100 font-sans antialiased selection:bg-red-600 selection:text-white">
 
-    <!-- Bắt đầu xây dựng Navbar (Thanh điều hướng trên cùng) -->
     <!-- ========================================== -->
-    <!-- THANH MENU & ĐIỀU HƯỚNG (HEADER / NAV) -->
+    <!-- THANH MENU & ĐIỀU HƯỚNG (OBSIDIAN GLASS NAV) -->
     <!-- ========================================== -->
-    <nav class="hls-nav bg-white/95 backdrop-blur-sm border-b border-neutral-200 fixed w-full top-0 z-50">
+    <nav class="hls-nav fixed w-full top-0 z-50">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
 
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center gap-3">
                     <a href="index.html" class="flex items-center gap-2.5 group">
-                        <span class="w-2 h-6 bg-red-700 inline-block transition-transform duration-200 group-hover:scale-y-110"></span>
-                        <span class="text-xl font-extrabold text-neutral-950 tracking-tight uppercase">
-                            HLS <span class="font-medium text-neutral-500 group-hover:text-red-700 transition-colors duration-200">Logistics</span>
+                        <span data-brand-bar class="w-2 h-6 bg-gradient-to-b from-red-500 to-red-800 rounded-[1px] inline-block shadow-[0_0_12px_rgba(239,68,68,0.65)] transition-transform duration-200 group-hover:scale-y-110"></span>
+                        <span class="text-xl font-extrabold text-white tracking-tight uppercase">
+                            HLS <span class="font-medium text-zinc-400 group-hover:text-red-500 transition-colors duration-200">Logistics</span>
                         </span>
                     </a>
                 </div>
 
-                <!-- Menu Ngang (Chỉ hiện trên máy tính - md:flex ẩn trên điện thoại) -->
-                <div class="hidden md:flex items-center space-x-8 text-sm">
-                    <a href="#about"
-                        class="hls-nav-link text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200">Về
-                        chúng tôi</a>
-                    <a href="hoat-dong.html"
-                        class="hls-nav-link text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200">Hoạt
-                        động</a>
-                    <a href="#achievements"
-                        class="hls-nav-link text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200">Thành
-                        tích</a>
-                    <a href="phong-truyen-thong.html"
-                        class="hls-nav-link text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200">Phòng
-                        truyền thống</a>
+                <!-- Menu Ngang -->
+                <div class="hidden lg:flex items-center space-x-7 text-sm">
+                    <a href="#about" class="hls-nav-link text-zinc-300 font-medium hover:text-white transition-colors duration-200">Về chúng tôi</a>
+                    <a href="hoat-dong.html" class="hls-nav-link text-zinc-300 font-medium hover:text-white transition-colors duration-200">Hoạt động</a>
+                    <a href="tin-tuc.html" class="hls-nav-link text-zinc-300 font-medium hover:text-white transition-colors duration-200">Tin tức</a>
+                    <a href="#partners" class="hls-nav-link text-zinc-300 font-medium hover:text-white transition-colors duration-200">Đối tác</a>
+                    <a href="phong-truyen-thong.html" class="hls-nav-link text-zinc-300 font-medium hover:text-white transition-colors duration-200">Phòng truyền thống</a>
                 </div>
 
-                <!-- Nút Tham gia (Chỉ hiện trên máy tính) -->
-                <div class="hidden md:flex">
+                <!-- Nút Tham gia -->
+                <div class="hidden lg:flex">
                     <a href="#contact" data-join-link
-                        class="bg-neutral-950 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-md transition-colors duration-200">
+                        class="hls-btn-crimson text-sm font-semibold py-2.5 px-5 rounded-md">
                         Tham gia CLB
                     </a>
                 </div>
 
-                <!-- Nút 3 gạch (Hamburger Menu - Chỉ hiện trên điện thoại) -->
-                <div class="md:hidden flex items-center">
+                <!-- Nút Hamburger trên điện thoại / tablet dọc -->
+                <div class="lg:hidden flex items-center">
                     <button id="mobile-menu-button" aria-label="Mở menu điều hướng"
-                        class="text-neutral-700 hover:text-neutral-950 focus:outline-none p-2">
+                        class="text-zinc-300 hover:text-white focus:outline-none p-2">
                         <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <!-- Biểu tượng 3 gạch -->
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
                                 d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
@@ -89,25 +81,18 @@
             </div>
         </div>
 
-        <!-- Menu Dọc xổ xuống (Chỉ dành cho điện thoại - Mặc định bị ẩn class 'hidden') -->
+        <!-- Menu Dọc trên thiết bị di động -->
         <div id="mobile-menu"
-            class="hidden md:hidden bg-white border-t border-neutral-200 shadow-lg absolute w-full">
+            class="hidden lg:hidden bg-[#09090d]/95 backdrop-blur-xl border-t border-white/10 shadow-2xl absolute w-full">
             <div class="px-4 pt-3 pb-6 space-y-1 text-sm">
-                <a href="#about"
-                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md transition-colors">Về
-                    chúng tôi</a>
-                <a href="hoat-dong.html"
-                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md transition-colors">Hoạt
-                    động &amp; Sự kiện</a>
-                <a href="#achievements"
-                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md transition-colors">Thành
-                    tích</a>
-                <a href="phong-truyen-thong.html"
-                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md transition-colors">Phòng
-                    truyền thống</a>
+                <a href="#about" class="block text-zinc-300 hover:bg-white/5 hover:text-red-400 font-medium py-3 px-3 rounded-md transition-colors">Về chúng tôi</a>
+                <a href="hoat-dong.html" class="block text-zinc-300 hover:bg-white/5 hover:text-red-400 font-medium py-3 px-3 rounded-md transition-colors">Hoạt động &amp; Sự kiện</a>
+                <a href="tin-tuc.html" class="block text-zinc-300 hover:bg-white/5 hover:text-red-400 font-medium py-3 px-3 rounded-md transition-colors">Tin tức &amp; Bản tin</a>
+                <a href="#partners" class="block text-zinc-300 hover:bg-white/5 hover:text-red-400 font-medium py-3 px-3 rounded-md transition-colors">Nhà tài trợ &amp; Đối tác</a>
+                <a href="phong-truyen-thong.html" class="block text-zinc-300 hover:bg-white/5 hover:text-red-400 font-medium py-3 px-3 rounded-md transition-colors">Phòng truyền thống</a>
                 <div class="pt-3">
                     <a href="#contact" data-join-link
-                        class="block text-center bg-neutral-950 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-md transition-colors">
+                        class="hls-btn-crimson block text-center font-semibold py-3 px-4 rounded-md">
                         Tham gia CLB
                     </a>
                 </div>
@@ -115,69 +100,72 @@
         </div>
     </nav>
 
-    <!-- Khu vực Banner chính (Hero Section) — bố cục Editorial 12 cột bất đối xứng, quản lý tại admin.html > Tab 03 -->
-    <main class="pt-32 pb-20 md:pt-40 md:pb-24 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
+    <!-- ========================================== -->
+    <!-- KHU VỰC BANNER CHÍNH (OBSIDIAN HERO SECTION) -->
+    <!-- ========================================== -->
+    <main class="hls-obsidian-hero pt-32 pb-20 md:pt-40 md:pb-28 px-4 sm:px-6 lg:px-8 border-b border-white/[0.07]">
+        <div class="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
             <!-- Cột trái (7/12): Tuyên ngôn học thuật & Điều hướng -->
             <div id="hero-text-col" class="lg:col-span-7" data-reveal>
                 <div class="flex items-center gap-3 mb-6">
-                    <span class="w-8 h-[2px] bg-red-700"></span>
-                    <p id="hero-eyebrow" class="text-xs font-semibold uppercase tracking-[0.2em] text-red-700">
+                    <span class="w-8 h-[2px] bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.8)]"></span>
+                    <p id="hero-eyebrow" class="text-xs font-semibold uppercase tracking-[0.22em] text-red-400">
                         Đại học Bách Khoa Hà Nội · HUST
                     </p>
                 </div>
 
-                <h1 class="text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold text-neutral-950 tracking-tight leading-[1.1] mb-6">
+                <h1 class="text-4xl sm:text-5xl md:text-[3.5rem] font-extrabold text-white tracking-tight leading-[1.1] mb-6">
                     <span id="hero-title-line1">Kết nối. Học hỏi.</span><br>
-                    <span id="hero-title-highlight" class="text-red-700">Phát triển bền vững.</span>
+                    <span id="hero-title-highlight" class="bg-gradient-to-r from-red-500 via-red-400 to-rose-300 bg-clip-text text-transparent">Phát triển bền vững.</span>
                 </h1>
 
-                <p id="hero-description" class="text-base sm:text-lg text-neutral-600 leading-relaxed max-w-2xl mb-9">
+                <p id="hero-description" class="text-base sm:text-lg text-zinc-400 leading-relaxed max-w-2xl mb-9">
                     Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội —
                     không gian học thuật chuyên sâu kết nối sinh viên, giảng viên và mạng lưới doanh nghiệp Chuỗi cung ứng.
                 </p>
 
                 <div class="flex flex-wrap items-center gap-3.5">
                     <a href="#activities" id="hero-primary-cta"
-                        class="bg-red-700 hover:bg-neutral-950 text-white text-sm font-semibold px-7 py-3.5 rounded-md transition-colors duration-200">
+                        class="hls-btn-crimson text-sm font-semibold px-7 py-3.5 rounded-md">
                         Xem hoạt động nổi bật
                     </a>
                     <a href="phong-truyen-thong.html"
-                        class="group bg-white border border-neutral-300 hover:border-neutral-950 text-neutral-950 text-sm font-semibold px-7 py-3.5 rounded-md transition-colors duration-200 inline-flex items-center gap-2">
+                        class="hls-btn-obsidian group text-sm font-semibold px-7 py-3.5 rounded-md inline-flex items-center gap-2">
                         <span id="hero-secondary-cta">Phòng truyền thống</span>
-                        <span class="hls-arrow">&rarr;</span>
+                        <span class="hls-arrow text-red-400">&rarr;</span>
                     </a>
                 </div>
 
                 <!-- Thanh chỉ mục thông tin tổ chức -->
-                <dl class="mt-12 pt-6 border-t border-neutral-200 grid grid-cols-3 gap-4 max-w-xl text-xs">
+                <dl class="mt-12 pt-6 border-t border-white/10 grid grid-cols-3 gap-4 max-w-xl text-xs">
                     <div>
-                        <dt class="text-neutral-400 uppercase tracking-wider">Thành lập</dt>
-                        <dd id="hero-meta-year" class="font-bold text-neutral-950 text-sm mt-0.5 tabular-nums">Năm 2022</dd>
+                        <dt class="text-zinc-500 uppercase tracking-wider">Thành lập</dt>
+                        <dd id="hero-meta-year" class="font-bold text-white text-sm mt-0.5 tabular-nums">Năm 2022</dd>
                     </div>
                     <div>
-                        <dt class="text-neutral-400 uppercase tracking-wider">Trực thuộc</dt>
-                        <dd class="font-bold text-neutral-950 text-sm mt-0.5">ĐHBK Hà Nội</dd>
+                        <dt class="text-zinc-500 uppercase tracking-wider">Trực thuộc</dt>
+                        <dd class="font-bold text-white text-sm mt-0.5">ĐHBK Hà Nội</dd>
                     </div>
                     <div>
-                        <dt class="text-neutral-400 uppercase tracking-wider">Mô hình</dt>
-                        <dd id="hero-meta-depts" class="font-bold text-neutral-950 text-sm mt-0.5 tabular-nums">05 Ban chuyên môn</dd>
+                        <dt class="text-zinc-500 uppercase tracking-wider">Mô hình</dt>
+                        <dd id="hero-meta-depts" class="font-bold text-white text-sm mt-0.5 tabular-nums">05 Ban chuyên môn</dd>
                     </div>
                 </dl>
             </div>
 
-            <!-- Cột phải (5/12): Khung ảnh tư liệu biên tập (quản lý trực tiếp trong Tab 03) -->
+            <!-- Cột phải (5/12): Khung ảnh tư liệu trên đế kính Obsidian -->
             <figure id="hero-visual-col" class="lg:col-span-5" data-reveal data-reveal-delay="110">
-                <div class="bg-[#F7F7F5] p-2.5 border border-neutral-200 rounded-lg">
-                    <div class="aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] overflow-hidden rounded bg-neutral-100 relative">
+                <div class="hls-card p-2.5 rounded-xl border-t-2 border-t-red-600/80">
+                    <div class="aspect-[4/5] sm:aspect-[4/3] lg:aspect-[4/5] overflow-hidden rounded-lg bg-zinc-900 relative">
                         <img id="hero-image"
                              src="https://images.unsplash.com/photo-1553413077-190dd305871c?q=80&w=1000&auto=format&fit=crop"
                              alt="Không gian học thuật & thực tiễn chuỗi cung ứng HLS"
                              class="w-full h-full object-cover">
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent pointer-events-none"></div>
                     </div>
-                    <figcaption class="pt-3 px-1 pb-0.5 flex items-start justify-between gap-3 text-xs text-neutral-500">
+                    <figcaption class="pt-3 px-1.5 pb-0.5 flex items-start justify-between gap-3 text-xs text-zinc-400">
                         <span id="hero-image-caption" class="leading-snug">Tư duy hệ thống kỹ thuật &amp; quản trị vận hành chuỗi cung ứng thực tiễn · ĐHBK Hà Nội</span>
-                        <span class="font-bold text-red-700 uppercase tracking-wider whitespace-nowrap tabular-nums">HLS · HUST</span>
+                        <span class="font-bold text-red-400 uppercase tracking-wider whitespace-nowrap tabular-nums">HLS · HUST</span>
                     </figcaption>
                 </div>
             </figure>
@@ -185,129 +173,144 @@
     </main>
 
     <!-- ========================================== -->
-    <!-- PHÂN KHU: Về chúng tôi (About Us) -->
-    <!-- Gồm: Giới thiệu chung, Câu chuyện thành lập, Tầm nhìn & Sứ mệnh, -->
-    <!-- Cơ cấu tổ chức, Thành tích nổi bật. Toàn bộ được render từ -->
-    <!-- js/site-content-service.js và chỉnh sửa tại admin.html > Tab 03 -->
+    <!-- PHÂN KHU 01 -> 05: VỀ CHÚNG TÔI (ABOUT US) -->
     <!-- ========================================== -->
     <div id="about-root">
-        <div class="py-24 text-center text-sm text-neutral-400">Đang tải nội dung giới thiệu...</div>
+        <div class="py-24 text-center text-sm text-zinc-500">Đang tải nội dung giới thiệu...</div>
     </div>
 
     <!-- ========================================== -->
-    <!-- PHÂN KHU 3: Hoạt động & Sự kiện (Events Section) -->
+    <!-- PHÂN KHU 06: HOẠT ĐỘNG & SỰ KIỆN -->
     <!-- ========================================== -->
-    <section id="activities" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-white">
+    <section id="activities" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 border-t border-white/[0.07] scroll-mt-20">
         <div class="max-w-6xl mx-auto">
-            <!-- Tiêu đề phân khu -->
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 pb-6 border-b border-neutral-200 gap-4">
+            <div data-reveal class="flex flex-col md:flex-row md:items-end justify-between mb-14 pb-6 border-b border-white/10 gap-4">
                 <div>
-                    <span class="text-red-700 font-semibold uppercase tracking-[0.18em] text-xs">06 / Hoạt động &amp; Sự kiện</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-neutral-950 tracking-tight mt-2">Hệ Sinh Thái Hoạt Động HLS</h2>
+                    <span class="text-red-400 font-semibold uppercase tracking-[0.18em] text-xs">06 / Hoạt động &amp; Sự kiện</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight mt-2">Hệ Sinh Thái Hoạt Động HLS</h2>
                 </div>
                 <a href="hoat-dong.html"
-                   class="inline-flex items-center gap-2 text-sm font-semibold text-neutral-950 hover:text-red-700 transition-colors">
+                   class="group inline-flex items-center gap-2 text-sm font-semibold text-zinc-300 hover:text-red-400 transition-colors">
                     <span>Xem toàn bộ chuyên mục Hoạt động</span>
-                    <span>&rarr;</span>
+                    <span class="hls-arrow">&rarr;</span>
                 </a>
             </div>
 
-            <!-- Khối động hiển thị 2 nhóm: Sự kiện Core thường niên & Hoạt động ngoài lề -->
             <div id="home-events-showcase">
-                <div class="text-center py-12 text-sm text-neutral-400">Đang tải danh mục hoạt động...</div>
+                <div class="text-center py-12 text-sm text-zinc-500">Đang tải danh mục hoạt động...</div>
             </div>
         </div>
     </section>
 
     <!-- ========================================== -->
-    <!-- CHÂN TRANG (FOOTER) -->
+    <!-- PHÂN KHU 07: TIN TỨC & BẢN TIN LOGISTICS -->
     <!-- ========================================== -->
-    <footer id="contact" class="bg-[#F7F7F5] text-neutral-950 border-t border-neutral-200 pt-16 pb-10">
+    <section id="news" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#09090e]/80 border-t border-white/[0.07] scroll-mt-20">
+        <div class="max-w-6xl mx-auto" id="news-root">
+            <div class="text-center py-12 text-sm text-zinc-500">Đang tải chuyên mục Tin tức...</div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- PHÂN KHU 08: TRI ÂN NHÀ TÀI TRỢ & ĐỐI TÁC -->
+    <!-- ========================================== -->
+    <section id="partners" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 border-t border-white/[0.07] scroll-mt-20">
+        <div class="max-w-6xl mx-auto" id="partners-root">
+            <div class="text-center py-12 text-sm text-zinc-500">Đang tải danh sách Đối tác &amp; Nhà tài trợ...</div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- CHÂN TRANG & LIÊN HỆ (FOOTER) -->
+    <!-- ========================================== -->
+    <footer id="contact" class="bg-[#08080c]/95 text-zinc-200 border-t border-white/10 pt-16 pb-10 scroll-mt-20">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-            <!-- Bố cục lưới 3 cột -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-14">
 
                 <!-- Cột 1: Thông tin CLB -->
                 <div>
                     <div class="flex items-center gap-2.5 mb-4">
-                        <span class="w-2 h-5 bg-red-700 inline-block"></span>
-                        <h3 class="text-lg font-extrabold tracking-tight uppercase text-neutral-950">
-                            HLS <span class="font-medium text-neutral-500">Logistics</span>
+                        <span class="w-2 h-5 bg-red-600 inline-block shadow-[0_0_10px_rgba(220,38,38,0.6)]"></span>
+                        <h3 class="text-lg font-extrabold tracking-tight uppercase text-white">
+                            HLS <span class="font-medium text-zinc-400">Logistics</span>
                         </h3>
                     </div>
-                    <p class="text-neutral-600 text-sm leading-relaxed mb-5">
+                    <p class="text-zinc-400 text-sm leading-relaxed mb-5">
                         Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội. Nơi kết nối, học hỏi và
                         phát triển của sinh viên đam mê lĩnh vực Logistics và Chuỗi cung ứng.
                     </p>
-                    <div class="font-serif italic text-sm text-neutral-800 border-l-2 border-red-700 pl-3">
+                    <div class="font-serif italic text-sm text-zinc-300 border-l-2 border-red-600 pl-3">
                         “Chia sẻ – Kết nối – Học hỏi”
                     </div>
                 </div>
 
                 <!-- Cột 2: Liên kết nhanh -->
                 <div>
-                    <h4 class="text-xs font-bold mb-4 uppercase tracking-[0.16em] text-neutral-950 border-b border-neutral-200 pb-2.5">
+                    <h4 class="text-xs font-bold mb-4 uppercase tracking-[0.16em] text-white border-b border-white/10 pb-2.5">
                         Điều hướng
                     </h4>
-                    <ul class="space-y-2.5 text-neutral-600 text-sm">
-                        <li><a href="#about" class="hover:text-red-700 transition-colors">Về chúng tôi</a></li>
-                        <li><a href="hoat-dong.html" class="hover:text-red-700 transition-colors">Chuyên mục Hoạt động &amp; Sự kiện</a></li>
-                        <li><a href="phong-truyen-thong.html" class="hover:text-red-700 transition-colors">Phòng truyền thống các Gen</a></li>
-                        <li><a href="admin.html" class="hover:text-red-700 transition-colors">Hệ thống Quản trị nội bộ</a></li>
+                    <ul class="space-y-2.5 text-zinc-400 text-sm">
+                        <li><a href="#about" class="hover:text-red-400 transition-colors">Về chúng tôi</a></li>
+                        <li><a href="hoat-dong.html" class="hover:text-red-400 transition-colors">Chuyên mục Hoạt động &amp; Sự kiện</a></li>
+                        <li><a href="tin-tuc.html" class="hover:text-red-400 transition-colors">Tin tức &amp; Bản tin Logistics</a></li>
+                        <li><a href="#partners" class="hover:text-red-400 transition-colors">Nhà tài trợ &amp; Đối tác đồng hành</a></li>
+                        <li><a href="phong-truyen-thong.html" class="hover:text-red-400 transition-colors">Phòng truyền thống các Gen</a></li>
+                        <li><a href="admin.html" class="hover:text-red-400 transition-colors">Hệ thống Quản trị nội bộ</a></li>
                     </ul>
                 </div>
 
-                <!-- Cột 3: Thông tin liên hệ -->
+                <!-- Cột 3: Thông tin liên hệ (Có SĐT Chủ nhiệm CLB theo nhiệm kỳ) -->
                 <div>
-                    <h4 class="text-xs font-bold mb-4 uppercase tracking-[0.16em] text-neutral-950 border-b border-neutral-200 pb-2.5">
+                    <h4 class="text-xs font-bold mb-4 uppercase tracking-[0.16em] text-white border-b border-white/10 pb-2.5">
                         Liên hệ với HLS
                     </h4>
-                    <ul class="space-y-3 text-neutral-600 text-sm mb-6">
+                    <ul class="space-y-3.5 text-zinc-300 text-sm mb-6">
                         <li class="flex items-start gap-3">
-                            <svg class="w-4 h-4 text-red-700 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-red-500 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                             </svg>
-                            <span><span id="contact-address-1">Đại học Bách Khoa Hà Nội</span><br><span id="contact-address-2">Số 1 Đại Cồ Việt, Hai Bà Trưng, Hà Nội</span></span>
+                            <span><span id="contact-address-1" class="text-zinc-200 font-medium">Đại học Bách Khoa Hà Nội</span><br><span id="contact-address-2" class="text-zinc-400 text-xs">Số 1 Đại Cồ Việt, Hai Bà Trưng, Hà Nội</span></span>
                         </li>
                         <li class="flex items-center gap-3">
-                            <svg class="w-4 h-4 text-red-700 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-4 h-4 text-red-500 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                             </svg>
-                            <a id="contact-email" href="mailto:hls.hust@gmail.com" class="hover:text-red-700 transition-colors">hls.hust@gmail.com</a>
+                            <a id="contact-email" href="mailto:hls.hust@gmail.com" class="hover:text-red-400 transition-colors">hls.hust@gmail.com</a>
                         </li>
-                        <li id="contact-phone-row" class="hidden flex items-center gap-3">
-                            <svg class="w-4 h-4 text-red-700 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <li id="contact-phone-row" class="flex items-start gap-3">
+                            <svg class="w-4 h-4 text-red-500 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                             </svg>
-                            <span id="contact-phone"></span>
+                            <div>
+                                <span id="contact-phone-label" class="block text-[11px] uppercase tracking-wider text-zinc-500">Chủ nhiệm CLB đương nhiệm</span>
+                                <a id="contact-phone" href="tel:0912345678" class="font-semibold text-white hover:text-red-400 transition-colors tabular-nums">0912 345 678</a>
+                            </div>
                         </li>
                     </ul>
                     <!-- Nút bấm Fanpage -->
                     <a id="contact-fanpage" href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"
-                        class="inline-block w-full text-center bg-neutral-950 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-4 rounded-md transition-colors duration-200">
+                        class="hls-btn-crimson inline-block w-full text-center text-sm font-semibold py-2.5 px-4 rounded-md">
                         Truy cập Fanpage chính thức
                     </a>
-                    <!-- Nút đăng ký thành viên (chỉ hiện khi đã có link form trong Admin) -->
+                    <!-- Nút đăng ký thành viên -->
                     <a href="#contact" data-join-link id="contact-join-btn"
-                        class="hidden mt-2.5 w-full text-center bg-white border border-neutral-300 hover:border-neutral-950 text-neutral-950 text-sm font-semibold py-2.5 px-4 rounded-md transition-colors duration-200">
+                        class="hidden mt-2.5 w-full text-center hls-btn-obsidian text-sm font-semibold py-2.5 px-4 rounded-md">
                         Đăng ký tham gia CLB
                     </a>
                 </div>
 
             </div>
 
-            <!-- Thanh Bản quyền (Copyright) -->
-            <div
-                class="border-t border-neutral-200 pt-6 flex flex-col md:flex-row justify-between items-center text-neutral-500 text-xs">
+            <div class="border-t border-white/10 pt-6 flex flex-col md:flex-row justify-between items-center text-zinc-500 text-xs">
                 <p>&copy; 2026 HLS — CLB Logistics và Quản lý chuỗi cung ứng ĐHBK Hà Nội.</p>
-                <p class="mt-2 md:mt-0">Thiết kế và phát triển bởi <span class="font-semibold text-neutral-900">Hoàng Đức Tài</span></p>
+                <p class="mt-2 md:mt-0">Thiết kế và phát triển bởi <span class="font-semibold text-zinc-300">Hoàng Đức Tài</span></p>
             </div>
         </div>
     </footer>
 
     <!-- ========================================== -->
-    <!-- JAVASCRIPT: ĐIỀU KHIỂN TƯƠNG TÁC -->
+    <!-- JAVASCRIPT: ĐIỀU KHIỂN DỮ LIỆU & TƯƠNG TÁC -->
     <!-- ========================================== -->
     <script src="js/supabase-config.js"></script>
     <script src="js/events-service.js"></script>
@@ -315,25 +318,19 @@
     <script src="js/site-content-service.js"></script>
     <script src="js/editorial-ui.js"></script>
     <script>
-        // Lấy nút bấm và cái menu thả xuống từ HTML
         const btn = document.getElementById('mobile-menu-button');
         const menu = document.getElementById('mobile-menu');
 
-        // Bắt sự kiện: Khi người dùng Click vào nút bấm
         btn.addEventListener('click', () => {
-            // Lệnh toggle: Nếu đang ẩn thì hiện ra, nếu đang hiện thì ẩn đi
             menu.classList.toggle('hidden');
         });
 
-        // Nâng cao (tùy chọn): Tự động đóng menu sau khi bấm chọn 1 mục
-        const menuLinks = menu.querySelectorAll('a');
-        menuLinks.forEach(link => {
+        menu.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
                 menu.classList.add('hidden');
             });
         });
 
-        // Hiển thị tự động 2 nhóm: Sự kiện Core thường niên & Hoạt động ngoài lề trên Trang chủ
         function escapeHtml(str) {
             return String(str || "")
                 .replace(/&/g, "&amp;")
@@ -343,6 +340,13 @@
                 .replace(/'/g, "&#039;");
         }
 
+        function getMonogram(name) {
+            const words = String(name || "HLS").trim().split(/\s+/).filter(Boolean);
+            if (words.length === 1) return words[0].slice(0, 3).toUpperCase();
+            return words.slice(0, 3).map((w) => w[0]).join("").toUpperCase();
+        }
+
+        // Render Sự kiện Core & Ngoài lề trên Trang chủ
         async function renderHomepageEvents() {
             const container = document.getElementById("home-events-showcase");
             if (!container || !window.HLSEventsService) return;
@@ -362,11 +366,12 @@
                         <div class="mb-16">
                             <div class="flex items-center justify-between gap-4 mb-6">
                                 <div class="flex items-center gap-3">
-                                    <span class="text-xs font-bold uppercase tracking-[0.16em] text-red-700">Sự kiện Core diễn ra hằng năm</span>
-                                    <span class="hidden sm:inline-block w-12 h-px bg-neutral-200"></span>
+                                    <span class="text-xs font-bold uppercase tracking-[0.16em] text-red-400">Sự kiện Core diễn ra hằng năm</span>
+                                    <span class="hidden sm:inline-block w-12 h-px bg-white/10"></span>
                                 </div>
-                                <a href="hoat-dong.html#core" class="text-xs font-semibold text-neutral-500 hover:text-neutral-950 transition-colors">
-                                    Tất cả sự kiện Core &rarr;
+                                <a href="hoat-dong.html#core" class="group text-xs font-semibold text-zinc-400 hover:text-white transition-colors inline-flex items-center gap-1">
+                                    <span>Tất cả sự kiện Core</span>
+                                    <span class="hls-arrow">&rarr;</span>
                                 </a>
                             </div>
 
@@ -375,34 +380,35 @@
                                     const stagesCount = Array.isArray(evt.activities) ? evt.activities.length : 0;
                                     const editionsCount = Array.isArray(evt.editions) ? evt.editions.length : 0;
                                     return `
-                                        <article data-reveal class="hls-card group bg-white border border-neutral-200 border-t-2 border-t-red-700 hover:border-neutral-950 rounded-lg overflow-hidden flex flex-col">
-                                            <a href="su-kien.html?id=${encodeURIComponent(evt.id)}" class="h-60 overflow-hidden bg-neutral-100 block relative">
+                                        <article data-reveal class="hls-card group border-t-2 border-t-red-600 rounded-xl overflow-hidden flex flex-col">
+                                            <a href="su-kien.html?id=${encodeURIComponent(evt.id)}" class="h-60 overflow-hidden bg-zinc-900 block relative">
                                                 <img src="${escapeHtml(evt.cover_url)}"
                                                      alt="${escapeHtml(evt.title)}"
                                                      loading="lazy"
-                                                     class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
-                                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded bg-white/95 backdrop-blur-sm border border-neutral-200 text-[10px] font-bold uppercase tracking-wider text-red-700">
+                                                     class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500">
+                                                <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b10] via-transparent to-transparent opacity-60"></div>
+                                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded bg-black/80 backdrop-blur-md border border-red-500/30 text-[10px] font-bold uppercase tracking-wider text-red-400">
                                                     ${escapeHtml(evt.annual_cycle || "Thường niên")}
                                                 </span>
                                             </a>
                                             <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
                                                 <div>
-                                                    <div class="text-[11px] font-semibold uppercase tracking-widest text-neutral-500 mb-2">
+                                                    <div class="text-[11px] font-semibold uppercase tracking-widest text-zinc-400 mb-2">
                                                         ${escapeHtml(evt.sub_type)}${evt.scale ? " · " + escapeHtml(evt.scale) : ""}
                                                     </div>
-                                                    <h3 class="text-xl font-extrabold text-neutral-950 group-hover:text-red-700 transition-colors mb-3 leading-snug">
+                                                    <h3 class="text-xl font-extrabold text-white group-hover:text-red-400 transition-colors mb-3 leading-snug">
                                                         <a href="su-kien.html?id=${encodeURIComponent(evt.id)}">${escapeHtml(evt.title)}</a>
                                                     </h3>
-                                                    <p class="text-neutral-600 text-sm leading-relaxed mb-6 line-clamp-3">
+                                                    <p class="text-zinc-400 text-sm leading-relaxed mb-6 line-clamp-3">
                                                         ${escapeHtml(evt.summary)}
                                                     </p>
                                                 </div>
-                                                <div class="pt-4 border-t border-neutral-100 flex items-center justify-between text-xs">
-                                                    <span class="text-neutral-400">
+                                                <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs">
+                                                    <span class="text-zinc-500">
                                                         ${stagesCount} chặng hoạt động${editionsCount ? " · " + editionsCount + " mùa tổ chức" : ""}
                                                     </span>
                                                     <a href="su-kien.html?id=${encodeURIComponent(evt.id)}"
-                                                       class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold transition-colors">
+                                                       class="inline-flex items-center gap-1.5 text-zinc-200 group-hover:text-red-400 font-semibold transition-colors">
                                                         <span>Xem chi tiết</span>
                                                         <span class="hls-arrow">&rarr;</span>
                                                     </a>
@@ -421,42 +427,41 @@
                         <div>
                             <div class="flex items-center justify-between gap-4 mb-6">
                                 <div class="flex items-center gap-3">
-                                    <span class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950">Hoạt động đồng hành, học thuật &amp; ngoài lề</span>
-                                    <span class="hidden sm:inline-block w-12 h-px bg-neutral-200"></span>
+                                    <span class="text-xs font-bold uppercase tracking-[0.16em] text-zinc-200">Hoạt động đồng hành, học thuật &amp; ngoài lề</span>
+                                    <span class="hidden sm:inline-block w-12 h-px bg-white/10"></span>
                                 </div>
-                                <a href="hoat-dong.html#side" class="group text-xs font-semibold text-neutral-500 hover:text-neutral-950 transition-colors inline-flex items-center gap-1">
+                                <a href="hoat-dong.html#side" class="group text-xs font-semibold text-zinc-400 hover:text-white transition-colors inline-flex items-center gap-1">
                                     <span>Xem thêm hoạt động</span>
                                     <span class="hls-arrow">&rarr;</span>
                                 </a>
                             </div>
 
-                            <!-- Bố cục dạng Lưới (Grid): 1 cột trên ĐT, 3 cột trên Máy tính -->
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-7">
                                 ${sideToShow.map((evt) => `
-                                    <article data-reveal class="hls-card group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden flex flex-col">
-                                        <a href="su-kien.html?id=${encodeURIComponent(evt.id)}" class="overflow-hidden bg-neutral-100 h-52 block relative">
+                                    <article data-reveal class="hls-card group rounded-xl overflow-hidden flex flex-col">
+                                        <a href="su-kien.html?id=${encodeURIComponent(evt.id)}" class="overflow-hidden bg-zinc-900 h-52 block relative">
                                             <img src="${escapeHtml(evt.cover_url)}"
                                                  alt="${escapeHtml(evt.title)}"
                                                  loading="lazy"
-                                                 class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
-                                            <span class="absolute top-3 left-3 px-2 py-0.5 rounded bg-white/95 backdrop-blur-sm border border-neutral-200 text-[10px] font-semibold uppercase tracking-wider text-neutral-800">
+                                                 class="w-full h-full object-cover group-hover:scale-[1.04] transition-transform duration-500">
+                                            <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded bg-black/80 backdrop-blur-md border border-white/15 text-[10px] font-semibold uppercase tracking-wider text-zinc-200">
                                                 ${escapeHtml(evt.sub_type)}
                                             </span>
                                         </a>
                                         <div class="p-6 flex-1 flex flex-col justify-between">
                                             <div>
-                                                <div class="text-[11px] font-semibold uppercase tracking-widest text-red-700 mb-2">
+                                                <div class="text-[11px] font-semibold uppercase tracking-widest text-red-400 mb-2">
                                                     ${escapeHtml(evt.date_label || ("Năm " + evt.year))}
                                                 </div>
-                                                <h3 class="text-lg font-bold text-neutral-950 group-hover:text-red-700 transition-colors mb-2.5 leading-snug">
+                                                <h3 class="text-lg font-bold text-white group-hover:text-red-400 transition-colors mb-2.5 leading-snug">
                                                     <a href="su-kien.html?id=${encodeURIComponent(evt.id)}">${escapeHtml(evt.title)}</a>
                                                 </h3>
-                                                <p class="text-neutral-600 text-sm leading-relaxed mb-6 line-clamp-3">
+                                                <p class="text-zinc-400 text-sm leading-relaxed mb-6 line-clamp-3">
                                                     ${escapeHtml(evt.summary)}
                                                 </p>
                                             </div>
                                             <a href="su-kien.html?id=${encodeURIComponent(evt.id)}"
-                                               class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold text-sm transition-colors">
+                                               class="inline-flex items-center gap-1.5 text-zinc-200 group-hover:text-red-400 font-semibold text-sm transition-colors">
                                                 <span>Đọc chi tiết</span>
                                                 <span class="hls-arrow">&rarr;</span>
                                             </a>
@@ -471,7 +476,7 @@
                 container.innerHTML = html;
                 if (window.HLSEditorialUI) window.HLSEditorialUI.refresh(container);
             } catch (err) {
-                container.innerHTML = `<p class="text-sm text-red-700">Không thể tải dữ liệu sự kiện: ${escapeHtml(err.message)}</p>`;
+                container.innerHTML = `<p class="text-sm text-red-400">Không thể tải dữ liệu sự kiện: ${escapeHtml(err.message)}</p>`;
             }
         }
 
@@ -485,9 +490,13 @@
     </script>
 
     <!-- ========================================== -->
-    <!-- JAVASCRIPT: RENDER NỘI DUNG TRANG CHỦ TỪ ADMIN (Tab 03) -->
+    <!-- JAVASCRIPT: RENDER NỘI DUNG TRANG CHỦ, TIN TỨC, ĐỐI TÁC & LIÊN HỆ -->
     <!-- ========================================== -->
     <script>
+        let selectedPartnerGroup = "all";
+        let cachedPartnersData = null;
+        let cachedContactData = null;
+
         function setText(id, value) {
             const el = document.getElementById(id);
             if (el && value !== undefined && value !== null) el.textContent = value;
@@ -504,17 +513,16 @@
 
         function sectionHeader(index, label, title, aside) {
             return `
-                <div data-reveal class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 pb-6 border-b border-neutral-200">
+                <div data-reveal class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 pb-6 border-b border-white/10">
                     <div class="max-w-2xl">
-                        <span class="text-red-700 font-semibold uppercase tracking-[0.18em] text-xs">${index} / ${escapeHtml(label)}</span>
-                        <h2 class="text-3xl md:text-4xl font-extrabold text-neutral-950 tracking-tight mt-2 leading-snug">${title}</h2>
+                        <span class="text-red-400 font-semibold uppercase tracking-[0.18em] text-xs">${index} / ${escapeHtml(label)}</span>
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight mt-2 leading-snug">${title}</h2>
                     </div>
-                    ${aside ? `<p class="text-sm text-neutral-500 max-w-sm">${escapeHtml(aside)}</p>` : ""}
+                    ${aside ? `<p class="text-sm text-zinc-400 max-w-sm">${escapeHtml(aside)}</p>` : ""}
                 </div>
             `;
         }
 
-        // Lấy Ban Chủ nhiệm Gen đương nhiệm từ Phòng truyền thống
         async function getCurrentExecutives() {
             if (!window.HLSService) return [];
             try {
@@ -524,7 +532,7 @@
                 return HLSService.sortMembersHierarchy(
                     members.filter((m) => Number(m.gen) === latestGen && Number(m.tier) === 2)
                 );
-            } catch (err) {
+            } catch (_) {
                 return [];
             }
         }
@@ -563,7 +571,8 @@
         }
 
         function renderContact(c) {
-            const ct = c.contact;
+            const ct = c.contact || {};
+            cachedContactData = ct;
             setText("contact-address-1", ct.address_line1);
             setText("contact-address-2", ct.address_line2);
 
@@ -574,15 +583,23 @@
             }
 
             const phoneRow = document.getElementById("contact-phone-row");
-            if (phoneRow) {
-                phoneRow.classList.toggle("hidden", !ct.phone);
-                setText("contact-phone", ct.phone || "");
+            const phoneEl = document.getElementById("contact-phone");
+            const phoneLabelEl = document.getElementById("contact-phone-label");
+            if (phoneRow && phoneEl) {
+                const hasPhone = Boolean(ct.phone && String(ct.phone).trim());
+                phoneRow.classList.toggle("hidden", !hasPhone);
+                if (hasPhone) {
+                    phoneEl.textContent = ct.phone;
+                    phoneEl.href = "tel:" + String(ct.phone).replace(/\s+/g, "");
+                    if (phoneLabelEl) {
+                        phoneLabelEl.textContent = ct.phone_label || "Chủ nhiệm CLB đương nhiệm";
+                    }
+                }
             }
 
             const fanEl = document.getElementById("contact-fanpage");
             if (fanEl && ct.fanpage_url) fanEl.href = ct.fanpage_url;
 
-            // Nếu có link form đăng ký: mọi nút "Tham gia CLB" mở form trong tab mới
             document.querySelectorAll("[data-join-link]").forEach((a) => {
                 if (ct.join_form_url) {
                     a.href = ct.join_form_url;
@@ -613,46 +630,43 @@
 
             // 01. Giới thiệu chung
             const introHtml = `
-                <section id="about" class="bg-[#F7F7F5] py-20 md:py-24 px-4 sm:px-6 lg:px-8 border-y border-neutral-200 scroll-mt-20">
+                <section id="about" class="bg-[#09090e]/85 py-20 md:py-24 px-4 sm:px-6 lg:px-8 border-b border-white/[0.07] scroll-mt-20">
                     <div class="max-w-6xl mx-auto">
                         <div class="grid md:grid-cols-12 gap-12 items-center">
-                            <!-- Cột bên trái: Nội dung chữ -->
                             <div class="md:col-span-6" data-reveal>
-                                <span class="text-red-700 font-semibold uppercase tracking-[0.18em] text-xs">01 / Về chúng tôi</span>
-                                <h2 class="text-3xl md:text-4xl font-extrabold text-neutral-950 tracking-tight mt-3 mb-6 leading-snug">
-                                    ${escapeHtml(a.title)} <span class="text-red-700">${escapeHtml(a.title_highlight)}</span>
+                                <span class="text-red-400 font-semibold uppercase tracking-[0.18em] text-xs">01 / Về chúng tôi</span>
+                                <h2 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight mt-3 mb-6 leading-snug">
+                                    ${escapeHtml(a.title)} <span class="text-red-500">${escapeHtml(a.title_highlight)}</span>
                                 </h2>
                                 <div class="space-y-4 mb-8">
-                                    ${paragraphsHtml(a.description, "text-neutral-600 text-base md:text-lg leading-relaxed")}
+                                    ${paragraphsHtml(a.description, "text-zinc-400 text-base md:text-lg leading-relaxed")}
                                 </div>
                                 ${a.quote ? `
-                                <blockquote class="font-serif italic text-lg md:text-xl text-neutral-900 border-l-2 border-red-700 pl-5 py-1">
+                                <blockquote class="font-serif italic text-lg md:text-xl text-zinc-200 border-l-2 border-red-600 pl-5 py-1">
                                     “${escapeHtml(a.quote)}”
                                 </blockquote>` : ""}
                             </div>
 
-                            <!-- Cột bên phải: Hình ảnh minh họa -->
                             <div class="md:col-span-6" data-reveal data-reveal-delay="100">
-                                <div class="bg-white p-2.5 border border-neutral-200 rounded-lg shadow-sm">
-                                    <img src="${escapeHtml(a.image_url)}" alt="Hình ảnh giới thiệu CLB HLS" class="w-full h-80 md:h-96 object-cover rounded bg-neutral-100">
+                                <div class="hls-card p-2.5 rounded-xl">
+                                    <img src="${escapeHtml(a.image_url)}" alt="Hình ảnh giới thiệu CLB HLS" class="w-full h-80 md:h-96 object-cover rounded-lg bg-zinc-900">
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Mục lục nhanh các phần giới thiệu -->
-                        <nav data-reveal class="mt-14 pt-6 border-t border-neutral-200 grid grid-cols-2 md:grid-cols-4 gap-px bg-neutral-200 border border-neutral-200 rounded-lg overflow-hidden">
+                        <nav data-reveal class="mt-14 grid grid-cols-2 md:grid-cols-4 gap-3">
                             ${[
                                 ["#story", "02", "Câu chuyện thành lập"],
                                 ["#vision", "03", "Tầm nhìn & Sứ mệnh"],
                                 ["#organization", "04", "Cơ cấu tổ chức"],
                                 ["#achievements", "05", "Thành tích nổi bật"]
                             ].map(([href, num, label]) => `
-                                <a href="${href}" class="group bg-white hover:bg-neutral-950 px-5 py-4 flex items-center justify-between transition-colors">
+                                <a href="${href}" class="hls-card group px-5 py-4 rounded-lg flex items-center justify-between">
                                     <span>
-                                        <span class="block text-[11px] font-bold text-red-700 tabular-nums">${num}</span>
-                                        <span class="block text-sm font-semibold text-neutral-950 group-hover:text-white transition-colors">${escapeHtml(label)}</span>
+                                        <span class="block text-[11px] font-bold text-red-400 tabular-nums">${num}</span>
+                                        <span class="block text-sm font-semibold text-zinc-200 group-hover:text-white transition-colors mt-0.5">${escapeHtml(label)}</span>
                                     </span>
-                                    <span class="text-neutral-400 group-hover:text-white transition-colors">&darr;</span>
+                                    <span class="text-zinc-500 group-hover:text-red-400 transition-colors">&darr;</span>
                                 </a>
                             `).join("")}
                         </nav>
@@ -663,42 +677,40 @@
             // 02. Câu chuyện thành lập
             const milestones = Array.isArray(s.milestones) ? s.milestones : [];
             const storyHtml = `
-                <section id="story" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-white scroll-mt-20">
+                <section id="story" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-20">
                     <div class="max-w-6xl mx-auto">
                         ${sectionHeader("02", "Câu chuyện thành lập", escapeHtml(s.title), s.founded_year ? "Thành lập năm " + s.founded_year : "")}
 
                         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
                             <div class="lg:col-span-7" data-reveal>
                                 <div class="space-y-5">
-                                    ${paragraphsHtml(s.content, "text-neutral-700 text-base md:text-[17px] leading-[1.85]")}
+                                    ${paragraphsHtml(s.content, "text-zinc-300 text-base md:text-[17px] leading-[1.85]")}
                                 </div>
 
                                 ${s.patron_name ? `
-                                <div class="mt-8 border border-neutral-200 rounded-lg p-5 flex gap-4 bg-[#F7F7F5]">
-                                    <span class="w-1 bg-red-700 rounded-full flex-shrink-0"></span>
+                                <div class="mt-8 hls-surface rounded-xl p-5 flex gap-4 border-l-2 border-l-red-600">
                                     <div>
-                                        <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-neutral-500 mb-1">Đơn vị bảo trợ</div>
-                                        <div class="text-base font-bold text-neutral-950">${escapeHtml(s.patron_name)}</div>
-                                        ${s.patron_description ? `<p class="text-sm text-neutral-600 leading-relaxed mt-1">${escapeHtml(s.patron_description)}</p>` : ""}
+                                        <div class="text-[11px] font-semibold uppercase tracking-[0.16em] text-red-400 mb-1">Đơn vị bảo trợ</div>
+                                        <div class="text-base font-bold text-white">${escapeHtml(s.patron_name)}</div>
+                                        ${s.patron_description ? `<p class="text-sm text-zinc-400 leading-relaxed mt-1">${escapeHtml(s.patron_description)}</p>` : ""}
                                     </div>
                                 </div>` : ""}
 
                                 ${s.image_url ? `
-                                <figure class="mt-8 bg-[#F7F7F5] p-2 border border-neutral-200 rounded-lg">
-                                    <img src="${escapeHtml(s.image_url)}" alt="Hình ảnh lịch sử CLB" class="w-full h-64 md:h-80 object-cover rounded">
+                                <figure class="mt-8 hls-card p-2 rounded-xl">
+                                    <img src="${escapeHtml(s.image_url)}" alt="Hình ảnh lịch sử CLB" class="w-full h-64 md:h-80 object-cover rounded-lg">
                                 </figure>` : ""}
                             </div>
 
-                            <!-- Dòng thời gian các mốc phát triển -->
                             <div class="lg:col-span-5" data-reveal data-reveal-delay="100">
-                                <div class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950 mb-6">Các mốc phát triển</div>
-                                <ol class="relative border-l border-neutral-200 ml-1.5 space-y-8">
+                                <div class="text-xs font-bold uppercase tracking-[0.16em] text-zinc-300 mb-6">Các mốc phát triển</div>
+                                <ol class="relative border-l border-white/15 ml-1.5 space-y-8">
                                     ${milestones.map((m) => `
                                         <li class="pl-6 relative">
-                                            <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-red-700 ring-4 ring-white"></span>
-                                            <div class="text-sm font-extrabold text-red-700 tabular-nums">${escapeHtml(m.year)}</div>
-                                            <div class="text-base font-bold text-neutral-950 mt-0.5">${escapeHtml(m.title)}</div>
-                                            ${m.description ? `<p class="text-sm text-neutral-600 leading-relaxed mt-1">${escapeHtml(m.description)}</p>` : ""}
+                                            <span class="absolute -left-[5px] top-1.5 w-2.5 h-2.5 rounded-full bg-red-500 shadow-[0_0_10px_rgba(239,68,68,0.85)] ring-4 ring-[#050507]"></span>
+                                            <div class="text-sm font-extrabold text-red-400 tabular-nums">${escapeHtml(m.year)}</div>
+                                            <div class="text-base font-bold text-white mt-0.5">${escapeHtml(m.title)}</div>
+                                            ${m.description ? `<p class="text-sm text-zinc-400 leading-relaxed mt-1">${escapeHtml(m.description)}</p>` : ""}
                                         </li>
                                     `).join("")}
                                 </ol>
@@ -711,29 +723,29 @@
             // 03. Tầm nhìn & Sứ mệnh
             const values = Array.isArray(v.values) ? v.values : [];
             const visionHtml = `
-                <section id="vision" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#F7F7F5] border-y border-neutral-200 scroll-mt-20">
+                <section id="vision" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#09090e]/85 border-y border-white/[0.07] scroll-mt-20">
                     <div class="max-w-6xl mx-auto">
                         ${sectionHeader("03", "Tầm nhìn & Sứ mệnh", "Định hướng phát triển của HLS", "")}
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-14">
-                            <div data-reveal class="bg-white border border-neutral-200 border-t-2 border-t-red-700 rounded-lg p-7 sm:p-8">
-                                <div class="text-xs font-bold uppercase tracking-[0.18em] text-red-700 mb-4">Tầm nhìn</div>
-                                <p class="text-lg md:text-xl font-semibold text-neutral-950 leading-relaxed">${escapeHtml(v.vision)}</p>
+                            <div data-reveal class="hls-card border-t-2 border-t-red-600 rounded-xl p-7 sm:p-8">
+                                <div class="text-xs font-bold uppercase tracking-[0.18em] text-red-400 mb-4">Tầm nhìn</div>
+                                <p class="text-lg md:text-xl font-semibold text-white leading-relaxed">${escapeHtml(v.vision)}</p>
                             </div>
-                            <div data-reveal data-reveal-delay="80" class="bg-white border border-neutral-200 border-t-2 border-t-neutral-950 rounded-lg p-7 sm:p-8">
-                                <div class="text-xs font-bold uppercase tracking-[0.18em] text-neutral-950 mb-4">Sứ mệnh</div>
-                                <p class="text-lg md:text-xl font-semibold text-neutral-950 leading-relaxed">${escapeHtml(v.mission)}</p>
+                            <div data-reveal data-reveal-delay="80" class="hls-card border-t-2 border-t-zinc-500 rounded-xl p-7 sm:p-8">
+                                <div class="text-xs font-bold uppercase tracking-[0.18em] text-zinc-300 mb-4">Sứ mệnh</div>
+                                <p class="text-lg md:text-xl font-semibold text-zinc-100 leading-relaxed">${escapeHtml(v.mission)}</p>
                             </div>
                         </div>
 
                         ${values.length ? `
-                        <div class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950 mb-6">Giá trị cốt lõi</div>
-                        <div data-reveal class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-200 border border-neutral-200 rounded-lg overflow-hidden">
+                        <div class="text-xs font-bold uppercase tracking-[0.16em] text-zinc-300 mb-6">Giá trị cốt lõi</div>
+                        <div data-reveal class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                             ${values.map((val, i) => `
-                                <div class="bg-white p-6">
-                                    <div class="text-2xl font-extrabold text-red-700 tabular-nums mb-3">${String(i + 1).padStart(2, "0")}</div>
-                                    <div class="text-base font-bold text-neutral-950 mb-1.5">${escapeHtml(val.title)}</div>
-                                    <p class="text-sm text-neutral-600 leading-relaxed">${escapeHtml(val.description)}</p>
+                                <div class="hls-card rounded-xl p-6">
+                                    <div class="text-2xl font-extrabold text-red-500 tabular-nums mb-3">${String(i + 1).padStart(2, "0")}</div>
+                                    <div class="text-base font-bold text-white mb-1.5">${escapeHtml(val.title)}</div>
+                                    <p class="text-sm text-zinc-400 leading-relaxed">${escapeHtml(val.description)}</p>
                                 </div>
                             `).join("")}
                         </div>` : ""}
@@ -747,10 +759,10 @@
             const executivesHtml = executives.length ? `
                 <div class="mb-14">
                     <div class="flex items-center justify-between gap-4 mb-6">
-                        <div class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950">
-                            Ban Chủ nhiệm <span class="text-neutral-400 font-medium normal-case tracking-normal">· Gen ${escapeHtml(executives[0].gen)}${executives[0].term ? " (" + escapeHtml(executives[0].term) + ")" : ""}</span>
+                        <div class="text-xs font-bold uppercase tracking-[0.16em] text-white">
+                            Ban Chủ nhiệm <span class="text-zinc-400 font-medium normal-case tracking-normal">· Gen ${escapeHtml(executives[0].gen)}${executives[0].term ? " (" + escapeHtml(executives[0].term) + ")" : ""}</span>
                         </div>
-                        <a href="phong-truyen-thong.html" class="group text-xs font-semibold text-neutral-500 hover:text-red-700 transition-colors inline-flex items-center gap-1">
+                        <a href="phong-truyen-thong.html" class="group text-xs font-semibold text-zinc-400 hover:text-red-400 transition-colors inline-flex items-center gap-1">
                             <span>Phòng truyền thống</span>
                             <span class="hls-arrow">&rarr;</span>
                         </a>
@@ -758,15 +770,15 @@
                     <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
                         ${executives.map((m) => `
                             <a data-reveal href="confession.html?id=${encodeURIComponent(m.id)}" target="_blank" rel="noopener noreferrer"
-                               class="hls-card group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden">
-                                <div class="aspect-[3/4] bg-neutral-100 overflow-hidden">
+                               class="hls-card group border-t-2 border-t-red-600 rounded-xl overflow-hidden">
+                                <div class="aspect-[3/4] bg-zinc-900 overflow-hidden">
                                     <img src="${escapeHtml(m.avatar_url)}" alt="${escapeHtml(m.name)}"
-                                         onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name || "HLS")}&background=111111&color=ffffff&size=512&bold=true';"
-                                         class="w-full h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-500">
+                                         onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name || "HLS")}&background=111116&color=ffffff&size=512&bold=true';"
+                                         class="w-full h-full object-cover object-top group-hover:scale-[1.04] transition-transform duration-500">
                                 </div>
                                 <div class="p-3.5">
-                                    <div class="text-[11px] font-semibold uppercase tracking-wider text-red-700 line-clamp-1">${escapeHtml(m.role)}</div>
-                                    <div class="text-sm font-bold text-neutral-950 group-hover:text-red-700 transition-colors mt-0.5">${escapeHtml(m.name)}</div>
+                                    <div class="text-[11px] font-semibold uppercase tracking-wider text-red-400 line-clamp-1">${escapeHtml(m.role)}</div>
+                                    <div class="text-sm font-bold text-white group-hover:text-red-400 transition-colors mt-0.5">${escapeHtml(m.name)}</div>
                                 </div>
                             </a>
                         `).join("")}
@@ -775,24 +787,24 @@
             ` : "";
 
             const organizationHtml = `
-                <section id="organization" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-white scroll-mt-20">
+                <section id="organization" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 scroll-mt-20">
                     <div class="max-w-6xl mx-auto">
                         ${sectionHeader("04", "Cơ cấu tổ chức", "Ban Chủ nhiệm & các ban chức năng", o.intro)}
 
                         ${executivesHtml}
 
                         ${departments.length ? `
-                        <div class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950 mb-6">Các ban chức năng</div>
-                        <div data-reveal class="border border-neutral-200 rounded-lg divide-y divide-neutral-200">
+                        <div class="text-xs font-bold uppercase tracking-[0.16em] text-zinc-300 mb-6">Các ban chức năng</div>
+                        <div data-reveal class="hls-surface rounded-xl divide-y divide-white/10 overflow-hidden">
                             ${departments.map((d, i) => `
-                                <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6 items-start hover:bg-[#F7F7F5]/70 transition-colors">
+                                <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6 items-start hover:bg-white/[0.03] transition-colors">
                                     <div class="md:col-span-4 flex items-baseline gap-3">
-                                        <span class="text-sm font-extrabold text-red-700 tabular-nums">${String(i + 1).padStart(2, "0")}</span>
-                                        <span class="text-base font-bold text-neutral-950">${escapeHtml(d.name)}</span>
+                                        <span class="text-sm font-extrabold text-red-400 tabular-nums">${String(i + 1).padStart(2, "0")}</span>
+                                        <span class="text-base font-bold text-white">${escapeHtml(d.name)}</span>
                                     </div>
-                                    <p class="md:col-span-6 text-sm text-neutral-600 leading-relaxed">${escapeHtml(d.description)}</p>
-                                    <div class="md:col-span-2 md:text-right text-xs text-neutral-500">
-                                        ${d.lead ? `Trưởng ban<br><span class="font-semibold text-neutral-950">${escapeHtml(d.lead)}</span>` : ""}
+                                    <p class="md:col-span-6 text-sm text-zinc-400 leading-relaxed">${escapeHtml(d.description)}</p>
+                                    <div class="md:col-span-2 md:text-right text-xs text-zinc-500">
+                                        ${d.lead ? `Trưởng ban<br><span class="font-semibold text-zinc-200">${escapeHtml(d.lead)}</span>` : ""}
                                     </div>
                                 </div>
                             `).join("")}
@@ -805,30 +817,30 @@
             const stats = Array.isArray(ac.stats) ? ac.stats : [];
             const awards = Array.isArray(ac.awards) ? ac.awards : [];
             const achievementsHtml = `
-                <section id="achievements" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#F7F7F5] border-y border-neutral-200 scroll-mt-20">
+                <section id="achievements" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-[#09090e]/85 border-t border-white/[0.07] scroll-mt-20">
                     <div class="max-w-6xl mx-auto">
                         ${sectionHeader("05", "Thành tích nổi bật", "Những dấu ấn của HLS", ac.intro)}
 
                         ${stats.length ? `
-                        <div data-reveal class="grid grid-cols-2 lg:grid-cols-4 gap-px bg-neutral-200 border border-neutral-200 rounded-lg overflow-hidden mb-14">
+                        <div data-reveal class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-14">
                             ${stats.map((st) => `
-                                <div class="bg-white px-6 py-7">
-                                    <div data-countup="${escapeHtml(st.value)}" class="text-3xl md:text-4xl font-extrabold text-neutral-950 tabular-nums tracking-tight">${escapeHtml(st.value)}</div>
-                                    <div class="w-6 h-[2px] bg-red-700 my-3"></div>
-                                    <div class="text-sm text-neutral-600">${escapeHtml(st.label)}</div>
+                                <div class="hls-card rounded-xl px-6 py-7">
+                                    <div data-countup="${escapeHtml(st.value)}" class="text-3xl md:text-4xl font-extrabold text-white tabular-nums tracking-tight">${escapeHtml(st.value)}</div>
+                                    <div class="w-7 h-[2px] bg-red-500 shadow-[0_0_8px_rgba(239,68,68,0.8)] my-3.5"></div>
+                                    <div class="text-sm text-zinc-400">${escapeHtml(st.label)}</div>
                                 </div>
                             `).join("")}
                         </div>` : ""}
 
                         ${awards.length ? `
-                        <div class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950 mb-6">Giải thưởng & ghi nhận</div>
-                        <div data-reveal class="bg-white border border-neutral-200 rounded-lg divide-y divide-neutral-200">
+                        <div class="text-xs font-bold uppercase tracking-[0.16em] text-zinc-300 mb-6">Giải thưởng &amp; ghi nhận</div>
+                        <div data-reveal class="hls-surface rounded-xl divide-y divide-white/10 overflow-hidden">
                             ${awards.map((aw) => `
-                                <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6 hover:bg-[#F7F7F5]/50 transition-colors">
-                                    <div class="md:col-span-2 text-sm font-extrabold text-red-700 tabular-nums">${escapeHtml(aw.year)}</div>
+                                <div class="p-5 sm:p-6 grid grid-cols-1 md:grid-cols-12 gap-2 md:gap-6 hover:bg-white/[0.03] transition-colors">
+                                    <div class="md:col-span-2 text-sm font-extrabold text-red-400 tabular-nums">${escapeHtml(aw.year)}</div>
                                     <div class="md:col-span-10">
-                                        <div class="text-base font-bold text-neutral-950">${escapeHtml(aw.title)}</div>
-                                        ${aw.description ? `<p class="text-sm text-neutral-600 leading-relaxed mt-1">${escapeHtml(aw.description)}</p>` : ""}
+                                        <div class="text-base font-bold text-white">${escapeHtml(aw.title)}</div>
+                                        ${aw.description ? `<p class="text-sm text-zinc-400 leading-relaxed mt-1">${escapeHtml(aw.description)}</p>` : ""}
                                     </div>
                                 </div>
                             `).join("")}
@@ -839,11 +851,232 @@
 
             root.innerHTML = introHtml + storyHtml + visionHtml + organizationHtml + achievementsHtml;
             if (window.HLSEditorialUI) window.HLSEditorialUI.refresh(root);
+        }
 
-            // Nếu URL có sẵn #story, #vision... thì cuộn tới sau khi nội dung được render
-            if (window.location.hash && document.querySelector(window.location.hash)) {
-                document.querySelector(window.location.hash).scrollIntoView();
+        // 07. Tin tức & Bản tin Logistics
+        function renderNewsSection(c) {
+            const root = document.getElementById("news-root");
+            if (!root) return;
+
+            const newsCfg = c.news || {};
+            const allItems = Array.isArray(newsCfg.items) ? newsCfg.items : [];
+            const featured = allItems.filter((n) => n.is_featured);
+            const itemsToShow = (featured.length ? featured : allItems).slice(0, 4);
+
+            if (!itemsToShow.length) {
+                root.innerHTML = `
+                    ${sectionHeader("07", "Tin tức & Bản tin", escapeHtml(newsCfg.title || "Bản Tin HLS"), newsCfg.intro || "")}
+                    <div class="hls-surface rounded-xl p-10 text-center text-sm text-zinc-400">Chưa có bài viết tin tức nào được xuất bản.</div>
+                `;
+                return;
             }
+
+            const lead = itemsToShow[0];
+            const rest = itemsToShow.slice(1, 4);
+            const leadHref = `tin-tuc.html?id=${encodeURIComponent(lead.id)}`;
+
+            root.innerHTML = `
+                <div data-reveal class="flex flex-col md:flex-row md:items-end justify-between gap-4 mb-12 pb-6 border-b border-white/10">
+                    <div class="max-w-2xl">
+                        <span class="text-red-400 font-semibold uppercase tracking-[0.18em] text-xs">07 / Tin tức &amp; Bản tin</span>
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight mt-2 leading-snug">${escapeHtml(newsCfg.title || "Bản Tin HLS & Điểm Tin Chuỗi Cung Ứng")}</h2>
+                    </div>
+                    <a href="tin-tuc.html" class="group inline-flex items-center gap-2 text-sm font-semibold text-zinc-300 hover:text-red-400 transition-colors">
+                        <span>Xem toàn bộ chuyên mục Tin tức</span>
+                        <span class="hls-arrow">&rarr;</span>
+                    </a>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
+                    <!-- Bài tiêu điểm lớn -->
+                    <article data-reveal class="lg:col-span-7 hls-card group border-t-2 border-t-red-600 rounded-xl overflow-hidden flex flex-col">
+                        <a href="${leadHref}" class="h-64 sm:h-72 overflow-hidden bg-zinc-900 block relative">
+                            ${lead.cover_url
+                                ? `<img src="${escapeHtml(lead.cover_url)}" alt="${escapeHtml(lead.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">`
+                                : `<div class="w-full h-full flex items-center justify-center text-2xl font-extrabold text-red-500/40 uppercase">HLS News</div>`
+                            }
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#0b0b10] via-transparent to-transparent opacity-70"></div>
+                            <span class="absolute top-3.5 left-3.5 px-2.5 py-1 rounded bg-black/80 backdrop-blur-md border border-red-500/35 text-[10px] font-bold uppercase tracking-wider text-red-400">
+                                ${escapeHtml(lead.category || "Tin CLB")}
+                            </span>
+                        </a>
+                        <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
+                            <div>
+                                <div class="text-xs text-zinc-400 mb-2.5 flex flex-wrap items-center gap-2">
+                                    <span class="font-semibold text-red-400 tabular-nums">${escapeHtml(lead.published_at || "Mới cập nhật")}</span>
+                                    ${lead.author ? `<span class="text-zinc-600">·</span><span>${escapeHtml(lead.author)}</span>` : ""}
+                                </div>
+                                <h3 class="text-xl sm:text-2xl font-extrabold text-white group-hover:text-red-400 transition-colors leading-snug mb-3">
+                                    <a href="${leadHref}">${escapeHtml(lead.title)}</a>
+                                </h3>
+                                <p class="text-sm text-zinc-400 leading-relaxed line-clamp-3 mb-6">
+                                    ${escapeHtml(lead.summary)}
+                                </p>
+                            </div>
+                            <div class="pt-4 border-t border-white/10 flex items-center justify-between text-xs">
+                                <span class="text-zinc-500">Bản tin chính thức HLS</span>
+                                <a href="${leadHref}" class="inline-flex items-center gap-1.5 font-semibold text-white group-hover:text-red-400 transition-colors">
+                                    <span>Đọc bài viết</span>
+                                    <span class="hls-arrow">&rarr;</span>
+                                </a>
+                            </div>
+                        </div>
+                    </article>
+
+                    <!-- Cột các bài tin mới tiếp theo -->
+                    <div class="lg:col-span-5 flex flex-col gap-5">
+                        ${rest.map((item, idx) => {
+                            const href = `tin-tuc.html?id=${encodeURIComponent(item.id)}`;
+                            return `
+                                <article data-reveal data-reveal-delay="${(idx + 1) * 70}" class="hls-card group rounded-xl p-5 flex gap-4 items-start flex-1">
+                                    ${item.cover_url ? `
+                                        <a href="${href}" class="w-24 h-24 rounded-lg overflow-hidden bg-zinc-900 flex-shrink-0 border border-white/10">
+                                            <img src="${escapeHtml(item.cover_url)}" alt="${escapeHtml(item.title)}" loading="lazy" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+                                        </a>
+                                    ` : ""}
+                                    <div class="min-w-0 flex-1">
+                                        <div class="flex flex-wrap items-center gap-2 text-[11px] mb-1.5">
+                                            <span class="font-semibold uppercase tracking-wider text-red-400">${escapeHtml(item.category || "Bản tin")}</span>
+                                            ${item.published_at ? `<span class="text-zinc-600">·</span><span class="text-zinc-500 tabular-nums">${escapeHtml(item.published_at)}</span>` : ""}
+                                        </div>
+                                        <h3 class="text-sm sm:text-base font-bold text-white group-hover:text-red-400 transition-colors leading-snug line-clamp-2 mb-1.5">
+                                            <a href="${href}">${escapeHtml(item.title)}</a>
+                                        </h3>
+                                        <p class="text-xs text-zinc-400 line-clamp-2 leading-relaxed">
+                                            ${escapeHtml(item.summary)}
+                                        </p>
+                                    </div>
+                                </article>
+                            `;
+                        }).join("")}
+                    </div>
+                </div>
+            `;
+
+            if (window.HLSEditorialUI) window.HLSEditorialUI.refresh(root);
+        }
+
+        // 08. Tri ân Nhà tài trợ & Đối tác
+        function renderPartnersSection(c) {
+            const root = document.getElementById("partners-root");
+            if (!root) return;
+
+            cachedPartnersData = c.partners || {};
+            const pCfg = cachedPartnersData;
+            const allPartners = Array.isArray(pCfg.items) ? pCfg.items : [];
+            const filtered = selectedPartnerGroup === "all"
+                ? allPartners
+                : allPartners.filter((p) => (p.group || "sponsor") === selectedPartnerGroup);
+
+            const tabs = [
+                ["all", "Tất cả đơn vị"],
+                ["sponsor", "Nhà tài trợ"],
+                ["enterprise", "Đối tác Doanh nghiệp & Học thuật"],
+                ["media", "Đối tác Truyền thông"]
+            ];
+
+            const ct = cachedContactData || {};
+            const phoneClean = ct.phone ? String(ct.phone).replace(/\s+/g, "") : "";
+
+            root.innerHTML = `
+                <div data-reveal class="flex flex-col lg:flex-row lg:items-end justify-between gap-6 mb-10 pb-6 border-b border-white/10">
+                    <div class="max-w-2xl">
+                        <span class="text-red-400 font-semibold uppercase tracking-[0.18em] text-xs">08 / Tri ân Đồng hành</span>
+                        <h2 class="text-3xl md:text-4xl font-extrabold text-white tracking-tight mt-2 leading-snug">${escapeHtml(pCfg.title || "Nhà Tài Trợ & Đối Tác Đồng Hành")}</h2>
+                        ${pCfg.intro ? `<p class="text-sm text-zinc-400 leading-relaxed mt-3">${escapeHtml(pCfg.intro)}</p>` : ""}
+                    </div>
+
+                    <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar pb-1">
+                        ${tabs.map(([key, label]) => {
+                            const active = selectedPartnerGroup === key;
+                            return `<button type="button" data-partner-tab="${key}" class="whitespace-nowrap px-3.5 py-2 rounded-md text-xs font-semibold border transition-colors ${
+                                active
+                                    ? "bg-red-600 text-white border-red-500 shadow-[0_0_16px_rgba(220,38,38,0.4)]"
+                                    : "bg-zinc-900/80 text-zinc-400 border-white/10 hover:border-red-500/40 hover:text-white"
+                            }">${escapeHtml(label)}</button>`;
+                        }).join("")}
+                    </div>
+                </div>
+
+                ${filtered.length === 0
+                    ? `<div class="hls-surface rounded-xl p-10 text-center text-sm text-zinc-400">Chưa có đơn vị nào trong phân nhóm này.</div>`
+                    : `<div class="hls-fade-swap grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                        ${filtered.map((p) => {
+                            const isSponsor = (p.group || "sponsor") === "sponsor";
+                            const topBorder = isSponsor ? "border-t-2 border-t-red-600" : "";
+                            const badgeCls = isSponsor
+                                ? "bg-red-500/10 text-red-400 border-red-500/30"
+                                : (p.group === "media"
+                                    ? "bg-white/5 text-rose-300 border-white/15"
+                                    : "bg-white/5 text-zinc-300 border-white/15");
+                            const tagOpen = p.website_url
+                                ? `<a href="${escapeHtml(p.website_url)}" target="_blank" rel="noopener noreferrer"`
+                                : `<div`;
+                            const tagClose = p.website_url ? `</a>` : `</div>`;
+
+                            return `
+                                ${tagOpen} class="hls-card ${topBorder} group rounded-xl p-6 flex flex-col justify-between">
+                                    <div>
+                                        <div class="flex items-center justify-between gap-3 mb-5">
+                                            <div class="w-16 h-16 rounded-lg bg-black/60 border border-white/10 flex items-center justify-center overflow-hidden p-2 flex-shrink-0">
+                                                ${p.logo_url
+                                                    ? `<img src="${escapeHtml(p.logo_url)}" alt="${escapeHtml(p.name)}" loading="lazy" class="max-w-full max-h-full object-contain">`
+                                                    : `<span class="text-sm font-extrabold tracking-wider text-red-400">${escapeHtml(getMonogram(p.name))}</span>`
+                                                }
+                                            </div>
+                                            <span class="px-2.5 py-1 rounded border text-[10px] font-bold uppercase tracking-wider ${badgeCls}">
+                                                ${escapeHtml(p.tier_label || "Đối tác đồng hành")}
+                                            </span>
+                                        </div>
+
+                                        <h3 class="text-base font-bold text-white group-hover:text-red-400 transition-colors leading-snug mb-2">
+                                            ${escapeHtml(p.name)}
+                                        </h3>
+                                        ${p.description ? `<p class="text-xs text-zinc-400 leading-relaxed">${escapeHtml(p.description)}</p>` : ""}
+                                    </div>
+
+                                    ${p.website_url ? `
+                                        <div class="mt-5 pt-3.5 border-t border-white/10 flex items-center justify-between text-xs text-zinc-400 group-hover:text-red-400 transition-colors">
+                                            <span>Tìm hiểu đơn vị</span>
+                                            <span class="hls-arrow-diag">&#8599;</span>
+                                        </div>
+                                    ` : ""}
+                                ${tagClose}
+                            `;
+                        }).join("")}
+                    </div>`
+                }
+
+                <!-- Khung kết nối Hợp tác Tài trợ & Truyền thông -->
+                <div data-reveal class="mt-12 hls-surface rounded-xl p-6 sm:p-8 border-l-2 border-l-red-600 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                    <div>
+                        <div class="text-xs font-bold uppercase tracking-[0.18em] text-red-400 mb-1">Hợp tác Đối ngoại &amp; Tài trợ</div>
+                        <h3 class="text-lg sm:text-xl font-extrabold text-white">Đồng hành cùng sinh viên Logistics ĐHBK Hà Nội</h3>
+                        <p class="text-xs sm:text-sm text-zinc-400 mt-1">
+                            Liên hệ trực tiếp Ban Chủ nhiệm &amp; Ban Đối ngoại HLS để nhận Hồ sơ Mời tài trợ (Partnership Proposal) cho các chương trình học thuật trong năm.
+                        </p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-3 flex-shrink-0">
+                        ${ct.phone ? `
+                            <a href="tel:${escapeHtml(phoneClean)}" class="hls-btn-obsidian px-4 py-2.5 rounded-md text-xs font-semibold">
+                                Gọi Chủ nhiệm: ${escapeHtml(ct.phone)}
+                            </a>
+                        ` : ""}
+                        <a href="mailto:${escapeHtml(ct.email || "hls.hust@gmail.com")}" class="hls-btn-crimson px-5 py-2.5 rounded-md text-xs font-semibold">
+                            Gửi Email Hợp tác
+                        </a>
+                    </div>
+                </div>
+            `;
+
+            root.querySelectorAll("[data-partner-tab]").forEach((b) => {
+                b.addEventListener("click", () => {
+                    selectedPartnerGroup = b.getAttribute("data-partner-tab");
+                    renderPartnersSection({ partners: cachedPartnersData });
+                });
+            });
+
+            if (window.HLSEditorialUI) window.HLSEditorialUI.refresh(root);
         }
 
         async function renderSiteContent() {
@@ -853,18 +1086,25 @@
                 renderHero(content);
                 renderContact(content);
                 await renderAboutRoot(content);
+                renderNewsSection(content);
+                renderPartnersSection(content);
             } catch (err) {
                 const fallback = HLSContentService.getDefaultContent();
                 renderHero(fallback);
                 renderContact(fallback);
                 await renderAboutRoot(fallback);
+                renderNewsSection(fallback);
+                renderPartnersSection(fallback);
                 console.warn(err);
+            } finally {
+                if (window.location.hash && document.querySelector(window.location.hash)) {
+                    document.querySelector(window.location.hash).scrollIntoView();
+                }
             }
         }
 
-        // Tự cập nhật khi Admin lưu thay đổi ở tab khác (chế độ lưu cục bộ)
         window.addEventListener("storage", (e) => {
-            if (e.key === HLSContentService.LOCAL_CONTENT_KEY || e.key === "hls_hall_of_fame_members_v1") {
+            if (e.key === HLSContentService.LOCAL_CONTENT_KEY || e.key === "hls_hall_of_fame_members_v1" || e.key === "hls_hall_of_fame_members_v2") {
                 renderSiteContent();
             }
         });
