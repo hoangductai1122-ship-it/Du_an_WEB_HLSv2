@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confession Thành viên - HLS ĐHBK Hà Nội</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="bg-neutral-950 text-gray-100 font-sans min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
+
+    <!-- Thanh điều hướng tối giản đầu trang -->
+    <nav class="bg-black/90 backdrop-blur-md border-b border-red-900/40 sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <a href="phong-truyen-thong.html"
+                class="text-sm font-bold text-neutral-300 hover:text-red-500 transition flex items-center gap-2">
+                <span>&larr;</span>
+                <span>Phòng truyền thống HLS</span>
+            </a>
+
+            <a href="index.html" class="text-lg font-black uppercase tracking-tight text-white">
+                HLS <span class="text-red-600">Logistics</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Khu vực nội dung chính -->
+    <main class="relative flex-1 py-12 px-4 overflow-hidden">
+        <!-- Ánh sáng nền trang trí -->
+        <div class="pointer-events-none absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-red-600/10 blur-[130px] rounded-full"></div>
+
+        <div id="confession-container" class="relative max-w-5xl mx-auto">
+            <div class="text-center py-20 text-neutral-400">
+                <div class="inline-block w-10 h-10 border-4 border-neutral-800 border-t-red-600 rounded-full animate-spin mb-4"></div>
+                <p>Đang mở trang Confession...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- Chân trang -->
+    <footer class="bg-black border-t border-neutral-900 py-6 px-4 text-center text-xs text-neutral-500">
+        &copy; 2026 HLS - CLB Logistics và Quản lý chuỗi cung ứng Đại học Bách Khoa Hà Nội
+    </footer>
+
+    <!-- Nhúng cấu hình & dịch vụ -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/hall-of-fame-service.js"></script>
+
+    <script>
+        function escapeHtml(str) {
+            return String(str || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function formatParagraphs(text) {
+            const raw = String(text || "").trim();
+            if (!raw) {
+                return `<p class="italic text-neutral-400">Thành viên này đang cập nhật tâm thư gửi tới đại gia đình HLS...</p>`;
+            }
+            return raw
+                .split(/\n\s*\n/)
+                .map((para) => `<p class="leading-relaxed text-neutral-200">${escapeHtml(para).replace(/\n/g, "<br>")}</p>`)
+                .join("");
+        }
+
+        async function loadConfessionPage() {
+            const container = document.getElementById("confession-container");
+            const params = new URLSearchParams(window.location.search);
+            const memberId = params.get("id");
+
+            if (!memberId) {
+                container.innerHTML = `
+                    <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-10 text-center max-w-lg mx-auto">
+                        <h1 class="text-2xl font-extrabold text-white mb-3">Chưa chọn thành viên</h1>
+                        <p class="text-neutral-400 text-sm mb-6">Hãy quay lại Phòng truyền thống và nhấn vào ảnh một thành viên để đọc Confession nhé.</p>
+                        <a href="phong-truyen-thong.html" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl transition">
+                            Về Phòng truyền thống
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            try {
+                const [member, allMembers] = await Promise.all([
+                    HLSService.getMemberById(memberId),
+                    HLSService.getMembers()
+                ]);
+
+                if (!member) {
+                    container.innerHTML = `
+                        <div class="bg-neutral-900 border border-neutral-800 rounded-2xl p-10 text-center max-w-lg mx-auto">
+                            <h1 class="text-2xl font-extrabold text-white mb-3">Không tìm thấy hồ sơ thành viên</h1>
+                            <p class="text-neutral-400 text-sm mb-6">Thành viên này có thể đã được cập nhật hoặc xóa khỏi danh sách.</p>
+                            <a href="phong-truyen-thong.html" class="inline-block bg-red-600 hover:bg-red-700 text-white font-bold px-6 py-3 rounded-xl transition">
+                                Về Phòng truyền thống
+                            </a>
+                        </div>
+                    `;
+                    return;
+                }
+
+                document.title = `${member.name} · Confession Phòng Truyền Thống HLS`;
+                const tierMeta = HLSService.getTierMeta(member.tier);
+
+                // Gợi ý các thành viên cùng Gen
+                const peers = allMembers
+                    .filter((m) => Number(m.gen) === Number(member.gen) && String(m.id) !== String(member.id))
+                    .slice(0, 4);
+
+                const peersHtml = peers.length
+                    ? `
+                    <section class="mt-16 pt-10 border-t border-neutral-800/80">
+                        <div class="flex items-center justify-between mb-6">
+                            <h2 class="text-xl font-extrabold text-white">
+                                Đồng đội cùng <span class="text-red-500">Gen ${escapeHtml(member.gen)}</span>
+                            </h2>
+                            <a href="phong-truyen-thong.html" class="text-xs font-bold text-red-500 hover:text-red-400">
+                                Xem toàn bộ Phòng truyền thống &rarr;
+                            </a>
+                        </div>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-5">
+                            ${peers.map((p) => `
+                                <a href="confession.html?id=${encodeURIComponent(p.id)}"
+                                   class="group bg-neutral-900 border border-neutral-800 hover:border-red-600/60 rounded-xl overflow-hidden flex items-center sm:flex-col p-3 sm:p-0 gap-3 sm:gap-0 transition hover:-translate-y-1">
+                                    <img src="${escapeHtml(p.avatar_url)}"
+                                         alt="${escapeHtml(p.name)}"
+                                         onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(p.name || "HLS")}&background=dc2626&color=ffffff&size=256&bold=true';"
+                                         class="w-16 h-16 sm:w-full sm:h-44 rounded-lg sm:rounded-none object-cover object-top">
+                                    <div class="sm:p-3.5 text-left sm:text-center w-full">
+                                        <div class="text-sm font-bold text-white group-hover:text-red-500 transition line-clamp-1">${escapeHtml(p.name)}</div>
+                                        <div class="text-xs text-red-400 font-medium mt-0.5 line-clamp-1">${escapeHtml(p.role)}</div>
+                                    </div>
+                                </a>
+                            `).join("")}
+                        </div>
+                    </section>
+                    `
+                    : "";
+
+                container.innerHTML = `
+                    <!-- Khung Lưu Bút / Confession -->
+                    <article class="bg-neutral-900/90 border border-neutral-800 rounded-3xl shadow-2xl shadow-black/70 overflow-hidden">
+                        <div class="grid grid-cols-1 lg:grid-cols-12">
+
+                            <!-- Cột trái: Chân dung & Hồ sơ CLB -->
+                            <div class="lg:col-span-5 bg-gradient-to-b from-black/60 to-neutral-950 p-6 sm:p-8 border-b lg:border-b-0 lg:border-r border-neutral-800 flex flex-col items-center text-center">
+                                <div class="relative w-56 sm:w-64 aspect-[4/5] rounded-2xl overflow-hidden border-2 border-red-600/60 shadow-2xl shadow-red-950/30 mb-6">
+                                    <img src="${escapeHtml(member.avatar_url)}"
+                                         alt="${escapeHtml(member.name)}"
+                                         onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name || "HLS")}&background=dc2626&color=ffffff&size=512&bold=true';"
+                                         class="w-full h-full object-cover object-top">
+                                </div>
+
+                                <div class="flex flex-wrap justify-center gap-2 mb-3">
+                                    <span class="px-3 py-1 rounded-full bg-red-600 text-white text-xs font-bold uppercase tracking-wider">
+                                        Gen ${escapeHtml(member.gen)}${member.term ? " · " + escapeHtml(member.term) : ""}
+                                    </span>
+                                    <span class="px-3 py-1 rounded-full bg-neutral-800 border border-neutral-700 text-neutral-300 text-xs font-semibold">
+                                        ${escapeHtml(tierMeta.name)}
+                                    </span>
+                                </div>
+
+                                <h1 class="text-2xl sm:text-3xl font-black text-white tracking-tight">
+                                    ${escapeHtml(member.name)}
+                                </h1>
+
+                                <p class="text-red-500 font-bold text-base mt-1">
+                                    ${escapeHtml(member.role || "Thành viên HLS")}
+                                </p>
+
+                                <p class="text-xs text-neutral-400 mt-1">
+                                    ${escapeHtml(member.department || "")}${member.cohort ? " · " + escapeHtml(member.cohort) : ""}
+                                </p>
+
+                                ${member.quote ? `
+                                    <div class="mt-6 w-full bg-neutral-900/90 border border-red-900/40 rounded-xl p-4">
+                                        <p class="text-xs uppercase tracking-widest text-red-500 font-bold mb-1">Châm ngôn hoạt động</p>
+                                        <p class="text-sm italic text-neutral-200">"${escapeHtml(member.quote)}"</p>
+                                    </div>
+                                ` : ""}
+                            </div>
+
+                            <!-- Cột phải: Nội dung Confession / Lời chúc / Tâm sự -->
+                            <div class="lg:col-span-7 p-6 sm:p-10 md:p-12 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex items-center justify-between mb-6">
+                                        <span class="text-xs font-black uppercase tracking-widest text-red-500">
+                                            ✉️ HLS Confession &amp; Lưu bút thành viên
+                                        </span>
+                                        <span class="text-5xl leading-none font-serif text-red-600/40 select-none">“</span>
+                                    </div>
+
+                                    <h2 class="text-2xl sm:text-3xl font-extrabold text-white leading-snug mb-6">
+                                        ${escapeHtml(member.confession_title || `Gửi đại gia đình HLS từ ${member.name}`)}
+                                    </h2>
+
+                                    <div class="space-y-5 text-base sm:text-lg">
+                                        ${formatParagraphs(member.confession)}
+                                    </div>
+                                </div>
+
+                                <!-- Chữ ký cuối thư -->
+                                <div class="mt-10 pt-6 border-t border-neutral-800 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                                    <div class="text-xs text-neutral-500">
+                                        Lưu giữ tại Phòng Truyền Thống HLS · ĐHBK Hà Nội
+                                    </div>
+                                    <div class="text-right">
+                                        <p class="text-xs italic text-neutral-400">Thân gửi đại gia đình HLS,</p>
+                                        <p class="text-base font-extrabold text-red-500 mt-0.5">${escapeHtml(member.name)}</p>
+                                        <p class="text-xs text-neutral-400">${escapeHtml(member.role)} · Gen ${escapeHtml(member.gen)}</p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </article>
+
+                    ${peersHtml}
+                `;
+            } catch (err) {
+                container.innerHTML = `
+                    <div class="bg-red-950/40 border border-red-800 rounded-2xl p-8 text-center max-w-lg mx-auto">
+                        <p class="text-red-400 font-bold mb-2">Không thể tải nội dung Confession</p>
+                        <p class="text-sm text-neutral-300">${escapeHtml(err.message)}</p>
+                    </div>
+                `;
+            }
+        }
+
+        loadConfessionPage();
+    </script>
+</body>
+
+</html>
+

@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản Trị Phòng Truyền Thống - HLS Admin</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="bg-neutral-950 text-gray-100 font-sans min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
+
+    <!-- ========================================== -->
+    <!-- THANH ĐẦU TRANG ADMIN -->
+    <!-- ========================================== -->
+    <nav class="bg-black/95 backdrop-blur-md border-b border-red-900/40 sticky top-0 z-40">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+            <div class="flex items-center gap-4">
+                <a href="index.html" class="text-xl font-black uppercase tracking-tight text-white">
+                    HLS <span class="text-red-600">Admin</span>
+                </a>
+                <span id="mode-badge"
+                    class="hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold border">
+                </span>
+            </div>
+
+            <div class="flex items-center gap-3">
+                <button id="open-supabase-guide-btn" type="button"
+                    class="text-xs font-bold px-3 py-2 rounded-lg bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-neutral-200 transition">
+                    ☁️ Hướng dẫn Supabase
+                </button>
+                <a href="phong-truyen-thong.html" target="_blank"
+                    class="text-xs font-bold px-3.5 py-2 rounded-lg bg-red-600/15 hover:bg-red-600 text-red-400 hover:text-white border border-red-600/40 transition">
+                    Xem Phòng truyền thống ↗
+                </a>
+                <button id="logout-btn" type="button"
+                    class="hidden text-xs font-bold px-3 py-2 rounded-lg bg-neutral-900 hover:bg-red-950 text-neutral-300 hover:text-red-400 border border-neutral-800 transition">
+                    Đăng xuất
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- MÀN HÌNH ĐĂNG NHẬP QUẢN TRỊ -->
+    <!-- ========================================== -->
+    <section id="login-view" class="hidden flex-1 flex items-center justify-center px-4 py-12">
+        <div class="w-full max-w-md bg-neutral-900 border border-neutral-800 rounded-3xl p-8 shadow-2xl shadow-black/80">
+            <div class="text-center mb-6">
+                <div class="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-red-600/15 border border-red-600/40 text-red-500 text-2xl mb-4">
+                    🔐
+                </div>
+                <h1 class="text-2xl font-black text-white">Đăng nhập Quản trị HLS</h1>
+                <p class="text-sm text-neutral-400 mt-1">Quản lý ảnh thành viên các Gen, phân cấp chức vụ &amp; Confession</p>
+            </div>
+
+            <!-- Hộp nhắc tài khoản dùng thử khi chưa điền khóa Supabase -->
+            <div id="demo-login-hint" class="hidden mb-6 p-4 rounded-2xl bg-red-950/30 border border-red-900/50 text-xs text-neutral-300 space-y-2">
+                <div class="font-bold text-red-400 uppercase tracking-wider">⚡ Đang chạy Chế độ Thử nghiệm Cục bộ</div>
+                <p>Bạn có thể đăng nhập ngay để thử upload ảnh, sắp xếp cấp bậc và viết Confession (lưu trên trình duyệt này):</p>
+                <div class="bg-black/60 rounded-lg p-2.5 font-mono text-[11px] text-neutral-200">
+                    Email: <span class="text-red-400">admin@hls.hust.edu.vn</span><br>
+                    Mật khẩu: <span class="text-red-400">hls2026</span>
+                </div>
+                <button type="button" id="fill-demo-btn"
+                    class="w-full py-1.5 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-white font-semibold transition">
+                    Điền nhanh tài khoản mẫu
+                </button>
+            </div>
+
+            <form id="login-form" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1.5">Email quản trị</label>
+                    <input id="login-email" type="email" required placeholder="admin@hls.hust.edu.vn"
+                        class="w-full bg-neutral-950 border border-neutral-800 focus:border-red-600 rounded-xl px-4 py-3 text-sm text-white focus:outline-none">
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold uppercase tracking-wider text-neutral-400 mb-1.5">Mật khẩu</label>
+                    <input id="login-password" type="password" required placeholder="••••••••"
+                        class="w-full bg-neutral-950 border border-neutral-800 focus:border-red-600 rounded-xl px-4 py-3 text-sm text-white focus:outline-none">
+                </div>
+
+                <p id="login-error" class="hidden text-xs font-semibold text-red-400 bg-red-950/50 border border-red-800 rounded-lg p-3"></p>
+
+                <button id="login-submit-btn" type="submit"
+                    class="w-full bg-red-600 hover:bg-red-700 text-white font-bold py-3 rounded-xl shadow-lg shadow-red-600/30 transition">
+                    Đăng nhập hệ thống
+                </button>
+            </form>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- BẢNG ĐIỀU KHIỂN QUẢN LÝ THÀNH VIÊN (DASHBOARD) -->
+    <!-- ========================================== -->
+    <main id="dashboard-view" class="hidden flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 py-8">
+
+        <!-- Hàng thống kê & Nút tác vụ chính -->
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-6 border-b border-neutral-800">
+            <div>
+                <h1 class="text-2xl sm:text-3xl font-black text-white">Quản lý Thành viên &amp; Confession</h1>
+                <p class="text-sm text-neutral-400 mt-1">
+                    Hệ thống tự động sắp xếp mỗi Gen theo 4 cấp từ trên xuống:
+                    <span class="text-red-400 font-semibold">1. Ban Cố vấn &rarr; 2. Ban Chủ nhiệm &rarr; 3. Trưởng/Phó ban &rarr; 4. Thành viên</span>
+                </p>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-2.5">
+                <button id="export-json-btn" type="button"
+                    class="px-3.5 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-xs font-bold text-neutral-200 transition">
+                    ⬇️ Xuất JSON sao lưu
+                </button>
+                <label class="cursor-pointer px-3.5 py-2.5 rounded-xl bg-neutral-900 hover:bg-neutral-800 border border-neutral-700 text-xs font-bold text-neutral-200 transition">
+                    ⬆️ Nhập JSON
+                    <input id="import-json-input" type="file" accept=".json,application/json" class="hidden">
+                </label>
+                <button id="add-member-btn" type="button"
+                    class="px-5 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-sm font-bold text-white shadow-lg shadow-red-600/30 transition">
+                    + Thêm thành viên mới
+                </button>
+            </div>
+        </div>
+
+        <!-- Bộ lọc danh sách quản trị -->
+        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-6">
+            <select id="admin-filter-gen"
+                class="bg-neutral-900 border border-neutral-800 focus:border-red-600 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none">
+                <option value="all">Tất cả các Gen</option>
+            </select>
+
+            <select id="admin-filter-tier"
+                class="bg-neutral-900 border border-neutral-800 focus:border-red-600 rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none">
+                <option value="all">Tất cả 4 cấp bậc</option>
+                <option value="1">Cấp 1 · Ban Cố vấn</option>
+                <option value="2">Cấp 2 · Ban Chủ nhiệm</option>
+                <option value="3">Cấp 3 · Trưởng / Phó các ban</option>
+                <option value="4">Cấp 4 · Thành viên</option>
+            </select>
+
+            <input id="admin-search" type="text" placeholder="Tìm theo tên hoặc chức vụ..."
+                class="bg-neutral-900 border border-neutral-800 focus:border-red-600 rounded-xl px-4 py-2.5 text-sm text-white placeholder-neutral-500 focus:outline-none">
+        </div>
+
+        <!-- Thông báo trạng thái nhanh -->
+        <div id="toast-banner" class="hidden mb-6 px-4 py-3 rounded-xl border text-sm font-semibold"></div>
+
+        <!-- Danh sách thành viên -->
+        <div id="admin-members-list" class="space-y-3">
+            <!-- Render bằng JS -->
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- MODAL THÊM / CHỈNH SỬA THÀNH VIÊN -->
+    <!-- ========================================== -->
+    <div id="member-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto p-4 sm:p-6">
+        <div class="max-w-3xl mx-auto my-4 bg-neutral-900 border border-neutral-800 rounded-3xl shadow-2xl overflow-hidden">
+            <div class="px-6 py-4 bg-black/60 border-b border-neutral-800 flex items-center justify-between">
+                <h2 id="modal-title" class="text-lg font-black text-white">Thêm thành viên mới</h2>
+                <button type="button" id="close-modal-btn" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+            </div>
+
+            <form id="member-form" class="p-6 space-y-6">
+                <input type="hidden" id="field-id">
+
+                <!-- Khu vực tải ảnh chân dung -->
+                <div class="flex flex-col sm:flex-row items-center gap-6 p-4 rounded-2xl bg-neutral-950 border border-neutral-800">
+                    <div class="w-28 h-36 rounded-xl overflow-hidden bg-neutral-900 border border-red-600/40 flex-shrink-0">
+                        <img id="avatar-preview"
+                             src="https://ui-avatars.com/api/?name=HLS&background=dc2626&color=ffffff&size=256&bold=true"
+                             alt="Xem trước ảnh"
+                             class="w-full h-full object-cover object-top">
+                    </div>
+
+                    <div class="flex-1 w-full space-y-3">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-red-400 mb-1">
+                                Tải ảnh thành viên từ máy tính (Tự động nén chuẩn nét)
+                            </label>
+                            <input id="field-avatar-file" type="file" accept="image/*"
+                                class="block w-full text-xs text-neutral-300 file:mr-3 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-red-600 file:text-white hover:file:bg-red-700 cursor-pointer">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-400 mb-1">Hoặc dán đường dẫn (URL) ảnh có sẵn:</label>
+                            <input id="field-avatar-url" type="text" placeholder="https://..."
+                                class="w-full bg-neutral-900 border border-neutral-800 focus:border-red-600 rounded-lg px-3 py-2 text-xs text-white focus:outline-none">
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Thông tin cơ bản & Phân cấp -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-1">Họ và tên *</label>
+                        <input id="field-name" type="text" required placeholder="VD: Nguyễn Văn A"
+                            class="w-full bg-neutral-950 border border-neutral-800 focus:border-red-600 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-1">Khóa / Trường (Tùy chọn)</label>
+                        <input id="field-cohort" type="text" placeholder="VD: K68 · ĐHBK Hà Nội"
+                            class="w-full bg-neutral-950 border border-neutral-800 focus:border-red-600 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-1">Thế hệ (Số Gen) *</label>
+                        <input id="field-gen" type="number" min="1" max="99" required value="4"
+                            class="w-full bg-neutral-950 border border-neutral-800 focus:border-red-600 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                        <p class="text-[11px] text-neutral-500 mt-1">Nhập 1 cho Gen 1, 2 cho Gen 2... Nhập Gen mới hệ thống tự tạo Tab mới.</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-1">Năm nhiệm kỳ (Tùy chọn)</label>
+                        <input id="field-term" type="text" placeholder="VD: 2025 - 2026"
+                            class="w-full bg-neutral-950 border border-neutral-800 focus:border-red-600 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-red-400 mb-1">Cấp bậc hiển thị (Từ trên xuống) *</label>
+                        <select id="field-tier" required
+                            class="w-full bg-neutral-950 border border-red-900/60 focus:border-red-500 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                            <option value="1">Cấp 1 (Trên cùng) · Ban Cố vấn</option>
+                            <option value="2">Cấp 2 · Ban Chủ nhiệm</option>
+                            <option value="3">Cấp 3 · Trưởng / Phó các ban</option>
+                            <option value="4" selected>Cấp 4 · Thành viên</option>
+                        </select>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-red-400 mb-1">Thứ tự ưu tiên trong cùng cấp *</label>
+                        <input id="field-sort-order" type="number" min="1" max="999" value="1" required
+                            class="w-full bg-neutral-950 border border-red-900/60 focus:border-red-500 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                        <p class="text-[11px] text-neutral-500 mt-1">Số nhỏ xếp trước (VD: Chủ nhiệm = 1, Phó CN = 2; Trưởng ban = 1, Phó ban = 2).</p>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-1">Chức danh hiển thị *</label>
+                        <input id="field-role" type="text" required placeholder="VD: Chủ nhiệm CLB / Trưởng ban Chuyên môn"
+                            class="w-full bg-neutral-950 border border-neutral-800 focus:border-red-600 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-1">Ban trực thuộc</label>
+                        <input id="field-department" list="dept-suggestions" type="text" placeholder="VD: Ban Chuyên môn"
+                            class="w-full bg-neutral-950 border border-neutral-800 focus:border-red-600 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                        <datalist id="dept-suggestions">
+                            <option value="Ban Cố vấn"></option>
+                            <option value="Ban Chủ nhiệm"></option>
+                            <option value="Ban Chuyên môn"></option>
+                            <option value="Ban Truyền thông"></option>
+                            <option value="Ban Đối ngoại"></option>
+                            <option value="Ban Sự kiện"></option>
+                            <option value="Ban Nhân sự - Tổ chức"></option>
+                        </datalist>
+                    </div>
+                </div>
+
+                <!-- Khu vực Confession & Lời nhắn -->
+                <div class="pt-4 border-t border-neutral-800 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-black uppercase tracking-wider text-red-500">✉️ Nội dung trang Confession riêng</h3>
+                        <span class="text-xs text-neutral-500">Hiển thị khi người xem nhấn vào ảnh thành viên</span>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-1">Câu châm ngôn / Trích dẫn ngắn</label>
+                        <input id="field-quote" type="text" placeholder="VD: Thanh xuân rực rỡ nhất là những ngày cháy hết mình cùng HLS!"
+                            class="w-full bg-neutral-950 border border-neutral-800 focus:border-red-600 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-1">Tiêu đề Confession / Lời nhắn</label>
+                        <input id="field-confession-title" type="text" placeholder="VD: Gửi gia đình HLS của những năm tháng rực lửa..."
+                            class="w-full bg-neutral-950 border border-neutral-800 focus:border-red-600 rounded-xl px-3.5 py-2.5 text-sm text-white focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-neutral-300 mb-1">Tâm thư / Confession / Lời chúc chi tiết *</label>
+                        <textarea id="field-confession" rows="6" required
+                            placeholder="Viết những kỷ niệm đáng nhớ trong quãng thời gian hoạt động tại HLS, lời cảm ơn đồng đội hoặc lời nhắn nhủ tới các thế hệ tiếp theo..."
+                            class="w-full bg-neutral-950 border border-neutral-800 focus:border-red-600 rounded-xl p-3.5 text-sm text-white leading-relaxed focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-end gap-3 pt-4 border-t border-neutral-800">
+                    <button type="button" id="cancel-modal-btn"
+                        class="px-5 py-2.5 rounded-xl bg-neutral-800 hover:bg-neutral-700 text-sm font-bold text-neutral-200 transition">
+                        Hủy
+                    </button>
+                    <button type="submit" id="save-member-btn"
+                        class="px-6 py-2.5 rounded-xl bg-red-600 hover:bg-red-700 text-sm font-bold text-white shadow-lg shadow-red-600/30 transition">
+                        Lưu thành viên
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL HƯỚNG DẪN KẾT NỐI SUPABASE (CLOUD MIỄN PHÍ) -->
+    <!-- ========================================== -->
+    <div id="supabase-guide-modal" class="hidden fixed inset-0 z-50 bg-black/80 backdrop-blur-sm overflow-y-auto p-4 sm:p-6">
+        <div class="max-w-3xl mx-auto my-6 bg-neutral-900 border border-neutral-800 rounded-3xl shadow-2xl overflow-hidden">
+            <div class="px-6 py-4 bg-black/60 border-b border-neutral-800 flex items-center justify-between">
+                <h2 class="text-lg font-black text-white">☁️ Hướng dẫn kết nối Supabase (Lưu trữ Online miễn phí)</h2>
+                <button type="button" id="close-guide-btn" class="text-neutral-400 hover:text-white text-2xl leading-none">&times;</button>
+            </div>
+
+            <div class="p-6 space-y-4 text-sm text-neutral-300 leading-relaxed">
+                <p>
+                    Hiện tại web có thể chạy thử ngay trên trình duyệt của bạn. Khi muốn xuất bản web lên mạng để mọi thành viên cùng truy cập và upload ảnh trực tuyến miễn phí (không cần thẻ ngân hàng), bạn chỉ cần làm <strong>3 bước trong 2 phút</strong> với Supabase:
+                </p>
+
+                <ol class="list-decimal list-inside space-y-2 text-neutral-200">
+                    <li>Đăng ký tài khoản miễn phí tại <strong>supabase.com</strong> &rarr; tạo Project mới, vào mục <strong>Authentication &rarr; Users &rarr; Add User</strong> để tạo tài khoản email/mật khẩu cho Admin CLB.</li>
+                    <li>Vào mục <strong>SQL Editor</strong> trên Supabase, bấm <strong>New Query</strong>, dán đoạn mã dưới đây và nhấn <strong>Run</strong> để tự động tạo bảng thành viên + kho ảnh <code>member-photos</code>:</li>
+                </ol>
+
+                <div class="relative">
+                    <button type="button" id="copy-sql-btn"
+                        class="absolute top-2.5 right-2.5 px-3 py-1 rounded-lg bg-red-600 hover:bg-red-700 text-white text-xs font-bold">
+                        Sao chép SQL
+                    </button>
+                    <pre id="supabase-sql-code" class="bg-neutral-950 border border-neutral-800 rounded-xl p-4 text-xs font-mono text-neutral-300 overflow-x-auto">-- 1. Tạo bảng lưu trữ thành viên & confession các Gen
+create table if not exists public.members (
+    id text primary key,
+    name text not null,
+    gen integer not null default 1,
+    term text default '',
+    tier integer not null default 4,
+    sort_order integer not null default 10,
+    role text default '',
+    department text default '',
+    cohort text default '',
+    avatar_url text default '',
+    quote text default '',
+    confession_title text default '',
+    confession text default '',
+    created_at timestamptz default now()
+);
+
+-- 2. Bật phân quyền: Ai cũng xem được Phòng truyền thống, chỉ Admin đăng nhập mới được Thêm/Sửa/Xóa
+alter table public.members enable row level security;
+
+create policy "Cho phep moi nguoi xem thanh vien"
+on public.members for select using (true);
+
+create policy "Chi Admin dang nhap duoc quan ly"
+on public.members for all to authenticated using (true) with check (true);
+
+-- 3. Tạo kho lưu trữ ảnh member-photos công khai
+insert into storage.buckets (id, name, public)
+values ('member-photos', 'member-photos', true)
+on conflict (id) do nothing;
+
+create policy "Xem anh cong khai"
+on storage.objects for select using (bucket_id = 'member-photos');
+
+create policy "Admin upload anh"
+on storage.objects for insert to authenticated with check (bucket_id = 'member-photos');</pre>
+                </div>
+
+                <p>
+                    <strong>3.</strong> Vào <strong>Project Settings &rarr; Data API</strong> trên Supabase, copy <code>Project URL</code> và <code>anon public key</code> dán vào file <code>js/supabase-config.js</code> là hoàn tất!
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nhúng cấu hình & dịch vụ -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/hall-of-fame-service.js"></script>
+
+    <script>
+        const loginView = document.getElementById("login-view");
+        const dashboardView = document.getElementById("dashboard-view");
+        const logoutBtn = document.getElementById("logout-btn");
+        const modeBadge = document.getElementById("mode-badge");
+        const demoLoginHint = document.getElementById("demo-login-hint");
+        const toastBanner = document.getElementById("toast-banner");
+
+        const memberModal = document.getElementById("member-modal");
+        const memberForm = document.getElementById("member-form");
+        const avatarFileInput = document.getElementById("field-avatar-file");
+        const avatarUrlInput = document.getElementById("field-avatar-url");
+        const avatarPreview = document.getElementById("avatar-preview");
+
+        let membersCache = [];
+        let selectedAvatarFile = null;
+
+        function escapeHtml(str) {
+            return String(str || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function showToast(message, isError = false) {
+            toastBanner.textContent = message;
+            toastBanner.className = `mb-6 px-4 py-3 rounded-xl border text-sm font-semibold ${
+                isError
+                    ? "bg-red-950/60 border-red-700 text-red-300"
+                    : "bg-emerald-950/50 border-emerald-700/60 text-emerald-300"
+            }`;
+            toastBanner.classList.remove("hidden");
+            setTimeout(() => toastBanner.classList.add("hidden"), 4500);
+        }
+
+        function updateModeBadge() {
+            const isCloud = HLSService.isSupabaseConfigured();
+            modeBadge.classList.remove("hidden");
+            if (isCloud) {
+                modeBadge.textContent = "☁️ Đã kết nối Supabase Cloud";
+                modeBadge.className = "hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold border bg-emerald-950/60 border-emerald-700 text-emerald-300";
+                demoLoginHint.classList.add("hidden");
+            } else {
+                modeBadge.textContent = "💻 Chế độ Local (Thử nghiệm)";
+                modeBadge.className = "hidden sm:inline-flex items-center px-2.5 py-0.5 rounded-full text-[11px] font-bold border bg-amber-950/60 border-amber-700/60 text-amber-300";
+                demoLoginHint.classList.remove("hidden");
+            }
+        }
+
+        // ================= XỬ LÝ ĐĂNG NHẬP =================
+        document.getElementById("fill-demo-btn").addEventListener("click", () => {
+            const cfg = window.HLS_CONFIG || {};
+            document.getElementById("login-email").value = cfg.DEMO_ADMIN_EMAIL || "admin@hls.hust.edu.vn";
+            document.getElementById("login-password").value = cfg.DEMO_ADMIN_PASSWORD || "hls2026";
+        });
+
+        document.getElementById("login-form").addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const errEl = document.getElementById("login-error");
+            const btn = document.getElementById("login-submit-btn");
+            errEl.classList.add("hidden");
+            btn.disabled = true;
+            btn.textContent = "Đang xác thực...";
+
+            try {
+                const email = document.getElementById("login-email").value;
+                const pass = document.getElementById("login-password").value;
+                await HLSService.loginAdmin(email, pass);
+                await checkAuthAndRender();
+            } catch (err) {
+                errEl.textContent = err.message;
+                errEl.classList.remove("hidden");
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Đăng nhập hệ thống";
+            }
+        });
+
+        logoutBtn.addEventListener("click", async () => {
+            await HLSService.logoutAdmin();
+            await checkAuthAndRender();
+        });
+
+        // ================= RENDER DANH SÁCH ADMIN =================
+        function refreshGenFilterOptions() {
+            const filterGen = document.getElementById("admin-filter-gen");
+            const prev = filterGen.value;
+            const gens = Array.from(new Set(membersCache.map((m) => Number(m.gen)))).sort((a, b) => b - a);
+            filterGen.innerHTML = `<option value="all">Tất cả các Gen (${gens.length} Gen)</option>` +
+                gens.map((g) => `<option value="${g}">Gen ${g}</option>`).join("");
+            if (gens.map(String).includes(prev)) {
+                filterGen.value = prev;
+            }
+        }
+
+        function renderAdminList() {
+            const listEl = document.getElementById("admin-members-list");
+            const genVal = document.getElementById("admin-filter-gen").value;
+            const tierVal = document.getElementById("admin-filter-tier").value;
+            const q = document.getElementById("admin-search").value.trim().toLowerCase();
+
+            const filtered = HLSService.sortMembersHierarchy(membersCache).filter((m) => {
+                if (genVal !== "all" && String(m.gen) !== String(genVal)) return false;
+                if (tierVal !== "all" && String(m.tier) !== String(tierVal)) return false;
+                if (q) {
+                    const text = `${m.name || ""} ${m.role || ""} ${m.department || ""}`.toLowerCase();
+                    if (!text.includes(q)) return false;
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = `
+                    <div class="bg-neutral-900/60 border border-neutral-800 rounded-2xl p-10 text-center text-neutral-400">
+                        Chưa có thành viên nào khớp bộ lọc hiện tại.
+                    </div>
+                `;
+                return;
+            }
+
+            listEl.innerHTML = filtered.map((m) => {
+                const tierMeta = HLSService.getTierMeta(m.tier);
+                const badgeColor = Number(m.tier) === 1
+                    ? "bg-amber-950/70 text-amber-300 border-amber-700/50"
+                    : Number(m.tier) === 2
+                    ? "bg-red-600 text-white border-red-500"
+                    : Number(m.tier) === 3
+                    ? "bg-red-950/70 text-red-300 border-red-800/60"
+                    : "bg-neutral-800 text-neutral-300 border-neutral-700";
+
+                return `
+                    <div class="bg-neutral-900 border border-neutral-800 hover:border-neutral-700 rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4 transition">
+                        <div class="flex items-center gap-4 min-w-0">
+                            <img src="${escapeHtml(m.avatar_url)}"
+                                 alt="${escapeHtml(m.name)}"
+                                 onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(m.name || "HLS")}&background=dc2626&color=ffffff&size=128&bold=true';"
+                                 class="w-14 h-16 rounded-xl object-cover object-top border border-neutral-700 flex-shrink-0">
+
+                            <div class="min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    <span class="px-2 py-0.5 rounded-md bg-neutral-950 border border-neutral-700 text-[11px] font-bold text-neutral-200">
+                                        Gen ${escapeHtml(m.gen)}
+                                    </span>
+                                    <span class="px-2.5 py-0.5 rounded-md border text-[11px] font-bold ${badgeColor}">
+                                        Cấp ${escapeHtml(m.tier)} · ${escapeHtml(tierMeta.name)}
+                                    </span>
+                                    <span class="text-[11px] text-neutral-500">
+                                        Thứ tự: #${escapeHtml(m.sort_order)}
+                                    </span>
+                                </div>
+
+                                <h3 class="text-base font-extrabold text-white truncate">${escapeHtml(m.name)}</h3>
+                                <p class="text-xs text-red-400 font-semibold truncate">
+                                    ${escapeHtml(m.role)} ${m.department ? " · " + escapeHtml(m.department) : ""}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 self-end sm:self-center flex-shrink-0">
+                            <a href="confession.html?id=${encodeURIComponent(m.id)}" target="_blank"
+                               class="px-3 py-2 rounded-lg bg-neutral-950 hover:bg-neutral-800 border border-neutral-800 text-xs font-semibold text-neutral-300 transition">
+                                Confession ↗
+                            </a>
+                            <button type="button" data-edit="${escapeHtml(m.id)}"
+                                class="px-3.5 py-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 text-xs font-bold text-white transition">
+                                ✏️ Sửa
+                            </button>
+                            <button type="button" data-delete="${escapeHtml(m.id)}"
+                                class="px-3.5 py-2 rounded-lg bg-red-950/60 hover:bg-red-600 text-xs font-bold text-red-300 hover:text-white border border-red-900/60 transition">
+                                Xóa
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+            listEl.querySelectorAll("[data-edit]").forEach((btn) => {
+                btn.addEventListener("click", () => openMemberModal(btn.getAttribute("data-edit")));
+            });
+
+            listEl.querySelectorAll("[data-delete]").forEach((btn) => {
+                btn.addEventListener("click", () => handleDeleteMember(btn.getAttribute("data-delete")));
+            });
+        }
+
+        async function loadMembersToAdmin() {
+            membersCache = await HLSService.getMembers();
+            refreshGenFilterOptions();
+            renderAdminList();
+        }
+
+        // ================= MỞ / LƯU MODAL THÀNH VIÊN =================
+        function openMemberModal(memberId = null) {
+            selectedAvatarFile = null;
+            avatarFileInput.value = "";
+
+            if (memberId) {
+                const m = membersCache.find((item) => String(item.id) === String(memberId));
+                if (!m) return;
+                document.getElementById("modal-title").textContent = `Chỉnh sửa: ${m.name}`;
+                document.getElementById("field-id").value = m.id;
+                document.getElementById("field-name").value = m.name || "";
+                document.getElementById("field-cohort").value = m.cohort || "";
+                document.getElementById("field-gen").value = m.gen || 1;
+                document.getElementById("field-term").value = m.term || "";
+                document.getElementById("field-tier").value = m.tier || 4;
+                document.getElementById("field-sort-order").value = m.sort_order || 1;
+                document.getElementById("field-role").value = m.role || "";
+                document.getElementById("field-department").value = m.department || "";
+                document.getElementById("field-avatar-url").value = m.avatar_url && !m.avatar_url.startsWith("data:") ? m.avatar_url : "";
+                document.getElementById("field-quote").value = m.quote || "";
+                document.getElementById("field-confession-title").value = m.confession_title || "";
+                document.getElementById("field-confession").value = m.confession || "";
+                avatarPreview.src = m.avatar_url || "https://ui-avatars.com/api/?name=HLS&background=dc2626&color=ffffff&size=256&bold=true";
+            } else {
+                const maxGen = membersCache.reduce((acc, m) => Math.max(acc, Number(m.gen) || 1), 4);
+                document.getElementById("modal-title").textContent = "Thêm thành viên vào Phòng truyền thống";
+                memberForm.reset();
+                document.getElementById("field-id").value = "";
+                document.getElementById("field-gen").value = maxGen;
+                document.getElementById("field-tier").value = "4";
+                document.getElementById("field-sort-order").value = "1";
+                avatarPreview.src = "https://ui-avatars.com/api/?name=HLS&background=dc2626&color=ffffff&size=256&bold=true";
+            }
+
+            memberModal.classList.remove("hidden");
+        }
+
+        function closeMemberModal() {
+            memberModal.classList.add("hidden");
+        }
+
+        avatarFileInput.addEventListener("change", (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            selectedAvatarFile = file;
+            avatarPreview.src = URL.createObjectURL(file);
+        });
+
+        avatarUrlInput.addEventListener("input", (e) => {
+            if (!selectedAvatarFile && e.target.value.trim()) {
+                avatarPreview.src = e.target.value.trim();
+            }
+        });
+
+        document.getElementById("add-member-btn").addEventListener("click", () => openMemberModal(null));
+        document.getElementById("close-modal-btn").addEventListener("click", closeMemberModal);
+        document.getElementById("cancel-modal-btn").addEventListener("click", closeMemberModal);
+
+        memberForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const saveBtn = document.getElementById("save-member-btn");
+            saveBtn.disabled = true;
+            saveBtn.textContent = "Đang lưu...";
+
+            try {
+                const existingId = document.getElementById("field-id").value;
+                const existingRecord = existingId
+                    ? membersCache.find((m) => String(m.id) === String(existingId))
+                    : null;
+
+                const urlInputVal = document.getElementById("field-avatar-url").value.trim();
+                const fallbackAvatar = existingRecord ? existingRecord.avatar_url : "";
+
+                const payload = {
+                    id: existingId || undefined,
+                    name: document.getElementById("field-name").value,
+                    cohort: document.getElementById("field-cohort").value,
+                    gen: Number(document.getElementById("field-gen").value),
+                    term: document.getElementById("field-term").value,
+                    tier: Number(document.getElementById("field-tier").value),
+                    sort_order: Number(document.getElementById("field-sort-order").value),
+                    role: document.getElementById("field-role").value,
+                    department: document.getElementById("field-department").value,
+                    avatar_url: urlInputVal || fallbackAvatar,
+                    quote: document.getElementById("field-quote").value,
+                    confession_title: document.getElementById("field-confession-title").value,
+                    confession: document.getElementById("field-confession").value
+                };
+
+                await HLSService.saveMember(payload, selectedAvatarFile);
+                closeMemberModal();
+                await loadMembersToAdmin();
+                showToast("Đã lưu thông tin thành viên & Confession thành công!");
+            } catch (err) {
+                showToast(err.message, true);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = "Lưu thành viên";
+            }
+        });
+
+        async function handleDeleteMember(id) {
+            const target = membersCache.find((m) => String(m.id) === String(id));
+            if (!target) return;
+            if (!confirm(`Bạn có chắc chắn muốn xóa thành viên "${target.name}" (Gen ${target.gen}) khỏi Phòng truyền thống?`)) {
+                return;
+            }
+            try {
+                await HLSService.deleteMember(id);
+                await loadMembersToAdmin();
+                showToast(`Đã xóa "${target.name}" khỏi danh sách.`);
+            } catch (err) {
+                showToast(err.message, true);
+            }
+        }
+
+        // ================= SAO LƯU & NHẬP JSON =================
+        document.getElementById("export-json-btn").addEventListener("click", () => {
+            const blob = new Blob([JSON.stringify(membersCache, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `hls-phong-truyen-thong-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById("import-json-input").addEventListener("change", async (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            try {
+                const text = await file.text();
+                const parsed = JSON.parse(text);
+                const count = await HLSService.importMembersJson(parsed);
+                await loadMembersToAdmin();
+                showToast(`Đã nhập thành công ${count} thành viên từ file JSON!`);
+            } catch (err) {
+                showToast("Lỗi nhập JSON: " + err.message, true);
+            } finally {
+                e.target.value = "";
+            }
+        });
+
+        // Bộ lọc tìm kiếm
+        document.getElementById("admin-filter-gen").addEventListener("change", renderAdminList);
+        document.getElementById("admin-filter-tier").addEventListener("change", renderAdminList);
+        document.getElementById("admin-search").addEventListener("input", renderAdminList);
+
+        // Modal hướng dẫn Supabase
+        const guideModal = document.getElementById("supabase-guide-modal");
+        document.getElementById("open-supabase-guide-btn").addEventListener("click", () => guideModal.classList.remove("hidden"));
+        document.getElementById("close-guide-btn").addEventListener("click", () => guideModal.classList.add("hidden"));
+        document.getElementById("copy-sql-btn").addEventListener("click", async (e) => {
+            const sql = document.getElementById("supabase-sql-code").textContent;
+            await navigator.clipboard.writeText(sql);
+            e.target.textContent = "Đã sao chép ✓";
+            setTimeout(() => (e.target.textContent = "Sao chép SQL"), 2000);
+        });
+
+        // Kiểm tra trạng thái đăng nhập khi mở trang
+        async function checkAuthAndRender() {
+            updateModeBadge();
+            const session = await HLSService.getAdminSession();
+            if (session) {
+                loginView.classList.add("hidden");
+                dashboardView.classList.remove("hidden");
+                logoutBtn.classList.remove("hidden");
+                await loadMembersToAdmin();
+            } else {
+                dashboardView.classList.add("hidden");
+                logoutBtn.classList.add("hidden");
+                loginView.classList.remove("hidden");
+            }
+        }
+
+        checkAuthAndRender();
+    </script>
+</body>
+
+</html>
+

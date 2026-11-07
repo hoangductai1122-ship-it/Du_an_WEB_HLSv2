@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Phòng Truyền Thống - HLS ĐHBK Hà Nội</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="bg-neutral-950 text-gray-100 font-sans min-h-screen flex flex-col selection:bg-red-600 selection:text-white">
+
+    <!-- ========================================== -->
+    <!-- THANH MENU & ĐIỀU HƯỚNG (HEADER / NAV) -->
+    <!-- ========================================== -->
+    <nav class="bg-black/95 backdrop-blur-md border-b border-red-900/40 shadow-lg fixed w-full top-0 z-50 transition-all duration-300">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <a href="index.html"
+                        class="text-2xl font-black text-white tracking-tight hover:text-red-500 transition duration-300 uppercase">
+                        HLS <span class="text-red-600">Logistics</span>
+                    </a>
+                </div>
+
+                <!-- Menu Ngang -->
+                <div class="hidden md:flex space-x-8">
+                    <a href="index.html#about"
+                        class="text-neutral-300 font-semibold hover:text-red-500 transition duration-300 py-2 border-b-2 border-transparent hover:border-red-600">Về
+                        chúng tôi</a>
+                    <a href="index.html#activities"
+                        class="text-neutral-300 font-semibold hover:text-red-500 transition duration-300 py-2 border-b-2 border-transparent hover:border-red-600">Hoạt
+                        động</a>
+                    <a href="index.html#activities"
+                        class="text-neutral-300 font-semibold hover:text-red-500 transition duration-300 py-2 border-b-2 border-transparent hover:border-red-600">Thành
+                        tích</a>
+                    <a href="phong-truyen-thong.html"
+                        class="text-red-500 font-bold transition duration-300 py-2 border-b-2 border-red-600">Phòng
+                        truyền thống</a>
+                </div>
+
+                <!-- Cụm nút bên phải -->
+                <div class="hidden md:flex items-center gap-3">
+                    <a href="admin.html"
+                        class="border border-neutral-700 hover:border-red-600 text-neutral-300 hover:text-white text-sm font-semibold py-2 px-4 rounded-full transition flex items-center gap-2">
+                        <span>⚙️ Quản lý thành viên</span>
+                    </a>
+                    <a href="index.html"
+                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-6 rounded-full shadow-lg shadow-red-600/30 transition transform hover:-translate-y-0.5">
+                        Tham gia CLB
+                    </a>
+                </div>
+
+                <!-- Nút 3 gạch trên điện thoại -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button"
+                        class="text-neutral-300 hover:text-red-500 focus:outline-none focus:text-red-500 p-2">
+                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Dọc trên điện thoại -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-neutral-950 border-t border-neutral-800 shadow-2xl absolute w-full">
+            <div class="px-4 pt-2 pb-6 space-y-2">
+                <a href="index.html#about"
+                    class="block text-neutral-300 hover:bg-red-950/50 hover:text-red-500 font-semibold py-3 px-4 rounded-lg transition duration-200">Về
+                    chúng tôi</a>
+                <a href="index.html#activities"
+                    class="block text-neutral-300 hover:bg-red-950/50 hover:text-red-500 font-semibold py-3 px-4 rounded-lg transition duration-200">Hoạt
+                    động</a>
+                <a href="phong-truyen-thong.html"
+                    class="block bg-red-950/40 text-red-500 font-bold py-3 px-4 rounded-lg transition duration-200">Phòng
+                    truyền thống</a>
+                <a href="admin.html"
+                    class="block text-neutral-300 hover:bg-red-950/50 hover:text-red-500 font-semibold py-3 px-4 rounded-lg transition duration-200">⚙️
+                    Quản lý thành viên (Admin)</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- BANNER ĐẦU TRANG PHÒNG TRUYỀN THỐNG -->
+    <!-- ========================================== -->
+    <header class="relative pt-32 pb-14 px-4 overflow-hidden border-b border-neutral-900">
+        <!-- Hiệu ứng ánh sáng đỏ mờ nền đen -->
+        <div class="pointer-events-none absolute -top-24 left-1/2 -translate-x-1/2 w-[650px] h-[320px] bg-red-600/15 blur-[120px] rounded-full"></div>
+
+        <div class="relative max-w-6xl mx-auto text-center">
+            <span class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-red-950/60 border border-red-800/50 text-red-400 text-xs font-bold uppercase tracking-widest mb-5">
+                Hall of Fame · HLS Đại học Bách Khoa Hà Nội
+            </span>
+
+            <h1 class="text-4xl md:text-6xl font-black text-white tracking-tight mb-5">
+                Phòng Truyền Thống <span class="text-red-600">HLS</span>
+            </h1>
+
+            <p class="text-neutral-400 text-base md:text-lg max-w-3xl mx-auto leading-relaxed mb-8">
+                Nơi lưu giữ dấu ấn của các thế hệ thành viên từ ngày đầu thành lập đến nay.
+                <strong class="text-neutral-200">Nhấn vào ảnh của bất kỳ thành viên nào</strong> để mở trang Confession đọc những tâm sự, kỷ niệm và lời nhắn gửi dành cho đại gia đình HLS.
+            </p>
+
+            <!-- Thống kê nhanh -->
+            <div class="inline-grid grid-cols-3 gap-4 sm:gap-8 bg-neutral-900/80 border border-neutral-800 rounded-2xl px-6 py-4 shadow-xl">
+                <div>
+                    <div id="stat-gens" class="text-2xl sm:text-3xl font-black text-red-500">--</div>
+                    <div class="text-xs text-neutral-400 uppercase tracking-wider mt-0.5">Thế hệ (Gen)</div>
+                </div>
+                <div class="border-x border-neutral-800 px-4 sm:px-8">
+                    <div id="stat-members" class="text-2xl sm:text-3xl font-black text-white">--</div>
+                    <div class="text-xs text-neutral-400 uppercase tracking-wider mt-0.5">Thành viên lưu danh</div>
+                </div>
+                <div>
+                    <div class="text-2xl sm:text-3xl font-black text-red-500">04</div>
+                    <div class="text-xs text-neutral-400 uppercase tracking-wider mt-0.5">Cấp bậc tổ chức</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- THANH CHỌN GEN & BỘ LỌC TÌM KIẾM -->
+    <!-- ========================================== -->
+    <section class="sticky top-20 z-40 bg-neutral-950/90 backdrop-blur-md border-b border-neutral-800/80 py-4 px-4">
+        <div class="max-w-7xl mx-auto flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-4">
+
+            <!-- Các nút chọn Gen từ Gen 1 -> hiện tại -->
+            <div class="flex items-center gap-2 overflow-x-auto pb-1 lg:pb-0" id="gen-tabs-container">
+                <!-- Render tự động bằng JS -->
+            </div>
+
+            <!-- Tìm kiếm & Lọc theo Ban -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
+                <div class="relative">
+                    <input id="search-input" type="text" placeholder="Tìm tên, chức vụ..."
+                        class="w-full sm:w-60 bg-neutral-900 border border-neutral-800 focus:border-red-600 rounded-xl pl-9 pr-4 py-2 text-sm text-white placeholder-neutral-500 focus:outline-none transition">
+                    <svg class="w-4 h-4 text-neutral-500 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+                    </svg>
+                </div>
+
+                <select id="department-filter"
+                    class="bg-neutral-900 border border-neutral-800 focus:border-red-600 rounded-xl px-3.5 py-2 text-sm text-neutral-200 focus:outline-none transition">
+                    <option value="all">Tất cả các ban</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- KHU VỰC HIỂN THỊ SƠ ĐỒ THÀNH VIÊN THEO CẤP -->
+    <!-- ========================================== -->
+    <main class="flex-1 py-12 px-4">
+        <div class="max-w-7xl mx-auto" id="hall-content">
+            <!-- Trạng thái đang tải -->
+            <div class="text-center py-20 text-neutral-400">
+                <div class="inline-block w-10 h-10 border-4 border-neutral-800 border-t-red-600 rounded-full animate-spin mb-4"></div>
+                <p>Đang tải dữ liệu Phòng truyền thống...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- CHÂN TRANG (FOOTER) -->
+    <!-- ========================================== -->
+    <footer class="bg-black text-white border-t border-red-900/40 pt-12 pb-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-neutral-400">
+            <div>
+                <span class="font-black text-red-600 uppercase">HLS</span> <span class="font-black text-white uppercase">Logistics</span>
+                <span class="mx-2 text-neutral-700">|</span>
+                CLB Logistics và Quản lý chuỗi cung ứng - Đại học Bách Khoa Hà Nội
+            </div>
+            <div class="flex items-center gap-6 text-xs">
+                <a href="index.html" class="hover:text-red-500 transition">Trang chủ</a>
+                <a href="admin.html" class="hover:text-red-500 transition">Quản trị Phòng truyền thống</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Nhúng cấu hình và dịch vụ dữ liệu -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/hall-of-fame-service.js"></script>
+
+    <script>
+        // Menu di động
+        const mobileBtn = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+
+        // Trạng thái bộ lọc
+        let allMembers = [];
+        let selectedGen = null; // số Gen hoặc 'all'
+        let searchQuery = "";
+        let selectedDept = "all";
+
+        const genTabsEl = document.getElementById("gen-tabs-container");
+        const deptSelectEl = document.getElementById("department-filter");
+        const searchInputEl = document.getElementById("search-input");
+        const hallContentEl = document.getElementById("hall-content");
+
+        function escapeHtml(str) {
+            return String(str || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function getSortedGens(members) {
+            const set = new Set(members.map((m) => Number(m.gen)).filter((g) => !isNaN(g)));
+            // Sắp xếp từ Gen 1 (lúc thành lập) -> Gen hiện tại
+            return Array.from(set).sort((a, b) => a - b);
+        }
+
+        function populateDepartmentFilter(members) {
+            const current = deptSelectEl.value;
+            const depts = Array.from(
+                new Set(members.map((m) => (m.department || "").trim()).filter(Boolean))
+            );
+            deptSelectEl.innerHTML = `<option value="all">Tất cả các ban</option>` +
+                depts.map((d) => `<option value="${escapeHtml(d)}">${escapeHtml(d)}</option>`).join("");
+            if (depts.includes(current)) {
+                deptSelectEl.value = current;
+            }
+        }
+
+        function renderGenTabs(gens) {
+            const maxGen = gens.length ? gens[gens.length - 1] : 1;
+            const buttonsHtml = gens.map((g) => {
+                const isActive = String(selectedGen) === String(g);
+                const label = g === 1
+                    ? `Gen 1 · Sáng lập`
+                    : (g === maxGen ? `Gen ${g} · Hiện tại` : `Gen ${g}`);
+                const cls = isActive
+                    ? "bg-red-600 text-white border-red-500 shadow-lg shadow-red-600/30"
+                    : "bg-neutral-900 text-neutral-300 border-neutral-800 hover:border-red-600/60 hover:text-white";
+                return `<button data-gen="${g}" class="gen-tab whitespace-nowrap px-4 py-2 rounded-xl border text-sm font-bold transition ${cls}">
+                    ${escapeHtml(label)}
+                </button>`;
+            }).join("");
+
+            const allActive = selectedGen === "all";
+            const allBtn = `<button data-gen="all" class="gen-tab whitespace-nowrap px-4 py-2 rounded-xl border text-sm font-bold transition ${
+                allActive
+                    ? "bg-red-600 text-white border-red-500 shadow-lg shadow-red-600/30"
+                    : "bg-neutral-900 text-neutral-300 border-neutral-800 hover:border-red-600/60 hover:text-white"
+            }">Tất cả các Gen</button>`;
+
+            genTabsEl.innerHTML = buttonsHtml + allBtn;
+
+            genTabsEl.querySelectorAll(".gen-tab").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const val = btn.getAttribute("data-gen");
+                    selectedGen = val === "all" ? "all" : Number(val);
+                    renderGenTabs(gens);
+                    renderHall();
+                });
+            });
+        }
+
+        // Tạo thẻ hiển thị từng thành viên (nhấn vào mở sang tab mới confession.html?id=...)
+        function createMemberCard(member, tierLevel) {
+            const isTopLeader = tierLevel === 1 || tierLevel === 2;
+            const widthClass = tierLevel === 1
+                ? "w-full sm:w-72 md:w-80"
+                : tierLevel === 2
+                ? "w-full sm:w-72 md:w-80"
+                : tierLevel === 3
+                ? "w-full sm:w-64 md:w-68"
+                : "w-full sm:w-56 md:w-60";
+
+            const borderStyle = tierLevel === 1
+                ? "border-red-500/50 hover:border-red-400 shadow-red-950/30"
+                : tierLevel === 2
+                ? "border-red-600/70 hover:border-red-500 shadow-red-900/30 ring-1 ring-red-600/20"
+                : "border-neutral-800 hover:border-red-600/70 shadow-black/60";
+
+            const roleBadgeStyle = tierLevel === 1
+                ? "bg-red-950/90 text-red-300 border border-red-700/60"
+                : tierLevel === 2
+                ? "bg-red-600 text-white shadow-md shadow-red-600/30"
+                : tierLevel === 3
+                ? "bg-neutral-800 text-red-400 border border-red-900/50"
+                : "bg-neutral-800/90 text-neutral-300 border border-neutral-700";
+
+            const shortQuote = member.quote
+                ? `<p class="text-xs text-neutral-400 italic line-clamp-2 mt-2">"${escapeHtml(member.quote)}"</p>`
+                : "";
+
+            const confessionUrl = `confession.html?id=${encodeURIComponent(member.id)}`;
+
+            return `
+                <a href="${confessionUrl}" target="_blank" rel="noopener noreferrer"
+                   title="Nhấn để mở trang Confession của ${escapeHtml(member.name)} trong tab mới"
+                   class="${widthClass} group bg-neutral-900/90 border ${borderStyle} rounded-2xl overflow-hidden shadow-xl transition-all duration-300 hover:-translate-y-2 flex flex-col">
+                    
+                    <!-- Khung ảnh chân dung -->
+                    <div class="relative ${isTopLeader ? "h-80" : "h-64"} w-full overflow-hidden bg-neutral-950">
+                        <img src="${escapeHtml(member.avatar_url)}"
+                             alt="${escapeHtml(member.name)}"
+                             loading="lazy"
+                             onerror="this.onerror=null;this.src='https://ui-avatars.com/api/?name=${encodeURIComponent(member.name || "HLS")}&background=dc2626&color=ffffff&size=512&bold=true';"
+                             class="w-full h-full object-cover object-top group-hover:scale-105 transition duration-500">
+                        
+                        <div class="absolute inset-0 bg-gradient-to-t from-neutral-950 via-neutral-950/20 to-transparent opacity-85"></div>
+
+                        <!-- Nhãn Gen góc trên -->
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded-full bg-black/75 backdrop-blur-sm border border-neutral-700/80 text-[11px] font-bold text-neutral-200">
+                            Gen ${escapeHtml(member.gen)}
+                        </span>
+
+                        <!-- Nhãn gợi ý đọc Confession khi rê chuột -->
+                        <span class="absolute top-3 right-3 px-2.5 py-1 rounded-full bg-red-600/95 text-[11px] font-bold text-white opacity-0 group-hover:opacity-100 translate-y-1 group-hover:translate-y-0 transition duration-300 flex items-center gap-1 shadow-lg">
+                            Đọc Confession ↗
+                        </span>
+
+                        <!-- Chức vụ nổi trên chân ảnh -->
+                        <div class="absolute bottom-3 left-3 right-3">
+                            <span class="inline-block px-3 py-1 rounded-full text-xs font-bold ${roleBadgeStyle}">
+                                ${escapeHtml(member.role || "Thành viên")}
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Thông tin thành viên -->
+                    <div class="p-4 flex-1 flex flex-col justify-between text-center">
+                        <div>
+                            <h3 class="text-lg font-extrabold text-white group-hover:text-red-500 transition">
+                                ${escapeHtml(member.name)}
+                            </h3>
+                            <p class="text-xs text-neutral-400 mt-0.5">
+                                ${escapeHtml(member.department || "")}${member.cohort ? " · " + escapeHtml(member.cohort) : ""}
+                            </p>
+                            ${shortQuote}
+                        </div>
+
+                        <div class="mt-4 pt-3 border-t border-neutral-800/80 flex items-center justify-center gap-1.5 text-xs font-semibold text-red-500 group-hover:text-red-400">
+                            <span>Xem tâm thư &amp; lời nhắn</span>
+                            <span class="transform group-hover:translate-x-1 transition">&rarr;</span>
+                        </div>
+                    </div>
+                </a>
+            `;
+        }
+
+        // Vẽ 1 khối Gen theo đúng thứ tự phân cấp 4 tầng từ trên xuống dưới
+        function renderSingleGenSection(genNumber, genMembers, showGenBanner) {
+            const sampleTerm = (genMembers.find((m) => m.term) || {}).term || "";
+            const tiers = (window.HLS_CONFIG && window.HLS_CONFIG.TIERS) || [
+                { level: 1, name: "Ban Cố vấn", description: "" },
+                { level: 2, name: "Ban Chủ nhiệm", description: "" },
+                { level: 3, name: "Trưởng / Phó các ban", description: "" },
+                { level: 4, name: "Thành viên", description: "" }
+            ];
+
+            const activeTiersHtml = tiers.map((tierObj, idx) => {
+                const list = HLSService.sortMembersHierarchy(
+                    genMembers.filter((m) => (Number(m.tier) || 4) === Number(tierObj.level))
+                );
+                if (list.length === 0) return "";
+
+                const cardsHtml = list.map((m) => createMemberCard(m, tierObj.level)).join("");
+
+                return `
+                    <div class="relative">
+                        <!-- Tiêu đề tầng cấp bậc -->
+                        <div class="flex flex-col items-center text-center mb-7">
+                            <span class="px-3.5 py-1 rounded-full bg-neutral-900 border border-red-900/60 text-red-500 text-xs font-black uppercase tracking-widest">
+                                Cấp 0${tierObj.level} · ${escapeHtml(tierObj.name)}
+                            </span>
+                            ${tierObj.description ? `<p class="text-xs text-neutral-500 mt-2 max-w-md">${escapeHtml(tierObj.description)}</p>` : ""}
+                        </div>
+
+                        <!-- Lưới căn giữa kim tự tháp -->
+                        <div class="flex flex-wrap justify-center gap-6">
+                            ${cardsHtml}
+                        </div>
+                    </div>
+                `;
+            }).filter(Boolean);
+
+            // Nối các cấp bằng đường trục dọc màu đỏ mờ
+            const joinedTiers = activeTiersHtml.join(`
+                <div class="flex justify-center my-8">
+                    <div class="w-px h-10 bg-gradient-to-b from-red-600/70 to-neutral-800"></div>
+                </div>
+            `);
+
+            const genHeader = showGenBanner ? `
+                <div class="mb-10 text-center">
+                    <div class="inline-flex items-center gap-3 px-6 py-2 rounded-2xl bg-gradient-to-r from-neutral-900 via-red-950/40 to-neutral-900 border border-red-900/50">
+                        <span class="text-xl md:text-2xl font-black text-white uppercase tracking-wide">Thế hệ Gen ${escapeHtml(genNumber)}</span>
+                        ${sampleTerm ? `<span class="text-xs font-bold px-2.5 py-1 rounded-full bg-red-600/20 text-red-400 border border-red-700/40">${escapeHtml(sampleTerm)}</span>` : ""}
+                    </div>
+                </div>
+            ` : (sampleTerm ? `
+                <div class="mb-10 text-center">
+                    <span class="text-xs font-semibold uppercase tracking-widest text-neutral-400">Nhiệm kỳ: <strong class="text-red-400">${escapeHtml(sampleTerm)}</strong></span>
+                </div>
+            ` : "");
+
+            return `
+                <div class="mb-20 last:mb-0">
+                    ${genHeader}
+                    ${joinedTiers}
+                </div>
+            `;
+        }
+
+        function renderHall() {
+            const q = searchQuery.trim().toLowerCase();
+
+            const filtered = allMembers.filter((m) => {
+                if (selectedGen !== "all" && Number(m.gen) !== Number(selectedGen)) return false;
+                if (selectedDept !== "all" && (m.department || "").trim() !== selectedDept) return false;
+                if (q) {
+                    const haystack = `${m.name || ""} ${m.role || ""} ${m.department || ""} ${m.cohort || ""}`.toLowerCase();
+                    if (!haystack.includes(q)) return false;
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                hallContentEl.innerHTML = `
+                    <div class="bg-neutral-900/60 border border-neutral-800 rounded-2xl p-12 text-center max-w-xl mx-auto">
+                        <p class="text-lg font-bold text-white mb-2">Không tìm thấy thành viên phù hợp</p>
+                        <p class="text-sm text-neutral-400 mb-6">Hãy thử đổi từ khóa tìm kiếm, chọn lại Ban hoặc thêm thành viên mới trong trang Quản trị.</p>
+                        <a href="admin.html" class="inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm transition">
+                            + Thêm thành viên tại trang Admin
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            if (selectedGen === "all") {
+                // Khi xem tất cả các Gen: hiển thị từ Gen mới nhất xuống Gen 1 (hoặc Gen 1 lên)
+                const gensDesc = Array.from(new Set(filtered.map((m) => Number(m.gen)))).sort((a, b) => b - a);
+                hallContentEl.innerHTML = gensDesc.map((g) => {
+                    const gm = filtered.filter((m) => Number(m.gen) === g);
+                    return renderSingleGenSection(g, gm, true);
+                }).join(`<hr class="border-neutral-800 my-16">`);
+            } else {
+                hallContentEl.innerHTML = renderSingleGenSection(selectedGen, filtered, false);
+            }
+        }
+
+        async function initHallOfFame() {
+            try {
+                allMembers = await HLSService.getMembers();
+                const gens = getSortedGens(allMembers);
+
+                // Cập nhật số liệu thống kê
+                document.getElementById("stat-gens").textContent = String(gens.length || 0).padStart(2, "0");
+                document.getElementById("stat-members").textContent = String(allMembers.length || 0).padStart(2, "0");
+
+                // Mặc định mở Gen mới nhất để thấy đầy đủ sơ đồ tổ chức, hoặc giữ Gen đã chọn
+                if (selectedGen === null) {
+                    selectedGen = gens.length ? gens[gens.length - 1] : "all";
+                } else if (selectedGen !== "all" && !gens.includes(Number(selectedGen))) {
+                    selectedGen = gens.length ? gens[gens.length - 1] : "all";
+                }
+
+                populateDepartmentFilter(allMembers);
+                renderGenTabs(gens);
+                renderHall();
+            } catch (err) {
+                hallContentEl.innerHTML = `
+                    <div class="bg-red-950/40 border border-red-800 rounded-2xl p-8 text-center max-w-xl mx-auto">
+                        <p class="text-red-400 font-bold mb-2">Đã xảy ra lỗi khi tải dữ liệu</p>
+                        <p class="text-sm text-neutral-300">${escapeHtml(err.message)}</p>
+                    </div>
+                `;
+            }
+        }
+
+        searchInputEl.addEventListener("input", (e) => {
+            searchQuery = e.target.value;
+            renderHall();
+        });
+
+        deptSelectEl.addEventListener("change", (e) => {
+            selectedDept = e.target.value;
+            renderHall();
+        });
+
+        // Tự động cập nhật ngay nếu Admin vừa lưu thay đổi ở tab bên cạnh
+        window.addEventListener("storage", (e) => {
+            if (e.key === "hls_hall_of_fame_members_v1") {
+                initHallOfFame();
+            }
+        });
+
+        initHallOfFame();
+    </script>
+</body>
+
+</html>
+
