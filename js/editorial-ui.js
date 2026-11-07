@@ -52,52 +52,73 @@
         function drawFrame(t) {
             ctx.clearRect(0, 0, width, height);
 
-            // Quầng sáng đỏ trầm dưới chân dải sóng
+            // Quầng sáng đỏ tươi dịu phía trên giúp toàn trang có sắc độ ấm hài hòa
+            const topGlow = ctx.createRadialGradient(
+                width * 0.22,
+                height * 0.18,
+                10,
+                width * 0.22,
+                height * 0.18,
+                Math.max(width, height) * 0.44
+            );
+            topGlow.addColorStop(0, isStaticAdmin ? "rgba(239, 48, 62, 0.08)" : "rgba(255, 50, 66, 0.12)");
+            topGlow.addColorStop(0.55, "rgba(220, 38, 38, 0.04)");
+            topGlow.addColorStop(1, "rgba(6, 6, 9, 0)");
+            ctx.fillStyle = topGlow;
+            ctx.fillRect(0, 0, width, height);
+
+            // Quầng phản chiếu đỏ rực vừa phải dưới chân dải lụa ánh sáng
             const glowX = width * (0.58 + Math.sin(t * 0.35) * 0.08);
-            const glowY = height * 0.82;
-            const radial = ctx.createRadialGradient(glowX, glowY, 10, glowX, glowY, Math.max(width, height) * 0.52);
-            radial.addColorStop(0, isStaticAdmin ? "rgba(185, 28, 28, 0.10)" : "rgba(220, 38, 38, 0.16)");
-            radial.addColorStop(0.5, "rgba(127, 29, 29, 0.06)");
-            radial.addColorStop(1, "rgba(5, 5, 7, 0)");
+            const glowY = height * 0.80;
+            const radial = ctx.createRadialGradient(glowX, glowY, 12, glowX, glowY, Math.max(width, height) * 0.56);
+            radial.addColorStop(0, isStaticAdmin ? "rgba(239, 48, 62, 0.15)" : "rgba(255, 48, 64, 0.24)");
+            radial.addColorStop(0.45, isStaticAdmin ? "rgba(220, 38, 38, 0.06)" : "rgba(225, 29, 46, 0.10)");
+            radial.addColorStop(1, "rgba(6, 6, 9, 0)");
             ctx.fillStyle = radial;
             ctx.fillRect(0, 0, width, height);
 
-            // Vẽ 15 sợi lụa ánh sáng đỏ uốn lượn đồng pha tạo chiều sâu 3D
-            const strandCount = isStaticAdmin ? 9 : 15;
-            const baseY = height * 0.72;
-            const amp1 = Math.min(height * 0.16, 135);
-            const amp2 = Math.min(height * 0.09, 75);
+            // Vẽ 16 sợi lụa ánh sáng đỏ tươi uốn lượn đồng pha tạo chiều sâu 3D mềm mại
+            const strandCount = isStaticAdmin ? 10 : 16;
+            const baseY = height * 0.70;
+            const amp1 = Math.min(height * 0.16, 140);
+            const amp2 = Math.min(height * 0.095, 78);
 
             for (let i = 0; i < strandCount; i++) {
                 const ratio = i / (strandCount - 1);
-                const crestFocus = 1 - Math.abs(ratio - 0.65) * 1.5;
-                const alpha = Math.max(0.04, (isStaticAdmin ? 0.14 : 0.28) * Math.max(0.2, crestFocus));
+                const crestFocus = 1 - Math.abs(ratio - 0.65) * 1.42;
+                const alpha = Math.max(0.06, (isStaticAdmin ? 0.20 : 0.38) * Math.max(0.24, crestFocus));
 
                 ctx.beginPath();
-                const steps = 36;
+                const steps = 40;
                 for (let s = 0; s <= steps; s++) {
                     const nx = s / steps;
                     const x = nx * width;
                     const waveA = Math.sin(nx * 4.2 - t + i * 0.11) * amp1;
                     const waveB = Math.cos(nx * 2.3 + t * 0.65 - i * 0.16) * amp2;
-                    const spread = (i - strandCount * 0.5) * (9 + Math.sin(nx * Math.PI) * 11);
+                    const spread = (i - strandCount * 0.5) * (9 + Math.sin(nx * Math.PI) * 11.5);
                     const y = baseY + waveA * 0.62 + waveB * 0.52 + spread - nx * height * 0.12;
                     if (s === 0) ctx.moveTo(x, y);
                     else ctx.lineTo(x, y);
                 }
 
                 if (i === Math.floor(strandCount * 0.68)) {
-                    // Sợi viền sáng nóng rực ở đỉnh sóng
-                    ctx.strokeStyle = `rgba(251, 113, 133, ${(alpha * 1.55).toFixed(3)})`;
-                    ctx.lineWidth = 1.6;
+                    // Sợi viền sáng đỏ cam rực rỡ ở đỉnh sóng (có quầng phát sáng mềm)
+                    ctx.save();
+                    ctx.shadowColor = "rgba(255, 62, 76, 0.65)";
+                    ctx.shadowBlur = isStaticAdmin ? 6 : 12;
+                    ctx.strokeStyle = `rgba(255, 118, 112, ${Math.min(0.82, alpha * 1.65).toFixed(3)})`;
+                    ctx.lineWidth = 1.85;
+                    ctx.stroke();
+                    ctx.restore();
                 } else if (i % 3 === 0) {
-                    ctx.strokeStyle = `rgba(239, 68, 68, ${alpha.toFixed(3)})`;
-                    ctx.lineWidth = 1.25;
+                    ctx.strokeStyle = `rgba(255, 58, 72, ${alpha.toFixed(3)})`;
+                    ctx.lineWidth = 1.35;
+                    ctx.stroke();
                 } else {
-                    ctx.strokeStyle = `rgba(153, 27, 27, ${(alpha * 0.85).toFixed(3)})`;
-                    ctx.lineWidth = 1;
+                    ctx.strokeStyle = `rgba(225, 32, 48, ${(alpha * 0.88).toFixed(3)})`;
+                    ctx.lineWidth = 1.05;
+                    ctx.stroke();
                 }
-                ctx.stroke();
             }
         }
 
