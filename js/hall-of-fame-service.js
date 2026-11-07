@@ -442,7 +442,7 @@
         if (!avatarUrl) {
             avatarUrl = `https://ui-avatars.com/api/?name=${encodeURIComponent(
                 memberPayload.name || "HLS"
-            )}&background=dc2626&color=ffffff&size=512&bold=true`;
+            )}&background=111111&color=ffffff&size=512&bold=true`;
         }
 
         const normalized = {

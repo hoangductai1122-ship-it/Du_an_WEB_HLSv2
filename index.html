@@ -6,49 +6,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HLS - CLB Logistics và Quản lý chuỗi cung ứng ĐHBK Hà Nội</title>
 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+
     <!-- Nhúng "thanh gươm" Tailwind CSS vào trang web -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+                        serif: ['"Lora"', 'Georgia', 'serif']
+                    }
+                }
+            }
+        };
+    </script>
 </head>
 
-<body class="bg-neutral-950 text-gray-100 font-sans">
+<body class="bg-white text-neutral-950 font-sans antialiased selection:bg-red-700 selection:text-white">
 
     <!-- Bắt đầu xây dựng Navbar (Thanh điều hướng trên cùng) -->
     <!-- ========================================== -->
     <!-- THANH MENU & ĐIỀU HƯỚNG (HEADER / NAV) -->
     <!-- ========================================== -->
-    <nav
-        class="bg-black/95 backdrop-blur-md border-b border-red-900/40 shadow-lg fixed w-full top-0 z-50 transition-all duration-300">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <nav class="bg-white/95 backdrop-blur-sm border-b border-neutral-200 fixed w-full top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-20 items-center">
 
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center gap-3">
-                    <a href="#"
-                        class="text-2xl font-black text-white tracking-tight hover:text-red-500 transition duration-300 uppercase">
-                        HLS <span class="text-red-600">Logistics</span>
+                    <a href="index.html" class="flex items-center gap-2.5 group">
+                        <span class="w-2 h-6 bg-red-700 inline-block"></span>
+                        <span class="text-xl font-extrabold text-neutral-950 tracking-tight uppercase">
+                            HLS <span class="font-medium text-neutral-500 group-hover:text-red-700 transition-colors duration-200">Logistics</span>
+                        </span>
                     </a>
                 </div>
 
                 <!-- Menu Ngang (Chỉ hiện trên máy tính - md:flex ẩn trên điện thoại) -->
-                <div class="hidden md:flex space-x-8">
+                <div class="hidden md:flex items-center space-x-8 text-sm">
                     <a href="#about"
-                        class="text-neutral-300 font-semibold hover:text-red-500 transition duration-300 py-2 border-b-2 border-transparent hover:border-red-600">Về
+                        class="text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-red-700">Về
                         chúng tôi</a>
                     <a href="#activities"
-                        class="text-neutral-300 font-semibold hover:text-red-500 transition duration-300 py-2 border-b-2 border-transparent hover:border-red-600">Hoạt
+                        class="text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-red-700">Hoạt
                         động</a>
-                    <a href="#"
-                        class="text-neutral-300 font-semibold hover:text-red-500 transition duration-300 py-2 border-b-2 border-transparent hover:border-red-600">Thành
+                    <a href="#activities"
+                        class="text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-red-700">Thành
                         tích</a>
                     <a href="phong-truyen-thong.html"
-                        class="text-neutral-300 font-semibold hover:text-red-500 transition duration-300 py-2 border-b-2 border-transparent hover:border-red-600">Phòng
+                        class="text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-red-700">Phòng
                         truyền thống</a>
                 </div>
 
                 <!-- Nút Tham gia (Chỉ hiện trên máy tính) -->
                 <div class="hidden md:flex">
-                    <a href="#"
-                        class="bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-6 rounded-full shadow-lg shadow-red-600/30 transition transform hover:-translate-y-1">
+                    <a href="#contact"
+                        class="bg-neutral-950 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-md transition-colors duration-200">
                         Tham gia CLB
                     </a>
                 </div>
@@ -56,10 +73,10 @@
                 <!-- Nút 3 gạch (Hamburger Menu - Chỉ hiện trên điện thoại) -->
                 <div class="md:hidden flex items-center">
                     <button id="mobile-menu-button"
-                        class="text-neutral-300 hover:text-red-500 focus:outline-none focus:text-red-500 p-2">
-                        <svg class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        class="text-neutral-700 hover:text-neutral-950 focus:outline-none p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                             <!-- Biểu tượng 3 gạch -->
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
                                 d="M4 6h16M4 12h16M4 18h16" />
                         </svg>
                     </button>
@@ -69,206 +86,256 @@
 
         <!-- Menu Dọc xổ xuống (Chỉ dành cho điện thoại - Mặc định bị ẩn class 'hidden') -->
         <div id="mobile-menu"
-            class="hidden md:hidden bg-neutral-950 border-t border-neutral-800 shadow-2xl absolute w-full">
-            <div class="px-4 pt-2 pb-6 space-y-2">
+            class="hidden md:hidden bg-white border-t border-neutral-200 shadow-lg absolute w-full">
+            <div class="px-4 pt-3 pb-6 space-y-1 text-sm">
                 <a href="#about"
-                    class="block text-neutral-300 hover:bg-red-950/50 hover:text-red-500 font-semibold py-3 px-4 rounded-lg transition duration-200">Về
+                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md transition-colors">Về
                     chúng tôi</a>
                 <a href="#activities"
-                    class="block text-neutral-300 hover:bg-red-950/50 hover:text-red-500 font-semibold py-3 px-4 rounded-lg transition duration-200">Hoạt
+                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md transition-colors">Hoạt
                     động</a>
-                <a href="#"
-                    class="block text-neutral-300 hover:bg-red-950/50 hover:text-red-500 font-semibold py-3 px-4 rounded-lg transition duration-200">Thành
+                <a href="#activities"
+                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md transition-colors">Thành
                     tích</a>
                 <a href="phong-truyen-thong.html"
-                    class="block text-neutral-300 hover:bg-red-950/50 hover:text-red-500 font-semibold py-3 px-4 rounded-lg transition duration-200">Phòng
+                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md transition-colors">Phòng
                     truyền thống</a>
-                <a href="#"
-                    class="block mt-4 text-center bg-red-600 hover:bg-red-700 text-white font-bold py-3 px-4 rounded-xl shadow-md shadow-red-600/20 transition duration-200">
-                    Tham gia CLB
-                </a>
+                <div class="pt-3">
+                    <a href="#contact"
+                        class="block text-center bg-neutral-950 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-md transition-colors">
+                        Tham gia CLB
+                    </a>
+                </div>
             </div>
         </div>
     </nav>
+
     <!-- Khu vực Banner chính (Hero Section) -->
-    <main class="mt-32 flex flex-col items-center justify-center text-center px-4">
-        <p class="text-red-500 font-bold mb-4 uppercase tracking-widest">HLS · Đại học Bách Khoa Hà Nội</p>
+    <main class="pt-36 pb-20 md:pt-44 md:pb-28 px-4 sm:px-6 lg:px-8 max-w-6xl mx-auto">
+        <div class="max-w-3xl">
+            <div class="flex items-center gap-3 mb-6">
+                <span class="w-8 h-[2px] bg-red-700"></span>
+                <p class="text-xs font-semibold uppercase tracking-[0.2em] text-red-700">
+                    Đại học Bách Khoa Hà Nội · HUST
+                </p>
+            </div>
 
-        <h1 class="text-5xl md:text-6xl font-extrabold text-white mb-6 leading-tight">
-            Kết nối. Học hỏi. <span class="text-red-600">Phát triển.</span>
-        </h1>
+            <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold text-neutral-950 tracking-tight leading-[1.12] mb-6">
+                Kết nối. Học hỏi.<br>
+                <span class="text-red-700">Phát triển bền vững.</span>
+            </h1>
 
-        <p class="text-lg text-neutral-400 max-w-2xl mb-10">
-            Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội,
-            nơi kết nối sinh viên, nhà trường và doanh nghiệp trong lĩnh vực Logistics và Quản lý chuỗi cung ứng.
-        </p>
+            <p class="text-base sm:text-lg text-neutral-600 leading-relaxed max-w-2xl mb-10">
+                Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội —
+                không gian học thuật chuyên sâu kết nối sinh viên, giảng viên và mạng lưới doanh nghiệp Chuỗi cung ứng.
+            </p>
 
-        <div class="flex space-x-4">
-            <a href="#about"
-                class="border-2 border-red-600 text-white px-8 py-3 rounded-full font-bold hover:bg-red-600 hover:text-white transition">
-                Khám phá HLS ↓
-            </a>
-            <a href="#activities"
-                class="bg-red-600 text-white px-8 py-3 rounded-full font-bold hover:bg-red-700 shadow-lg shadow-red-600/30 transition">
-                Xem hoạt động
-            </a>
+            <div class="flex flex-wrap items-center gap-4">
+                <a href="#activities"
+                    class="bg-red-700 hover:bg-neutral-950 text-white text-sm font-semibold px-7 py-3.5 rounded-md transition-colors duration-200">
+                    Xem hoạt động nổi bật
+                </a>
+                <a href="phong-truyen-thong.html"
+                    class="bg-white border border-neutral-300 hover:border-neutral-950 text-neutral-950 text-sm font-semibold px-7 py-3.5 rounded-md transition-colors duration-200">
+                    Phòng truyền thống &rarr;
+                </a>
+            </div>
         </div>
     </main>
+
     <!-- ========================================== -->
     <!-- PHÂN KHU MỚI: Về chúng tôi (About Section) -->
     <!-- ========================================== -->
-    <section id="about" class="mt-24 bg-neutral-900 py-16 px-4 border-t border-b border-neutral-800">
-        <div class="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-center">
+    <section id="about" class="bg-[#F7F7F5] py-20 md:py-24 px-4 sm:px-6 lg:px-8 border-y border-neutral-200">
+        <div class="max-w-6xl mx-auto grid md:grid-cols-12 gap-12 items-center">
 
             <!-- Cột bên trái: Nội dung chữ -->
-            <div>
-                <span class="text-red-500 font-bold uppercase tracking-wider text-sm">Về chúng tôi</span>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2 mb-6">
-                    CLB Logistics &amp; Quản lý chuỗi cung ứng <br> <span class="text-red-600">Đại học Bách Khoa Hà Nội</span>
+            <div class="md:col-span-6">
+                <span class="text-red-700 font-semibold uppercase tracking-[0.18em] text-xs">01 / Về chúng tôi</span>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-neutral-950 tracking-tight mt-3 mb-6 leading-snug">
+                    CLB Logistics &amp; Quản lý chuỗi cung ứng <span class="text-red-700">ĐHBK Hà Nội</span>
                 </h2>
-                <p class="text-neutral-300 text-lg leading-relaxed mb-6">
-                    HLS là Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội (HUST).
-                    HLS là cầu nối vững chắc giữa sinh viên đam mê học thuật và cộng đồng doanh nghiệp Logistics
-                    Việt Nam.
+                <p class="text-neutral-600 text-base md:text-lg leading-relaxed mb-8">
+                    HLS là Câu lạc bộ học thuật về Logistics và Quản lý chuỗi cung ứng tại Đại học Bách Khoa Hà Nội (HUST).
+                    Chúng tôi xây dựng cầu nối thực tiễn giữa tư duy kỹ thuật – quản trị của sinh viên Bách Khoa với cộng đồng doanh nghiệp Logistics tại Việt Nam.
                 </p>
-                <div class="font-bold text-xl italic text-neutral-100 border-l-4 border-red-600 pl-4">
-                    "Chia sẻ – Kết nối – Học hỏi"
-                </div>
+                <blockquote class="font-serif italic text-lg md:text-xl text-neutral-900 border-l-2 border-red-700 pl-5 py-1">
+                    “Chia sẻ tri thức – Kết nối thế hệ – Học hỏi không ngừng”
+                </blockquote>
             </div>
 
             <!-- Cột bên phải: Hình ảnh minh họa -->
             <!-- Thầy đang dùng một link ảnh trực tuyến (container) để em thấy kết quả ngay -->
-            <div
-                class="rounded-2xl overflow-hidden shadow-2xl shadow-black/60 border border-neutral-800 hover:border-red-600/50 hover:scale-105 transition duration-500 cursor-pointer">
-                <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=800&auto=format&fit=crop"
-                    alt="Hình ảnh Container Logistics" class="w-full h-auto object-cover">
+            <div class="md:col-span-6">
+                <div class="bg-white p-2.5 border border-neutral-200 rounded-lg shadow-sm">
+                    <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=900&auto=format&fit=crop"
+                        alt="Hình ảnh Container Logistics" class="w-full h-80 md:h-96 object-cover rounded">
+                </div>
             </div>
 
         </div>
     </section>
+
     <!-- ========================================== -->
     <!-- PHÂN KHU 3: Hoạt động & Sự kiện (Events Section) -->
     <!-- ========================================== -->
-    <section id="activities" class="py-16 px-4 bg-neutral-950">
+    <section id="activities" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-white">
         <div class="max-w-6xl mx-auto">
             <!-- Tiêu đề phân khu -->
-            <div class="text-center mb-12">
-                <span class="text-red-500 font-bold uppercase tracking-wider text-sm">Điểm nhấn</span>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-white mt-2">Các Hoạt Động Nổi Bật</h2>
-                <div class="w-24 h-1 bg-red-600 mx-auto mt-4 rounded-full"></div>
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 pb-6 border-b border-neutral-200">
+                <div>
+                    <span class="text-red-700 font-semibold uppercase tracking-[0.18em] text-xs">02 / Điểm nhấn học thuật</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-neutral-950 tracking-tight mt-2">Các Hoạt Động Nổi Bật</h2>
+                </div>
+                <p class="text-sm text-neutral-500 mt-3 md:mt-0 max-w-sm">
+                    Các cuộc thi chuyên môn, hội thảo doanh nghiệp và công trình nghiên cứu tiêu biểu của thành viên HLS.
+                </p>
             </div>
 
             <!-- Bố cục dạng Lưới (Grid): 1 cột trên ĐT, 3 cột trên Máy tính -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
                 <!-- Thẻ sự kiện số 1 -->
-                <div
-                    class="bg-neutral-900 border border-neutral-800 hover:border-red-600/60 rounded-2xl shadow-xl shadow-black/50 overflow-hidden hover:-translate-y-2 transition duration-300">
-                    <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=600&auto=format&fit=crop"
-                        alt="Sự kiện 1" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="text-xs font-bold text-red-500 mb-2">28 THÁNG 9, 2026</div>
-                        <h3 class="text-xl font-bold text-white mb-2">Chung kết Vietnam Young Logistics Talents HUST
-                        </h3>
-                        <p class="text-neutral-400 text-sm mb-4">Sự kiện lớn nhất năm với sự tranh tài của các đội tuyển
-                            xuất sắc nhất. HLS tự hào là đơn vị đồng hành tổ chức.</p>
-                        <a href="su-kien.html"
-                            class="text-red-500 hover:text-red-400 font-semibold text-sm hover:underline">Đọc thêm
-                            &rarr;</a>
+                <article
+                    class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 flex flex-col">
+                    <div class="overflow-hidden bg-neutral-100 h-52">
+                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=600&auto=format&fit=crop"
+                            alt="Sự kiện 1" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
                     </div>
-                </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-[11px] font-semibold uppercase tracking-widest text-red-700 mb-2.5">28 Tháng 09, 2026</div>
+                            <h3 class="text-lg font-bold text-neutral-950 group-hover:text-red-700 transition-colors mb-2.5 leading-snug">
+                                Chung kết Vietnam Young Logistics Talents HUST
+                            </h3>
+                            <p class="text-neutral-600 text-sm leading-relaxed mb-6">
+                                Sự kiện lớn nhất năm với sự tranh tài của các đội tuyển xuất sắc nhất. HLS tự hào là đơn vị đồng hành tổ chức.
+                            </p>
+                        </div>
+                        <a href="su-kien.html"
+                            class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold text-sm transition-colors">
+                            <span>Đọc chi tiết</span>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
+                </article>
 
                 <!-- Thẻ sự kiện số 2 -->
-                <div
-                    class="bg-neutral-900 border border-neutral-800 hover:border-red-600/60 rounded-2xl shadow-xl shadow-black/50 overflow-hidden hover:-translate-y-2 transition duration-300">
-                    <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=600&auto=format&fit=crop"
-                        alt="Sự kiện 2" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="text-xs font-bold text-red-500 mb-2">THÁNG 7, 2026</div>
-                        <h3 class="text-xl font-bold text-white mb-2">Quán quân Logistics Competition HUST</h3>
-                        <p class="text-neutral-400 text-sm mb-4">Thành tích rực rỡ của các thành viên HLS tại sân chơi
-                            học thuật quy mô lớn tại Đại học Bách Khoa Hà Nội.</p>
-                        <a href="#" class="text-red-500 hover:text-red-400 font-semibold text-sm hover:underline">Đọc
-                            thêm &rarr;</a>
+                <article
+                    class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 flex flex-col">
+                    <div class="overflow-hidden bg-neutral-100 h-52">
+                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=600&auto=format&fit=crop"
+                            alt="Sự kiện 2" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
                     </div>
-                </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-[11px] font-semibold uppercase tracking-widest text-red-700 mb-2.5">Tháng 07, 2026</div>
+                            <h3 class="text-lg font-bold text-neutral-950 group-hover:text-red-700 transition-colors mb-2.5 leading-snug">
+                                Quán quân Logistics Competition HUST
+                            </h3>
+                            <p class="text-neutral-600 text-sm leading-relaxed mb-6">
+                                Thành tích xuất sắc của các thành viên HLS tại sân chơi học thuật quy mô lớn tại Đại học Bách Khoa Hà Nội.
+                            </p>
+                        </div>
+                        <a href="#"
+                            class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold text-sm transition-colors">
+                            <span>Đọc chi tiết</span>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
+                </article>
 
                 <!-- Thẻ sự kiện số 3 -->
-                <div
-                    class="bg-neutral-900 border border-neutral-800 hover:border-red-600/60 rounded-2xl shadow-xl shadow-black/50 overflow-hidden hover:-translate-y-2 transition duration-300">
-                    <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop"
-                        alt="Sự kiện 3" class="w-full h-48 object-cover">
-                    <div class="p-6">
-                        <div class="text-xs font-bold text-red-500 mb-2">THÁNG 5, 2026</div>
-                        <h3 class="text-xl font-bold text-white mb-2">Báo cáo Nghiên cứu khoa học</h3>
-                        <p class="text-neutral-400 text-sm mb-4">Trình bày giải pháp T-Seal và mô hình tối ưu hóa vận
-                            tải tại Hội nghị Sinh viên Nghiên cứu Khoa học.</p>
-                        <a href="#" class="text-red-500 hover:text-red-400 font-semibold text-sm hover:underline">Đọc
-                            thêm &rarr;</a>
+                <article
+                    class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 flex flex-col">
+                    <div class="overflow-hidden bg-neutral-100 h-52">
+                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop"
+                            alt="Sự kiện 3" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
                     </div>
-                </div>
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-[11px] font-semibold uppercase tracking-widest text-red-700 mb-2.5">Tháng 05, 2026</div>
+                            <h3 class="text-lg font-bold text-neutral-950 group-hover:text-red-700 transition-colors mb-2.5 leading-snug">
+                                Báo cáo Nghiên cứu khoa học Sinh viên
+                            </h3>
+                            <p class="text-neutral-600 text-sm leading-relaxed mb-6">
+                                Trình bày giải pháp T-Seal và mô hình tối ưu hóa vận tải tại Hội nghị Sinh viên Nghiên cứu Khoa học.
+                            </p>
+                        </div>
+                        <a href="#"
+                            class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold text-sm transition-colors">
+                            <span>Đọc chi tiết</span>
+                            <span>&rarr;</span>
+                        </a>
+                    </div>
+                </article>
 
             </div>
         </div>
     </section>
+
     <!-- ========================================== -->
     <!-- CHÂN TRANG (FOOTER) -->
     <!-- ========================================== -->
-    <footer class="bg-black text-white border-t border-red-900/40 pt-16 pb-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <footer id="contact" class="bg-[#F7F7F5] text-neutral-950 border-t border-neutral-200 pt-16 pb-10">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Bố cục lưới 3 cột -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-12">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-12 mb-14">
 
                 <!-- Cột 1: Thông tin CLB -->
                 <div>
-                    <h3 class="text-2xl font-black tracking-tight mb-4 uppercase text-red-600">
-                        HLS <span class="text-white">Logistics</span>
-                    </h3>
-                    <p class="text-neutral-400 text-sm leading-relaxed mb-6">
+                    <div class="flex items-center gap-2.5 mb-4">
+                        <span class="w-2 h-5 bg-red-700 inline-block"></span>
+                        <h3 class="text-lg font-extrabold tracking-tight uppercase text-neutral-950">
+                            HLS <span class="font-medium text-neutral-500">Logistics</span>
+                        </h3>
+                    </div>
+                    <p class="text-neutral-600 text-sm leading-relaxed mb-5">
                         Câu lạc bộ Logistics và Quản lý chuỗi cung ứng của Đại học Bách Khoa Hà Nội. Nơi kết nối, học hỏi và
                         phát triển của sinh viên đam mê lĩnh vực Logistics và Chuỗi cung ứng.
                     </p>
-                    <div class="font-semibold italic text-red-400 border-l-2 border-red-600 pl-3">
-                        "Chia sẻ – Kết nối – Học hỏi"
+                    <div class="font-serif italic text-sm text-neutral-800 border-l-2 border-red-700 pl-3">
+                        “Chia sẻ – Kết nối – Học hỏi”
                     </div>
                 </div>
 
                 <!-- Cột 2: Liên kết nhanh -->
                 <div>
-                    <h4 class="text-lg font-bold mb-4 uppercase tracking-wider border-b border-neutral-800 pb-2">Liên
-                        kết nhanh</h4>
-                    <ul class="space-y-3 text-neutral-400 text-sm">
-                        <li><a href="#about" class="hover:text-red-500 transition duration-300">&rarr; Về chúng tôi</a>
-                        </li>
-                        <li><a href="#activities" class="hover:text-red-500 transition duration-300">&rarr; Hoạt động &
-                                Sự kiện</a></li>
-                        <li><a href="#" class="hover:text-red-500 transition duration-300">&rarr; Thành tích nổi bật</a>
-                        </li>
-                        <li><a href="phong-truyen-thong.html" class="hover:text-red-500 transition duration-300">&rarr; Phòng truyền thống</a>
-                        </li>
-                        <li><a href="admin.html" class="hover:text-red-500 transition duration-300">&rarr; Quản trị Phòng truyền thống</a>
-                        </li>
+                    <h4 class="text-xs font-bold mb-4 uppercase tracking-[0.16em] text-neutral-950 border-b border-neutral-200 pb-2.5">
+                        Điều hướng
+                    </h4>
+                    <ul class="space-y-2.5 text-neutral-600 text-sm">
+                        <li><a href="#about" class="hover:text-red-700 transition-colors">Về chúng tôi</a></li>
+                        <li><a href="#activities" class="hover:text-red-700 transition-colors">Hoạt động &amp; Sự kiện</a></li>
+                        <li><a href="phong-truyen-thong.html" class="hover:text-red-700 transition-colors">Phòng truyền thống các Gen</a></li>
+                        <li><a href="admin.html" class="hover:text-red-700 transition-colors">Quản trị Phòng truyền thống</a></li>
                     </ul>
                 </div>
 
                 <!-- Cột 3: Thông tin liên hệ -->
                 <div>
-                    <h4 class="text-lg font-bold mb-4 uppercase tracking-wider border-b border-neutral-800 pb-2">Liên hệ
-                        với HLS</h4>
-                    <ul class="space-y-3 text-neutral-400 text-sm mb-6">
+                    <h4 class="text-xs font-bold mb-4 uppercase tracking-[0.16em] text-neutral-950 border-b border-neutral-200 pb-2.5">
+                        Liên hệ với HLS
+                    </h4>
+                    <ul class="space-y-3 text-neutral-600 text-sm mb-6">
                         <li class="flex items-start gap-3">
-                            <span class="text-red-500">📍</span>
+                            <svg class="w-4 h-4 text-red-700 mt-1 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M17.657 16.657L13.414 20.9a2 2 0 01-2.828 0l-4.243-4.243a8 8 0 1111.314 0z" />
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
                             <span>Đại học Bách Khoa Hà Nội<br>Số 1 Đại Cồ Việt, Hai Bà Trưng, Hà Nội</span>
                         </li>
                         <li class="flex items-center gap-3">
-                            <span class="text-red-500">✉️</span>
+                            <svg class="w-4 h-4 text-red-700 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                            </svg>
                             <span>hls.hust@gmail.com</span>
                         </li>
                     </ul>
                     <!-- Nút bấm Fanpage -->
-                    <a href="https://www.facebook.com/" target="_blank"
-                        class="inline-block w-full text-center bg-red-600 hover:bg-red-700 text-white font-bold py-2.5 px-4 rounded-lg transition duration-300 shadow-lg shadow-red-950/60">
-                        Truy cập Fanpage
+                    <a href="https://www.facebook.com/" target="_blank" rel="noopener noreferrer"
+                        class="inline-block w-full text-center bg-neutral-950 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-4 rounded-md transition-colors duration-200">
+                        Truy cập Fanpage chính thức
                     </a>
                 </div>
 
@@ -276,13 +343,13 @@
 
             <!-- Thanh Bản quyền (Copyright) -->
             <div
-                class="border-t border-neutral-900 pt-8 flex flex-col md:flex-row justify-between items-center text-neutral-500 text-xs">
-                <p>&copy; 2026 HLS Logistics Club. Bảo lưu mọi quyền.</p>
-                <p class="mt-2 md:mt-0 font-medium tracking-wide">Được thiết kế và lập trình bởi <span
-                        class="text-red-500">Hoàng Đức Tài</span></p>
+                class="border-t border-neutral-200 pt-6 flex flex-col md:flex-row justify-between items-center text-neutral-500 text-xs">
+                <p>&copy; 2026 HLS — CLB Logistics và Quản lý chuỗi cung ứng ĐHBK Hà Nội.</p>
+                <p class="mt-2 md:mt-0">Thiết kế và phát triển bởi <span class="font-semibold text-neutral-900">Hoàng Đức Tài</span></p>
             </div>
         </div>
     </footer>
+
     <!-- ========================================== -->
     <!-- JAVASCRIPT: ĐIỀU KHIỂN TƯƠNG TÁC -->
     <!-- ========================================== -->

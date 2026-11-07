@@ -4,39 +4,74 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Chi tiết Sự kiện - HLS Logistics</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+
     <!-- Nhúng Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+                        serif: ['"Lora"', 'Georgia', 'serif']
+                    }
+                }
+            }
+        };
+    </script>
 </head>
-<body class="bg-neutral-950 text-gray-100 font-sans pt-12">
-    
-    <!-- Nút Quay lại trang chủ -->
-    <div class="max-w-4xl mx-auto px-4 mb-6">
-        <a href="index.html" class="text-red-500 font-semibold hover:text-red-400 transition flex items-center gap-2">
-            &larr; Quay lại Trang chủ
-        </a>
-    </div>
+<body class="bg-white text-neutral-950 font-sans antialiased selection:bg-red-700 selection:text-white">
+
+    <!-- Thanh điều hướng tối giản -->
+    <header class="border-b border-neutral-200 bg-white/95 backdrop-blur-sm sticky top-0 z-40">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
+            <!-- Nút Quay lại trang chủ -->
+            <a href="index.html" class="text-sm font-medium text-neutral-600 hover:text-red-700 transition-colors flex items-center gap-2">
+                <span>&larr;</span>
+                <span>Quay lại Trang chủ</span>
+            </a>
+
+            <a href="index.html" class="flex items-center gap-2">
+                <span class="w-1.5 h-4 bg-red-700 inline-block"></span>
+                <span class="text-sm font-extrabold uppercase tracking-tight text-neutral-950">HLS <span class="font-medium text-neutral-500">Logistics</span></span>
+            </a>
+        </div>
+    </header>
 
     <!-- Nội dung chi tiết bài viết -->
-    <article class="max-w-4xl mx-auto bg-neutral-900 border border-neutral-800 p-6 md:p-10 rounded-2xl shadow-2xl shadow-black/60 mb-12">
-        <div class="mb-6">
-            <span class="bg-red-950/80 text-red-400 border border-red-800/60 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">Sự kiện nổi bật</span>
+    <article class="max-w-3xl mx-auto px-4 sm:px-6 py-14 md:py-20">
+        <div class="mb-4 flex items-center gap-3">
+            <span class="w-6 h-[2px] bg-red-700"></span>
+            <span class="text-red-700 text-xs font-semibold uppercase tracking-[0.18em]">Sự kiện nổi bật</span>
         </div>
-        <h1 class="text-3xl md:text-5xl font-extrabold text-white mb-4 leading-tight">Chung kết Vietnam Young Logistics Talents HUST</h1>
-        <p class="text-neutral-400 mb-8 italic">Đăng ngày 28/09/2026 | Đăng bởi: Ban Truyền thông HLS</p>
-        
-        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200&auto=format&fit=crop" 
-             alt="Chung kết VYLT" class="w-full h-64 md:h-96 object-cover rounded-xl mb-8 shadow-md border border-neutral-800">
-        
-        <div class="prose max-w-none text-neutral-300 text-lg leading-relaxed space-y-6">
+
+        <h1 class="text-3xl md:text-5xl font-extrabold text-neutral-950 tracking-tight mb-4 leading-[1.18]">
+            Chung kết Vietnam Young Logistics Talents HUST
+        </h1>
+
+        <p class="text-sm text-neutral-500 pb-8 mb-8 border-b border-neutral-200">
+            Đăng ngày 28/09/2026 &nbsp;·&nbsp; Ban Truyền thông HLS
+        </p>
+
+        <figure class="mb-10">
+            <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=1200&auto=format&fit=crop" 
+                 alt="Chung kết VYLT" class="w-full h-64 md:h-[420px] object-cover rounded-lg border border-neutral-200">
+        </figure>
+
+        <div class="text-neutral-700 text-base md:text-lg leading-[1.85] space-y-6">
             <p>
-                Vào ngày 28 tháng 9 năm 2026, Vòng chung kết cấp trường cuộc thi <strong class="text-white">Vietnam Young Logistics Talents (VYLT)</strong> đã diễn ra thành công rực rỡ tại Đại học Bách Khoa Hà Nội (HUST). 
+                Vào ngày 28 tháng 9 năm 2026, Vòng chung kết cấp trường cuộc thi <strong class="font-semibold text-neutral-950">Vietnam Young Logistics Talents (VYLT)</strong> đã diễn ra thành công rực rỡ tại Đại học Bách Khoa Hà Nội (HUST).
             </p>
             <p>
-                Trải qua nhiều vòng thi căng thẳng, các đội tuyển xuất sắc nhất đã mang đến những giải pháp thực tiễn, đột phá cho các bài toán chuỗi cung ứng hiện đại. Câu lạc bộ <strong class="text-white">HLS Logistics</strong> vô cùng tự hào khi là đơn vị đồng hành tổ chức, góp phần tạo nên một sân chơi học thuật chuyên nghiệp, kết nối sinh viên với mạng lưới doanh nghiệp logistics hàng đầu Việt Nam.
+                Trải qua nhiều vòng thi căng thẳng, các đội tuyển xuất sắc nhất đã mang đến những giải pháp thực tiễn, đột phá cho các bài toán chuỗi cung ứng hiện đại. Câu lạc bộ <strong class="font-semibold text-neutral-950">HLS Logistics</strong> vô cùng tự hào khi là đơn vị đồng hành tổ chức, góp phần tạo nên một sân chơi học thuật chuyên nghiệp, kết nối sinh viên với mạng lưới doanh nghiệp logistics hàng đầu Việt Nam.
             </p>
-            <div class="bg-red-950/40 border-l-4 border-red-600 p-4 rounded-r-lg mt-8">
-                <p class="font-semibold text-red-300">"Học hỏi không ngừng - Kết nối vươn xa." - HLS Logistics</p>
-            </div>
+            <blockquote class="bg-[#F7F7F5] border-l-2 border-red-700 px-6 py-5 my-8">
+                <p class="font-serif italic text-neutral-900 text-lg">“Học hỏi không ngừng – Kết nối vươn xa.” — HLS Logistics</p>
+            </blockquote>
         </div>
     </article>
 
