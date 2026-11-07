@@ -25,6 +25,29 @@
     </script>
     <!-- Supabase JS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        details > summary::-webkit-details-marker {
+            display: none;
+        }
+        .adm-input {
+            width: 100%;
+            background-color: #ffffff;
+            border: 1px solid #d4d4d4;
+            border-radius: 0.375rem;
+            padding: 0.5rem 0.75rem;
+            font-size: 0.875rem;
+            line-height: 1.45;
+            color: #0a0a0a;
+            transition: border-color 0.15s ease;
+        }
+        .adm-input:focus {
+            outline: none;
+            border-color: #0a0a0a;
+        }
+        .adm-input::placeholder {
+            color: #a3a3a3;
+        }
+    </style>
 </head>
 
 <body class="bg-[#F7F7F5] text-neutral-950 font-sans antialiased min-h-screen flex flex-col selection:bg-red-700 selection:text-white">
@@ -267,6 +290,14 @@
                         class="px-3.5 py-2 rounded-md bg-white hover:border-neutral-950 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
                         Xem trang chủ
                     </a>
+                    <button id="export-content-json-btn" type="button"
+                        class="px-3.5 py-2 rounded-md bg-white hover:bg-neutral-50 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
+                        Xuất JSON
+                    </button>
+                    <label class="cursor-pointer px-3.5 py-2 rounded-md bg-white hover:bg-neutral-50 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
+                        Nhập JSON
+                        <input id="import-content-json-input" type="file" accept=".json,application/json" class="hidden">
+                    </label>
                     <button id="reset-content-btn" type="button"
                         class="px-3.5 py-2 rounded-md bg-white hover:bg-red-50 hover:text-red-700 hover:border-red-200 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
                         Khôi phục mặc định
@@ -472,6 +503,22 @@
                         </div>
                     </div>
                 </details>
+            </div>
+
+            <div class="mt-6 pt-5 border-t border-neutral-200 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <p id="content-unsaved-hint" class="text-xs text-neutral-500">
+                    Mọi thay đổi ở trên chỉ có hiệu lực sau khi nhấn <span class="font-semibold text-neutral-900">Lưu toàn bộ nội dung</span>.
+                </p>
+                <div class="flex items-center gap-2 self-end sm:self-auto">
+                    <a href="index.html" target="_blank"
+                        class="px-3.5 py-2 rounded-md bg-white hover:border-neutral-950 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
+                        Mở trang chủ kiểm tra
+                    </a>
+                    <button id="save-content-bottom-btn" type="button"
+                        class="px-5 py-2 rounded-md bg-red-700 hover:bg-neutral-950 text-xs font-semibold text-white transition-colors">
+                        Lưu toàn bộ nội dung
+                    </button>
+                </div>
             </div>
         </section>
 
@@ -835,7 +882,7 @@
     <div id="supabase-guide-modal" class="hidden fixed inset-0 z-50 bg-neutral-950/50 backdrop-blur-[2px] overflow-y-auto p-4 sm:p-6">
         <div class="max-w-2xl mx-auto my-8 bg-white border border-neutral-200 rounded-lg shadow-xl overflow-hidden">
             <div class="px-6 py-4 bg-[#F7F7F5] border-b border-neutral-200 flex items-center justify-between">
-                <h2 class="text-base font-bold text-neutral-950">Hướng dẫn kết nối Cơ sở dữ liệu Supabase (Thành viên &amp; Sự kiện)</h2>
+                <h2 class="text-base font-bold text-neutral-950">Hướng dẫn kết nối Cơ sở dữ liệu Supabase</h2>
                 <button type="button" id="close-guide-btn" class="text-neutral-400 hover:text-neutral-950 text-xl leading-none">&times;</button>
             </div>
 
@@ -846,7 +893,7 @@
 
                 <ol class="list-decimal list-inside space-y-2 text-neutral-800 text-xs sm:text-sm">
                     <li>Tạo Project mới, vào mục <strong>Authentication &rarr; Users &rarr; Add User</strong> để tạo tài khoản email và mật khẩu quản trị viên.</li>
-                    <li>Mở mục <strong>SQL Editor &rarr; New Query</strong>, dán đoạn mã dưới đây và nhấn <strong>Run</strong> (tự động tạo bảng <code>members</code>, bảng <code>events</code> và 2 kho ảnh):</li>
+                    <li>Mở mục <strong>SQL Editor &rarr; New Query</strong>, dán đoạn mã dưới đây và nhấn <strong>Run</strong> (tự động tạo bảng <code>members</code>, <code>events</code>, <code>site_content</code> và 2 kho ảnh):</li>
                 </ol>
 
                 <div class="relative">
@@ -895,9 +942,17 @@ create table if not exists public.events (
     created_at timestamptz default now()
 );
 
--- 3. Phân quyền bảo mật RLS
+-- 3. Bảng Nội dung Trang chủ, Về chúng tôi & Liên hệ
+create table if not exists public.site_content (
+    id text primary key,
+    data jsonb default '{}'::jsonb,
+    updated_at timestamptz default now()
+);
+
+-- 4. Phân quyền bảo mật RLS
 alter table public.members enable row level security;
 alter table public.events enable row level security;
+alter table public.site_content enable row level security;
 
 create policy "Cong khai xem thanh vien" on public.members for select using (true);
 create policy "Admin quan ly thanh vien" on public.members for all to authenticated using (true) with check (true);
@@ -905,7 +960,10 @@ create policy "Admin quan ly thanh vien" on public.members for all to authentica
 create policy "Cong khai xem su kien" on public.events for select using (true);
 create policy "Admin quan ly su kien" on public.events for all to authenticated using (true) with check (true);
 
--- 4. Kho lưu trữ ảnh chân dung & ảnh sự kiện
+create policy "Cong khai xem noi dung trang chu" on public.site_content for select using (true);
+create policy "Admin quan ly noi dung trang chu" on public.site_content for all to authenticated using (true) with check (true);
+
+-- 5. Kho lưu trữ ảnh chân dung, sự kiện & trang chủ
 insert into storage.buckets (id, name, public) values ('member-photos', 'member-photos', true) on conflict (id) do nothing;
 insert into storage.buckets (id, name, public) values ('event-photos', 'event-photos', true) on conflict (id) do nothing;
 
@@ -924,6 +982,7 @@ create policy "Admin tai anh len" on storage.objects for insert to authenticated
     <script src="js/supabase-config.js"></script>
     <script src="js/hall-of-fame-service.js"></script>
     <script src="js/events-service.js"></script>
+    <script src="js/site-content-service.js"></script>
 
     <script>
         const loginView = document.getElementById("login-view");
@@ -933,11 +992,13 @@ create policy "Admin tai anh len" on storage.objects for insert to authenticated
         const demoLoginHint = document.getElementById("demo-login-hint");
         const toastBanner = document.getElementById("toast-banner");
 
-        // Tab chuyển đổi
+        // Tab chuyển đổi (3 phân khu)
         const tabBtnMembers = document.getElementById("tab-btn-members");
         const tabBtnEvents = document.getElementById("tab-btn-events");
+        const tabBtnContent = document.getElementById("tab-btn-content");
         const panelMembers = document.getElementById("panel-members");
         const panelEvents = document.getElementById("panel-events");
+        const panelContent = document.getElementById("panel-content");
 
         // Biến trạng thái Thành viên
         const memberModal = document.getElementById("member-modal");
@@ -981,19 +1042,30 @@ create policy "Admin tai anh len" on storage.objects for insert to authenticated
         }
 
         function switchAdminTab(tabName) {
-            const isEvents = tabName === "events";
-            panelMembers.classList.toggle("hidden", isEvents);
-            panelEvents.classList.toggle("hidden", !isEvents);
+            const active = ["members", "events", "content"].includes(tabName) ? tabName : "members";
 
-            tabBtnMembers.className = `px-4 py-3 text-sm whitespace-nowrap transition-colors border-b-2 ${
-                !isEvents ? "font-bold border-red-700 text-neutral-950" : "font-medium border-transparent text-neutral-500 hover:text-neutral-950"
-            }`;
-            tabBtnEvents.className = `px-4 py-3 text-sm whitespace-nowrap transition-colors border-b-2 ${
-                isEvents ? "font-bold border-red-700 text-neutral-950" : "font-medium border-transparent text-neutral-500 hover:text-neutral-950"
-            }`;
+            panelMembers.classList.toggle("hidden", active !== "members");
+            panelEvents.classList.toggle("hidden", active !== "events");
+            panelContent.classList.toggle("hidden", active !== "content");
 
-            if (isEvents) {
+            const tabPairs = [
+                [tabBtnMembers, "members"],
+                [tabBtnEvents, "events"],
+                [tabBtnContent, "content"]
+            ];
+            tabPairs.forEach(([btn, key]) => {
+                const isCurrent = active === key;
+                btn.className = `px-4 py-3 text-sm whitespace-nowrap transition-colors border-b-2 ${
+                    isCurrent
+                        ? "font-bold border-red-700 text-neutral-950"
+                        : "font-medium border-transparent text-neutral-500 hover:text-neutral-950"
+                }`;
+            });
+
+            if (active === "events") {
                 history.replaceState(null, "", "#events");
+            } else if (active === "content") {
+                history.replaceState(null, "", "#content");
             } else {
                 history.replaceState(null, "", window.location.pathname);
             }
@@ -1001,6 +1073,7 @@ create policy "Admin tai anh len" on storage.objects for insert to authenticated
 
         tabBtnMembers.addEventListener("click", () => switchAdminTab("members"));
         tabBtnEvents.addEventListener("click", () => switchAdminTab("events"));
+        tabBtnContent.addEventListener("click", () => switchAdminTab("content"));
 
         function updateModeBadge() {
             const isCloud = HLSService.isSupabaseConfigured();
@@ -1728,6 +1801,388 @@ create policy "Admin tai anh len" on storage.objects for insert to authenticated
         document.getElementById("event-filter-subtype").addEventListener("change", renderAdminEventsList);
         document.getElementById("event-search").addEventListener("input", renderAdminEventsList);
 
+        // =========================================================================
+        // PHẦN C: LOGIC QUẢN LÝ NỘI DUNG TRANG CHỦ, VỀ CHÚNG TÔI & LIÊN HỆ (TAB 03)
+        // =========================================================================
+        let siteContentDraft = window.HLSContentService ? HLSContentService.getDefaultContent() : {};
+        let isContentDirty = false;
+
+        const LIST_SCHEMAS = {
+            "story.milestones": {
+                title: "Các mốc phát triển qua từng năm",
+                addLabel: "+ Thêm mốc phát triển",
+                emptyText: "Chưa có mốc phát triển nào.",
+                defaultItem: () => ({ year: String(new Date().getFullYear()), title: "", description: "" }),
+                fields: [
+                    { key: "year", label: "Năm / Giai đoạn", placeholder: "VD: 2022", colClass: "sm:col-span-3" },
+                    { key: "title", label: "Tiêu đề dấu mốc", placeholder: "VD: Thành lập Câu lạc bộ", colClass: "sm:col-span-9" },
+                    { key: "description", label: "Mô tả chi tiết", placeholder: "Mô tả ngắn về cột mốc...", type: "textarea", rows: 2, colClass: "sm:col-span-12" }
+                ]
+            },
+            "vision.values": {
+                title: "Các giá trị cốt lõi",
+                addLabel: "+ Thêm giá trị cốt lõi",
+                emptyText: "Chưa có giá trị cốt lõi nào.",
+                defaultItem: () => ({ title: "", description: "" }),
+                fields: [
+                    { key: "title", label: "Tên giá trị cốt lõi", placeholder: "VD: Học thuật chuyên sâu", colClass: "sm:col-span-5" },
+                    { key: "description", label: "Nội dung giải thích", placeholder: "Mô tả ý nghĩa giá trị...", colClass: "sm:col-span-7" }
+                ]
+            },
+            "organization.departments": {
+                title: "Danh sách các ban chức năng",
+                addLabel: "+ Thêm ban chức năng",
+                emptyText: "Chưa có ban chức năng nào.",
+                defaultItem: () => ({ name: "", lead: "", description: "" }),
+                fields: [
+                    { key: "name", label: "Tên ban", placeholder: "VD: Ban Chuyên môn / Học thuật", colClass: "sm:col-span-7" },
+                    { key: "lead", label: "Trưởng ban (tùy chọn)", placeholder: "Để trống nếu chưa cập nhật", colClass: "sm:col-span-5" },
+                    { key: "description", label: "Chức năng & nhiệm vụ chính", placeholder: "Mô tả công việc chuyên trách của ban...", type: "textarea", rows: 2, colClass: "sm:col-span-12" }
+                ]
+            },
+            "achievements.stats": {
+                title: "Các con số ấn tượng",
+                addLabel: "+ Thêm con số",
+                emptyText: "Chưa có con số thống kê nào.",
+                defaultItem: () => ({ value: "", label: "" }),
+                fields: [
+                    { key: "value", label: "Con số nổi bật", placeholder: "VD: 120+", colClass: "sm:col-span-4" },
+                    { key: "label", label: "Ý nghĩa con số", placeholder: "VD: Thành viên qua 4 thế hệ", colClass: "sm:col-span-8" }
+                ]
+            },
+            "achievements.awards": {
+                title: "Giải thưởng & Ghi nhận",
+                addLabel: "+ Thêm giải thưởng",
+                emptyText: "Chưa có giải thưởng nào.",
+                defaultItem: () => ({ year: String(new Date().getFullYear()), title: "", description: "" }),
+                fields: [
+                    { key: "year", label: "Năm", placeholder: "VD: 2026", colClass: "sm:col-span-3" },
+                    { key: "title", label: "Tên giải thưởng / Ghi nhận", placeholder: "VD: CLB học thuật tiêu biểu", colClass: "sm:col-span-9" },
+                    { key: "description", label: "Chi tiết thành tích (tùy chọn)", placeholder: "Mô tả thêm về giải thưởng...", type: "textarea", rows: 2, colClass: "sm:col-span-12" }
+                ]
+            }
+        };
+
+        function getByPath(obj, path) {
+            return String(path)
+                .split(".")
+                .reduce((acc, part) => (acc && acc[part] !== undefined ? acc[part] : undefined), obj);
+        }
+
+        function setByPath(obj, path, value) {
+            const parts = String(path).split(".");
+            let cur = obj;
+            for (let i = 0; i < parts.length - 1; i++) {
+                const p = parts[i];
+                if (!cur[p] || typeof cur[p] !== "object") cur[p] = {};
+                cur = cur[p];
+            }
+            cur[parts[parts.length - 1]] = value;
+        }
+
+        function markContentDirty(dirty) {
+            isContentDirty = Boolean(dirty);
+            const hint = document.getElementById("content-unsaved-hint");
+            if (!hint) return;
+            if (isContentDirty) {
+                hint.innerHTML = `<span class="font-semibold text-red-700">Có thay đổi chưa lưu</span> — nhấn <span class="font-semibold text-neutral-950">Lưu toàn bộ nội dung</span> để áp dụng lên trang chủ.`;
+            } else {
+                hint.innerHTML = `Mọi thay đổi ở trên đã đồng bộ hoặc sẵn sàng. Nhấn <span class="font-semibold text-neutral-900">Lưu toàn bộ nội dung</span> sau khi chỉnh sửa.`;
+            }
+        }
+
+        function renderSingleImageWidget(container) {
+            const imgPath = container.getAttribute("data-image-path");
+            const label = container.getAttribute("data-image-label") || "Hình ảnh";
+            const currentUrl = getByPath(siteContentDraft, imgPath) || "";
+            const isDataUri = currentUrl.startsWith("data:");
+
+            container.innerHTML = `
+                <div class="p-4 rounded-lg bg-[#F7F7F5] border border-neutral-200 space-y-3">
+                    <div class="flex items-center justify-between gap-2">
+                        <label class="text-xs font-semibold text-neutral-800">${escapeHtml(label)}</label>
+                        ${currentUrl ? `
+                            <button type="button" data-clear-img class="text-[11px] font-semibold text-neutral-500 hover:text-red-700 transition-colors">
+                                Xóa ảnh hiện tại
+                            </button>
+                        ` : ""}
+                    </div>
+                    <div class="flex flex-col sm:flex-row items-start sm:items-center gap-4">
+                        <div class="w-full sm:w-44 h-28 rounded overflow-hidden bg-white border border-neutral-300 flex items-center justify-center flex-shrink-0">
+                            ${currentUrl
+                                ? `<img data-img-preview src="${escapeHtml(currentUrl)}" alt="Xem trước" class="w-full h-full object-cover">`
+                                : `<span data-img-empty class="text-[11px] text-neutral-400 px-3 text-center">Chưa gắn ảnh</span>`
+                            }
+                        </div>
+                        <div class="flex-1 w-full space-y-2.5">
+                            <div>
+                                <span class="block text-[11px] font-medium text-neutral-600 mb-1">Tải ảnh từ máy tính (tự động tối ưu dung lượng):</span>
+                                <input data-img-file type="file" accept="image/*"
+                                    class="block w-full text-xs text-neutral-600 file:mr-3 file:py-1.5 file:px-3.5 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-neutral-950 file:text-white hover:file:bg-red-700 cursor-pointer">
+                            </div>
+                            <div>
+                                <span class="block text-[11px] font-medium text-neutral-500 mb-1">Hoặc dán đường dẫn URL ảnh:</span>
+                                <input data-img-url type="text" placeholder="https://..."
+                                    value="${escapeHtml(isDataUri ? "" : currentUrl)}"
+                                    class="adm-input !text-xs !py-1.5">
+                            </div>
+                            <p data-img-status class="hidden text-[11px] font-medium text-red-700"></p>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const fileInput = container.querySelector("[data-img-file]");
+            const urlInput = container.querySelector("[data-img-url]");
+            const clearBtn = container.querySelector("[data-clear-img]");
+            const statusEl = container.querySelector("[data-img-status]");
+
+            fileInput.addEventListener("change", async (e) => {
+                const file = e.target.files && e.target.files[0];
+                if (!file) return;
+                statusEl.textContent = "Đang xử lý và tải ảnh...";
+                statusEl.classList.remove("hidden");
+                try {
+                    const uploadedUrl = await HLSContentService.uploadSiteImage(file);
+                    setByPath(siteContentDraft, imgPath, uploadedUrl);
+                    markContentDirty(true);
+                    renderSingleImageWidget(container);
+                    showToast("Đã cập nhật ảnh minh họa. Nhấn 'Lưu toàn bộ nội dung' để áp dụng lên trang chủ.");
+                } catch (err) {
+                    statusEl.textContent = err.message;
+                    showToast(err.message, true);
+                }
+            });
+
+            urlInput.addEventListener("input", (e) => {
+                const val = e.target.value.trim();
+                setByPath(siteContentDraft, imgPath, val);
+                markContentDirty(true);
+                const preview = container.querySelector("[data-img-preview]");
+                if (val && preview) {
+                    preview.src = val;
+                } else {
+                    renderSingleImageWidget(container);
+                    const refocused = container.querySelector("[data-img-url]");
+                    if (refocused) {
+                        refocused.focus();
+                        refocused.setSelectionRange(refocused.value.length, refocused.value.length);
+                    }
+                }
+            });
+
+            if (clearBtn) {
+                clearBtn.addEventListener("click", () => {
+                    setByPath(siteContentDraft, imgPath, "");
+                    markContentDirty(true);
+                    renderSingleImageWidget(container);
+                });
+            }
+        }
+
+        function renderSingleListEditor(container) {
+            const listPath = container.getAttribute("data-list");
+            const schema = LIST_SCHEMAS[listPath];
+            if (!schema) return;
+
+            let items = getByPath(siteContentDraft, listPath);
+            if (!Array.isArray(items)) {
+                items = [];
+                setByPath(siteContentDraft, listPath, items);
+            }
+
+            container.innerHTML = `
+                <div class="pt-3 border-t border-neutral-100 space-y-3">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <span class="text-xs font-bold uppercase tracking-[0.14em] text-neutral-800">${escapeHtml(schema.title)} (${items.length})</span>
+                        <button type="button" data-list-add
+                            class="px-3 py-1.5 rounded-md bg-white hover:border-neutral-950 border border-neutral-300 text-xs font-semibold text-neutral-900 transition-colors">
+                            ${escapeHtml(schema.addLabel)}
+                        </button>
+                    </div>
+                    <div data-list-rows class="space-y-3">
+                        ${items.length === 0
+                            ? `<div class="p-4 rounded-md bg-[#F7F7F5] border border-dashed border-neutral-300 text-center text-xs text-neutral-500">${escapeHtml(schema.emptyText)}</div>`
+                            : items.map((item, idx) => `
+                                <div class="p-3.5 rounded-md bg-[#F7F7F5] border border-neutral-200 space-y-2.5">
+                                    <div class="flex items-center justify-between gap-2">
+                                        <span class="text-[11px] font-bold text-red-700 tabular-nums">Mục #${String(idx + 1).padStart(2, "0")}</span>
+                                        <div class="flex items-center gap-1.5">
+                                            ${idx > 0 ? `<button type="button" data-move-up="${idx}" title="Đưa lên" class="px-2 py-0.5 rounded bg-white border border-neutral-300 text-[11px] font-semibold text-neutral-700 hover:border-neutral-950">&uarr;</button>` : ""}
+                                            ${idx < items.length - 1 ? `<button type="button" data-move-down="${idx}" title="Đưa xuống" class="px-2 py-0.5 rounded bg-white border border-neutral-300 text-[11px] font-semibold text-neutral-700 hover:border-neutral-950">&darr;</button>` : ""}
+                                            <button type="button" data-remove-idx="${idx}" class="px-2 py-0.5 rounded bg-white border border-neutral-200 hover:border-red-200 hover:bg-red-50 text-[11px] font-semibold text-neutral-500 hover:text-red-700 transition-colors">Xóa</button>
+                                        </div>
+                                    </div>
+                                    <div class="grid grid-cols-1 sm:grid-cols-12 gap-2.5">
+                                        ${schema.fields.map((f) => `
+                                            <div class="${f.colClass || "sm:col-span-12"}">
+                                                <label class="block text-[11px] font-semibold text-neutral-600 mb-1">${escapeHtml(f.label)}</label>
+                                                ${f.type === "textarea"
+                                                    ? `<textarea data-item-idx="${idx}" data-item-key="${escapeHtml(f.key)}" rows="${f.rows || 2}" placeholder="${escapeHtml(f.placeholder || "")}" class="adm-input !text-xs">${escapeHtml(item[f.key] || "")}</textarea>`
+                                                    : `<input data-item-idx="${idx}" data-item-key="${escapeHtml(f.key)}" type="text" value="${escapeHtml(item[f.key] || "")}" placeholder="${escapeHtml(f.placeholder || "")}" class="adm-input !text-xs">`
+                                                }
+                                            </div>
+                                        `).join("")}
+                                    </div>
+                                </div>
+                            `).join("")
+                        }
+                    </div>
+                </div>
+            `;
+
+            container.querySelector("[data-list-add]").addEventListener("click", () => {
+                items.push(schema.defaultItem());
+                markContentDirty(true);
+                renderSingleListEditor(container);
+            });
+
+            container.querySelectorAll("[data-remove-idx]").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const i = Number(btn.getAttribute("data-remove-idx"));
+                    items.splice(i, 1);
+                    markContentDirty(true);
+                    renderSingleListEditor(container);
+                });
+            });
+
+            container.querySelectorAll("[data-move-up]").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const i = Number(btn.getAttribute("data-move-up"));
+                    if (i > 0) {
+                        [items[i - 1], items[i]] = [items[i], items[i - 1]];
+                        markContentDirty(true);
+                        renderSingleListEditor(container);
+                    }
+                });
+            });
+
+            container.querySelectorAll("[data-move-down]").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const i = Number(btn.getAttribute("data-move-down"));
+                    if (i < items.length - 1) {
+                        [items[i + 1], items[i]] = [items[i], items[i + 1]];
+                        markContentDirty(true);
+                        renderSingleListEditor(container);
+                    }
+                });
+            });
+
+            container.querySelectorAll("[data-item-idx]").forEach((inputEl) => {
+                inputEl.addEventListener("input", (e) => {
+                    const i = Number(inputEl.getAttribute("data-item-idx"));
+                    const k = inputEl.getAttribute("data-item-key");
+                    if (items[i]) {
+                        items[i][k] = e.target.value;
+                        markContentDirty(true);
+                    }
+                });
+            });
+        }
+
+        function renderContentEditorForm() {
+            const editor = document.getElementById("content-editor");
+            if (!editor) return;
+
+            editor.querySelectorAll("[data-path]").forEach((el) => {
+                const path = el.getAttribute("data-path");
+                const val = getByPath(siteContentDraft, path);
+                if (el.type === "checkbox") {
+                    el.checked = Boolean(val);
+                } else {
+                    el.value = val !== undefined && val !== null ? String(val) : "";
+                }
+            });
+
+            editor.querySelectorAll("[data-image-path]").forEach(renderSingleImageWidget);
+            editor.querySelectorAll("[data-list]").forEach(renderSingleListEditor);
+        }
+
+        // Gắn sự kiện lắng nghe một lần cho các ô tĩnh [data-path]
+        document.querySelectorAll("#content-editor [data-path]").forEach((el) => {
+            const evtName = el.type === "checkbox" ? "change" : "input";
+            el.addEventListener(evtName, () => {
+                const path = el.getAttribute("data-path");
+                const val = el.type === "checkbox" ? el.checked : el.value;
+                setByPath(siteContentDraft, path, val);
+                markContentDirty(true);
+            });
+        });
+
+        async function loadSiteContentToAdmin() {
+            if (!window.HLSContentService) return;
+            siteContentDraft = await HLSContentService.getContent();
+            renderContentEditorForm();
+            markContentDirty(false);
+        }
+
+        async function handleSaveSiteContent() {
+            const topBtn = document.getElementById("save-content-btn");
+            const bottomBtn = document.getElementById("save-content-bottom-btn");
+            [topBtn, bottomBtn].forEach((b) => {
+                if (b) {
+                    b.disabled = true;
+                    b.textContent = "Đang lưu...";
+                }
+            });
+
+            try {
+                siteContentDraft = await HLSContentService.saveContent(siteContentDraft);
+                markContentDirty(false);
+                showToast("Đã lưu toàn bộ nội dung Trang chủ, Về chúng tôi & Liên hệ thành công.");
+            } catch (err) {
+                showToast(err.message, true);
+            } finally {
+                [topBtn, bottomBtn].forEach((b) => {
+                    if (b) {
+                        b.disabled = false;
+                        b.textContent = "Lưu toàn bộ nội dung";
+                    }
+                });
+            }
+        }
+
+        document.getElementById("save-content-btn").addEventListener("click", handleSaveSiteContent);
+        document.getElementById("save-content-bottom-btn").addEventListener("click", handleSaveSiteContent);
+
+        document.getElementById("reset-content-btn").addEventListener("click", async () => {
+            if (!confirm("Khôi phục toàn bộ nội dung Trang chủ, Về chúng tôi & Liên hệ về bản mặc định ban đầu?")) return;
+            try {
+                siteContentDraft = await HLSContentService.resetContent();
+                renderContentEditorForm();
+                markContentDirty(false);
+                showToast("Đã khôi phục nội dung mặc định cho Trang chủ.");
+            } catch (err) {
+                showToast(err.message, true);
+            }
+        });
+
+        document.getElementById("export-content-json-btn").addEventListener("click", () => {
+            const blob = new Blob([JSON.stringify(siteContentDraft, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `hls-trang-chu-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById("import-content-json-input").addEventListener("change", async (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            try {
+                const parsed = JSON.parse(await file.text());
+                siteContentDraft = await HLSContentService.saveContent(parsed);
+                renderContentEditorForm();
+                markContentDirty(false);
+                showToast("Đã nhập và lưu nội dung Trang chủ từ tệp JSON.");
+            } catch (err) {
+                showToast("Lỗi nhập JSON nội dung: " + err.message, true);
+            } finally {
+                e.target.value = "";
+            }
+        });
+
         // Modal hướng dẫn Supabase
         const guideModal = document.getElementById("supabase-guide-modal");
         document.getElementById("open-supabase-guide-btn").addEventListener("click", () => guideModal.classList.remove("hidden"));
@@ -1739,7 +2194,7 @@ create policy "Admin tai anh len" on storage.objects for insert to authenticated
             setTimeout(() => (e.target.textContent = "Sao chép SQL"), 2000);
         });
 
-        // Kiểm tra đăng nhập & khởi tạo dữ liệu cả 2 tab
+        // Kiểm tra đăng nhập & khởi tạo dữ liệu cả 3 tab
         async function checkAuthAndRender() {
             updateModeBadge();
             const session = await HLSService.getAdminSession();
@@ -1747,9 +2202,11 @@ create policy "Admin tai anh len" on storage.objects for insert to authenticated
                 loginView.classList.add("hidden");
                 dashboardView.classList.remove("hidden");
                 logoutBtn.classList.remove("hidden");
-                await Promise.all([loadMembersToAdmin(), loadEventsToAdmin()]);
+                await Promise.all([loadMembersToAdmin(), loadEventsToAdmin(), loadSiteContentToAdmin()]);
                 if (window.location.hash === "#events") {
                     switchAdminTab("events");
+                } else if (window.location.hash === "#content") {
+                    switchAdminTab("content");
                 }
             } else {
                 dashboardView.classList.add("hidden");
