@@ -24,6 +24,8 @@
             }
         };
     </script>
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 
 <body class="bg-white text-neutral-950 font-sans antialiased selection:bg-red-700 selection:text-white">
@@ -182,94 +184,21 @@
     <section id="activities" class="py-20 md:py-24 px-4 sm:px-6 lg:px-8 bg-white">
         <div class="max-w-6xl mx-auto">
             <!-- Tiêu đề phân khu -->
-            <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 pb-6 border-b border-neutral-200">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-14 pb-6 border-b border-neutral-200 gap-4">
                 <div>
-                    <span class="text-red-700 font-semibold uppercase tracking-[0.18em] text-xs">02 / Điểm nhấn học thuật</span>
-                    <h2 class="text-3xl md:text-4xl font-extrabold text-neutral-950 tracking-tight mt-2">Các Hoạt Động Nổi Bật</h2>
+                    <span class="text-red-700 font-semibold uppercase tracking-[0.18em] text-xs">02 / Hoạt động &amp; Sự kiện</span>
+                    <h2 class="text-3xl md:text-4xl font-extrabold text-neutral-950 tracking-tight mt-2">Hệ Sinh Thái Hoạt Động HLS</h2>
                 </div>
-                <p class="text-sm text-neutral-500 mt-3 md:mt-0 max-w-sm">
-                    Các cuộc thi chuyên môn, hội thảo doanh nghiệp và công trình nghiên cứu tiêu biểu của thành viên HLS.
-                </p>
+                <a href="hoat-dong.html"
+                   class="inline-flex items-center gap-2 text-sm font-semibold text-neutral-950 hover:text-red-700 transition-colors">
+                    <span>Xem toàn bộ chuyên mục Hoạt động</span>
+                    <span>&rarr;</span>
+                </a>
             </div>
 
-            <!-- Bố cục dạng Lưới (Grid): 1 cột trên ĐT, 3 cột trên Máy tính -->
-            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-
-                <!-- Thẻ sự kiện số 1 -->
-                <article
-                    class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 flex flex-col">
-                    <div class="overflow-hidden bg-neutral-100 h-52">
-                        <img src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=600&auto=format&fit=crop"
-                            alt="Sự kiện 1" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col justify-between">
-                        <div>
-                            <div class="text-[11px] font-semibold uppercase tracking-widest text-red-700 mb-2.5">28 Tháng 09, 2026</div>
-                            <h3 class="text-lg font-bold text-neutral-950 group-hover:text-red-700 transition-colors mb-2.5 leading-snug">
-                                Chung kết Vietnam Young Logistics Talents HUST
-                            </h3>
-                            <p class="text-neutral-600 text-sm leading-relaxed mb-6">
-                                Sự kiện lớn nhất năm với sự tranh tài của các đội tuyển xuất sắc nhất. HLS tự hào là đơn vị đồng hành tổ chức.
-                            </p>
-                        </div>
-                        <a href="su-kien.html"
-                            class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold text-sm transition-colors">
-                            <span>Đọc chi tiết</span>
-                            <span>&rarr;</span>
-                        </a>
-                    </div>
-                </article>
-
-                <!-- Thẻ sự kiện số 2 -->
-                <article
-                    class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 flex flex-col">
-                    <div class="overflow-hidden bg-neutral-100 h-52">
-                        <img src="https://images.unsplash.com/photo-1521737604893-d14cc237f11d?q=80&w=600&auto=format&fit=crop"
-                            alt="Sự kiện 2" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col justify-between">
-                        <div>
-                            <div class="text-[11px] font-semibold uppercase tracking-widest text-red-700 mb-2.5">Tháng 07, 2026</div>
-                            <h3 class="text-lg font-bold text-neutral-950 group-hover:text-red-700 transition-colors mb-2.5 leading-snug">
-                                Quán quân Logistics Competition HUST
-                            </h3>
-                            <p class="text-neutral-600 text-sm leading-relaxed mb-6">
-                                Thành tích xuất sắc của các thành viên HLS tại sân chơi học thuật quy mô lớn tại Đại học Bách Khoa Hà Nội.
-                            </p>
-                        </div>
-                        <a href="#"
-                            class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold text-sm transition-colors">
-                            <span>Đọc chi tiết</span>
-                            <span>&rarr;</span>
-                        </a>
-                    </div>
-                </article>
-
-                <!-- Thẻ sự kiện số 3 -->
-                <article
-                    class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 flex flex-col">
-                    <div class="overflow-hidden bg-neutral-100 h-52">
-                        <img src="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=600&auto=format&fit=crop"
-                            alt="Sự kiện 3" class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
-                    </div>
-                    <div class="p-6 flex-1 flex flex-col justify-between">
-                        <div>
-                            <div class="text-[11px] font-semibold uppercase tracking-widest text-red-700 mb-2.5">Tháng 05, 2026</div>
-                            <h3 class="text-lg font-bold text-neutral-950 group-hover:text-red-700 transition-colors mb-2.5 leading-snug">
-                                Báo cáo Nghiên cứu khoa học Sinh viên
-                            </h3>
-                            <p class="text-neutral-600 text-sm leading-relaxed mb-6">
-                                Trình bày giải pháp T-Seal và mô hình tối ưu hóa vận tải tại Hội nghị Sinh viên Nghiên cứu Khoa học.
-                            </p>
-                        </div>
-                        <a href="#"
-                            class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold text-sm transition-colors">
-                            <span>Đọc chi tiết</span>
-                            <span>&rarr;</span>
-                        </a>
-                    </div>
-                </article>
-
+            <!-- Khối động hiển thị 2 nhóm: Sự kiện Core thường niên & Hoạt động ngoài lề -->
+            <div id="home-events-showcase">
+                <div class="text-center py-12 text-sm text-neutral-400">Đang tải danh mục hoạt động...</div>
             </div>
         </div>
     </section>
@@ -306,9 +235,9 @@
                     </h4>
                     <ul class="space-y-2.5 text-neutral-600 text-sm">
                         <li><a href="#about" class="hover:text-red-700 transition-colors">Về chúng tôi</a></li>
-                        <li><a href="#activities" class="hover:text-red-700 transition-colors">Hoạt động &amp; Sự kiện</a></li>
+                        <li><a href="hoat-dong.html" class="hover:text-red-700 transition-colors">Chuyên mục Hoạt động &amp; Sự kiện</a></li>
                         <li><a href="phong-truyen-thong.html" class="hover:text-red-700 transition-colors">Phòng truyền thống các Gen</a></li>
-                        <li><a href="admin.html" class="hover:text-red-700 transition-colors">Quản trị Phòng truyền thống</a></li>
+                        <li><a href="admin.html" class="hover:text-red-700 transition-colors">Hệ thống Quản trị nội bộ</a></li>
                     </ul>
                 </div>
 
@@ -353,6 +282,8 @@
     <!-- ========================================== -->
     <!-- JAVASCRIPT: ĐIỀU KHIỂN TƯƠNG TÁC -->
     <!-- ========================================== -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/events-service.js"></script>
     <script>
         // Lấy nút bấm và cái menu thả xuống từ HTML
         const btn = document.getElementById('mobile-menu-button');
@@ -371,6 +302,154 @@
                 menu.classList.add('hidden');
             });
         });
+
+        // Hiển thị tự động 2 nhóm: Sự kiện Core thường niên & Hoạt động ngoài lề trên Trang chủ
+        function escapeHtml(str) {
+            return String(str || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        async function renderHomepageEvents() {
+            const container = document.getElementById("home-events-showcase");
+            if (!container || !window.HLSEventsService) return;
+
+            try {
+                const allEvents = await HLSEventsService.getEvents();
+                const featuredCore = allEvents.filter((e) => e.category === "core" && e.is_featured);
+                const coreToShow = (featuredCore.length ? featuredCore : allEvents.filter((e) => e.category === "core")).slice(0, 2);
+
+                const featuredSide = allEvents.filter((e) => e.category === "side" && e.is_featured);
+                const sideToShow = (featuredSide.length ? featuredSide : allEvents.filter((e) => e.category === "side")).slice(0, 3);
+
+                let html = "";
+
+                if (coreToShow.length > 0) {
+                    html += `
+                        <div class="mb-16">
+                            <div class="flex items-center justify-between gap-4 mb-6">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs font-bold uppercase tracking-[0.16em] text-red-700">Sự kiện Core diễn ra hằng năm</span>
+                                    <span class="hidden sm:inline-block w-12 h-px bg-neutral-200"></span>
+                                </div>
+                                <a href="hoat-dong.html#core" class="text-xs font-semibold text-neutral-500 hover:text-neutral-950 transition-colors">
+                                    Tất cả sự kiện Core &rarr;
+                                </a>
+                            </div>
+
+                            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                                ${coreToShow.map((evt) => {
+                                    const stagesCount = Array.isArray(evt.activities) ? evt.activities.length : 0;
+                                    const editionsCount = Array.isArray(evt.editions) ? evt.editions.length : 0;
+                                    return `
+                                        <article class="group bg-white border border-neutral-200 border-t-2 border-t-red-700 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 flex flex-col">
+                                            <a href="su-kien.html?id=${encodeURIComponent(evt.id)}" class="h-60 overflow-hidden bg-neutral-100 block relative">
+                                                <img src="${escapeHtml(evt.cover_url)}"
+                                                     alt="${escapeHtml(evt.title)}"
+                                                     loading="lazy"
+                                                     class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
+                                                <span class="absolute top-3 left-3 px-2.5 py-1 rounded bg-white/95 backdrop-blur-sm border border-neutral-200 text-[10px] font-bold uppercase tracking-wider text-red-700">
+                                                    ${escapeHtml(evt.annual_cycle || "Thường niên")}
+                                                </span>
+                                            </a>
+                                            <div class="p-6 sm:p-7 flex-1 flex flex-col justify-between">
+                                                <div>
+                                                    <div class="text-[11px] font-semibold uppercase tracking-widest text-neutral-500 mb-2">
+                                                        ${escapeHtml(evt.sub_type)}${evt.scale ? " · " + escapeHtml(evt.scale) : ""}
+                                                    </div>
+                                                    <h3 class="text-xl font-extrabold text-neutral-950 group-hover:text-red-700 transition-colors mb-3 leading-snug">
+                                                        <a href="su-kien.html?id=${encodeURIComponent(evt.id)}">${escapeHtml(evt.title)}</a>
+                                                    </h3>
+                                                    <p class="text-neutral-600 text-sm leading-relaxed mb-6 line-clamp-3">
+                                                        ${escapeHtml(evt.summary)}
+                                                    </p>
+                                                </div>
+                                                <div class="pt-4 border-t border-neutral-100 flex items-center justify-between text-xs">
+                                                    <span class="text-neutral-400">
+                                                        ${stagesCount} chặng hoạt động${editionsCount ? " · " + editionsCount + " mùa tổ chức" : ""}
+                                                    </span>
+                                                    <a href="su-kien.html?id=${encodeURIComponent(evt.id)}"
+                                                       class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold transition-colors">
+                                                        <span>Xem chi tiết</span>
+                                                        <span>&rarr;</span>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </article>
+                                    `;
+                                }).join("")}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                if (sideToShow.length > 0) {
+                    html += `
+                        <div>
+                            <div class="flex items-center justify-between gap-4 mb-6">
+                                <div class="flex items-center gap-3">
+                                    <span class="text-xs font-bold uppercase tracking-[0.16em] text-neutral-950">Hoạt động đồng hành, học thuật &amp; ngoài lề</span>
+                                    <span class="hidden sm:inline-block w-12 h-px bg-neutral-200"></span>
+                                </div>
+                                <a href="hoat-dong.html#side" class="text-xs font-semibold text-neutral-500 hover:text-neutral-950 transition-colors">
+                                    Xem thêm hoạt động &rarr;
+                                </a>
+                            </div>
+
+                            <!-- Bố cục dạng Lưới (Grid): 1 cột trên ĐT, 3 cột trên Máy tính -->
+                            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                                ${sideToShow.map((evt) => `
+                                    <article class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 flex flex-col">
+                                        <a href="su-kien.html?id=${encodeURIComponent(evt.id)}" class="overflow-hidden bg-neutral-100 h-52 block relative">
+                                            <img src="${escapeHtml(evt.cover_url)}"
+                                                 alt="${escapeHtml(evt.title)}"
+                                                 loading="lazy"
+                                                 class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
+                                            <span class="absolute top-3 left-3 px-2 py-0.5 rounded bg-white/95 backdrop-blur-sm border border-neutral-200 text-[10px] font-semibold uppercase tracking-wider text-neutral-800">
+                                                ${escapeHtml(evt.sub_type)}
+                                            </span>
+                                        </a>
+                                        <div class="p-6 flex-1 flex flex-col justify-between">
+                                            <div>
+                                                <div class="text-[11px] font-semibold uppercase tracking-widest text-red-700 mb-2">
+                                                    ${escapeHtml(evt.date_label || ("Năm " + evt.year))}
+                                                </div>
+                                                <h3 class="text-lg font-bold text-neutral-950 group-hover:text-red-700 transition-colors mb-2.5 leading-snug">
+                                                    <a href="su-kien.html?id=${encodeURIComponent(evt.id)}">${escapeHtml(evt.title)}</a>
+                                                </h3>
+                                                <p class="text-neutral-600 text-sm leading-relaxed mb-6 line-clamp-3">
+                                                    ${escapeHtml(evt.summary)}
+                                                </p>
+                                            </div>
+                                            <a href="su-kien.html?id=${encodeURIComponent(evt.id)}"
+                                               class="inline-flex items-center gap-1.5 text-neutral-950 group-hover:text-red-700 font-semibold text-sm transition-colors">
+                                                <span>Đọc chi tiết</span>
+                                                <span>&rarr;</span>
+                                            </a>
+                                        </div>
+                                    </article>
+                                `).join("")}
+                            </div>
+                        </div>
+                    `;
+                }
+
+                container.innerHTML = html;
+            } catch (err) {
+                container.innerHTML = `<p class="text-sm text-red-700">Không thể tải dữ liệu sự kiện: ${escapeHtml(err.message)}</p>`;
+            }
+        }
+
+        window.addEventListener("storage", (e) => {
+            if (window.HLSEventsService && e.key === HLSEventsService.LOCAL_EVENTS_KEY) {
+                renderHomepageEvents();
+            }
+        });
+
+        renderHomepageEvents();
     </script>
 </body>
 

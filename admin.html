@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quản Trị Phòng Truyền Thống - HLS Admin</title>
+    <title>Hệ Thống Quản Trị Nội Bộ - HLS Admin</title>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -46,15 +46,18 @@
                 </span>
             </div>
 
-            <div class="flex items-center gap-2.5">
+            <div class="flex items-center gap-2">
                 <button id="open-supabase-guide-btn" type="button"
                     class="text-xs font-medium px-3 py-2 rounded-md bg-white hover:bg-neutral-50 border border-neutral-300 text-neutral-700 transition-colors">
                     Cấu hình Supabase
                 </button>
+                <a href="hoat-dong.html" target="_blank"
+                    class="hidden md:inline-flex text-xs font-medium px-3 py-2 rounded-md bg-white hover:border-neutral-950 text-neutral-700 hover:text-neutral-950 border border-neutral-300 transition-colors">
+                    Trang Hoạt động
+                </a>
                 <a href="phong-truyen-thong.html" target="_blank"
-                    class="text-xs font-semibold px-3.5 py-2 rounded-md bg-white hover:border-neutral-950 text-neutral-900 border border-neutral-300 transition-colors flex items-center gap-1">
-                    <span>Phòng truyền thống</span>
-                    <span>&rarr;</span>
+                    class="hidden sm:inline-flex text-xs font-medium px-3 py-2 rounded-md bg-white hover:border-neutral-950 text-neutral-700 hover:text-neutral-950 border border-neutral-300 transition-colors">
+                    Phòng truyền thống
                 </a>
                 <button id="logout-btn" type="button"
                     class="hidden text-xs font-medium px-3 py-2 rounded-md bg-white hover:bg-red-50 text-neutral-600 hover:text-red-700 border border-neutral-300 hover:border-red-200 transition-colors">
@@ -75,13 +78,13 @@
                     <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-700">Quản trị nội bộ</span>
                 </div>
                 <h1 class="text-2xl font-extrabold text-neutral-950 tracking-tight">Đăng nhập hệ thống HLS</h1>
-                <p class="text-sm text-neutral-500 mt-1">Quản lý hồ sơ thành viên các Gen, phân cấp chức vụ và lưu bút.</p>
+                <p class="text-sm text-neutral-500 mt-1">Quản lý Phòng truyền thống các Gen cùng hệ thống Hoạt động &amp; Sự kiện CLB.</p>
             </div>
 
             <!-- Hộp nhắc tài khoản dùng thử khi chưa điền khóa Supabase -->
             <div id="demo-login-hint" class="hidden mb-6 p-4 rounded-md bg-[#F7F7F5] border border-neutral-200 text-xs text-neutral-600 space-y-2.5">
                 <div class="font-semibold text-neutral-900">Chế độ lưu trữ trình duyệt (Chưa gắn Supabase)</div>
-                <p>Sử dụng tài khoản mặc định dưới đây để kiểm thử tính năng tải ảnh, phân cấp và chỉnh sửa lưu bút:</p>
+                <p>Sử dụng tài khoản mặc định dưới đây để kiểm thử quản lý thành viên, sự kiện Core/Ngoài lề và tải lên album ảnh:</p>
                 <div class="bg-white border border-neutral-200 rounded px-3 py-2 font-mono text-[11px] text-neutral-800">
                     Email: <span class="font-semibold text-red-700">admin@hls.hust.edu.vn</span><br>
                     Mật khẩu: <span class="font-semibold text-red-700">hls2026</span>
@@ -116,68 +119,134 @@
     </section>
 
     <!-- ========================================== -->
-    <!-- BẢNG ĐIỀU KHIỂN QUẢN LÝ THÀNH VIÊN (DASHBOARD) -->
+    <!-- BẢNG ĐIỀU KHIỂN CHÍNH (2 PHÂN KHU TAB) -->
     <!-- ========================================== -->
-    <main id="dashboard-view" class="hidden flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-10">
+    <main id="dashboard-view" class="hidden flex-1 max-w-6xl w-full mx-auto px-4 sm:px-6 py-8">
 
-        <!-- Hàng tiêu đề & Nút tác vụ chính -->
-        <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-neutral-200">
-            <div>
-                <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-700">Danh mục lưu trữ</span>
-                <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-950 tracking-tight mt-1">Hồ sơ Thành viên &amp; Lưu bút</h1>
-                <p class="text-xs text-neutral-500 mt-1.5">
-                    Thứ tự hiển thị tự động theo từng Gen:
-                    <span class="font-medium text-neutral-800">01. Ban Cố vấn &rarr; 02. Ban Chủ nhiệm &rarr; 03. Trưởng / Phó ban &rarr; 04. Thành viên</span>
-                </p>
-            </div>
-
-            <div class="flex flex-wrap items-center gap-2">
-                <button id="export-json-btn" type="button"
-                    class="px-3.5 py-2 rounded-md bg-white hover:bg-neutral-50 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
-                    Xuất JSON
-                </button>
-                <label class="cursor-pointer px-3.5 py-2 rounded-md bg-white hover:bg-neutral-50 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
-                    Nhập JSON
-                    <input id="import-json-input" type="file" accept=".json,application/json" class="hidden">
-                </label>
-                <button id="add-member-btn" type="button"
-                    class="px-4 py-2 rounded-md bg-red-700 hover:bg-neutral-950 text-xs font-semibold text-white transition-colors">
-                    + Thêm thành viên
-                </button>
-            </div>
-        </div>
-
-        <!-- Bộ lọc danh sách quản trị -->
-        <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-6">
-            <select id="admin-filter-gen"
-                class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3.5 py-2 text-sm text-neutral-900 focus:outline-none">
-                <option value="all">Tất cả các Gen</option>
-            </select>
-
-            <select id="admin-filter-tier"
-                class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3.5 py-2 text-sm text-neutral-900 focus:outline-none">
-                <option value="all">Tất cả 4 cấp bậc</option>
-                <option value="1">Cấp 1 · Ban Cố vấn</option>
-                <option value="2">Cấp 2 · Ban Chủ nhiệm</option>
-                <option value="3">Cấp 3 · Trưởng / Phó các ban</option>
-                <option value="4">Cấp 4 · Thành viên</option>
-            </select>
-
-            <input id="admin-search" type="text" placeholder="Tìm theo họ tên hoặc chức vụ..."
-                class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3.5 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none">
+        <!-- Thanh chuyển đổi 2 phân khu quản trị -->
+        <div class="flex items-center gap-1 border-b border-neutral-200 mb-8 overflow-x-auto">
+            <button type="button" id="tab-btn-members"
+                class="px-4 py-3 text-sm font-bold border-b-2 border-red-700 text-neutral-950 whitespace-nowrap transition-colors">
+                01. Thành viên Phòng truyền thống
+            </button>
+            <button type="button" id="tab-btn-events"
+                class="px-4 py-3 text-sm font-medium border-b-2 border-transparent text-neutral-500 hover:text-neutral-950 whitespace-nowrap transition-colors">
+                02. Hoạt động &amp; Sự kiện (Core / Ngoài lề)
+            </button>
         </div>
 
         <!-- Thông báo trạng thái nhanh -->
         <div id="toast-banner" class="hidden mb-6 px-4 py-3 rounded-md border text-xs font-medium"></div>
 
-        <!-- Danh sách thành viên -->
-        <div id="admin-members-list" class="bg-white border border-neutral-200 rounded-lg divide-y divide-neutral-200">
-            <!-- Render bằng JS -->
-        </div>
+        <!-- ===================================================== -->
+        <!-- PHÂN KHU TAB 1: QUẢN LÝ THÀNH VIÊN & LƯU BÚT -->
+        <!-- ===================================================== -->
+        <section id="panel-members">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-neutral-200">
+                <div>
+                    <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-700">Phòng truyền thống</span>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-950 tracking-tight mt-1">Hồ sơ Thành viên &amp; Lưu bút</h1>
+                    <p class="text-xs text-neutral-500 mt-1.5">
+                        Thứ tự hiển thị tự động theo từng Gen:
+                        <span class="font-medium text-neutral-800">01. Ban Cố vấn &rarr; 02. Ban Chủ nhiệm &rarr; 03. Trưởng / Phó ban &rarr; 04. Thành viên</span>
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                    <button id="export-json-btn" type="button"
+                        class="px-3.5 py-2 rounded-md bg-white hover:bg-neutral-50 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
+                        Xuất JSON Thành viên
+                    </button>
+                    <label class="cursor-pointer px-3.5 py-2 rounded-md bg-white hover:bg-neutral-50 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
+                        Nhập JSON
+                        <input id="import-json-input" type="file" accept=".json,application/json" class="hidden">
+                    </label>
+                    <button id="add-member-btn" type="button"
+                        class="px-4 py-2 rounded-md bg-red-700 hover:bg-neutral-950 text-xs font-semibold text-white transition-colors">
+                        + Thêm thành viên
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bộ lọc thành viên -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-6">
+                <select id="admin-filter-gen"
+                    class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3.5 py-2 text-sm text-neutral-900 focus:outline-none">
+                    <option value="all">Tất cả các Gen</option>
+                </select>
+
+                <select id="admin-filter-tier"
+                    class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3.5 py-2 text-sm text-neutral-900 focus:outline-none">
+                    <option value="all">Tất cả 4 cấp bậc</option>
+                    <option value="1">Cấp 1 · Ban Cố vấn</option>
+                    <option value="2">Cấp 2 · Ban Chủ nhiệm</option>
+                    <option value="3">Cấp 3 · Trưởng / Phó các ban</option>
+                    <option value="4">Cấp 4 · Thành viên</option>
+                </select>
+
+                <input id="admin-search" type="text" placeholder="Tìm theo họ tên hoặc chức vụ..."
+                    class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3.5 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none">
+            </div>
+
+            <!-- Danh sách thành viên -->
+            <div id="admin-members-list" class="bg-white border border-neutral-200 rounded-lg divide-y divide-neutral-200"></div>
+        </section>
+
+        <!-- ===================================================== -->
+        <!-- PHÂN KHU TAB 2: QUẢN LÝ HOẠT ĐỘNG & SỰ KIỆN -->
+        <!-- ===================================================== -->
+        <section id="panel-events" class="hidden">
+            <div class="flex flex-col lg:flex-row lg:items-end justify-between gap-4 pb-6 border-b border-neutral-200">
+                <div>
+                    <span class="text-[11px] font-semibold uppercase tracking-[0.18em] text-red-700">Chuyên mục hoạt động</span>
+                    <h1 class="text-2xl sm:text-3xl font-extrabold text-neutral-950 tracking-tight mt-1">Sự kiện Core Hằng năm &amp; Hoạt động Ngoài lề</h1>
+                    <p class="text-xs text-neutral-500 mt-1.5">
+                        Quản lý bài giới thiệu, chi tiết từng chặng hoạt động, cập nhật các mùa tổ chức hằng năm và tải lên album ảnh sự kiện.
+                    </p>
+                </div>
+
+                <div class="flex flex-wrap items-center gap-2">
+                    <button id="export-events-json-btn" type="button"
+                        class="px-3.5 py-2 rounded-md bg-white hover:bg-neutral-50 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
+                        Xuất JSON Sự kiện
+                    </button>
+                    <label class="cursor-pointer px-3.5 py-2 rounded-md bg-white hover:bg-neutral-50 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
+                        Nhập JSON
+                        <input id="import-events-json-input" type="file" accept=".json,application/json" class="hidden">
+                    </label>
+                    <button id="add-event-btn" type="button"
+                        class="px-4 py-2 rounded-md bg-red-700 hover:bg-neutral-950 text-xs font-semibold text-white transition-colors">
+                        + Thêm sự kiện mới
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bộ lọc sự kiện -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-6">
+                <select id="event-filter-category"
+                    class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3.5 py-2 text-sm text-neutral-900 focus:outline-none">
+                    <option value="all">Tất cả phân loại</option>
+                    <option value="core">Sự kiện Core diễn ra hằng năm</option>
+                    <option value="side">Hoạt động ngoài lề &amp; Nội bộ</option>
+                </select>
+
+                <select id="event-filter-subtype"
+                    class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3.5 py-2 text-sm text-neutral-900 focus:outline-none">
+                    <option value="all">Tất cả chuyên đề</option>
+                </select>
+
+                <input id="event-search" type="text" placeholder="Tìm tên sự kiện, địa điểm..."
+                    class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3.5 py-2 text-sm text-neutral-900 placeholder-neutral-400 focus:outline-none">
+            </div>
+
+            <!-- Danh sách sự kiện -->
+            <div id="admin-events-list" class="bg-white border border-neutral-200 rounded-lg divide-y divide-neutral-200"></div>
+        </section>
+
     </main>
 
     <!-- ========================================== -->
-    <!-- MODAL THÊM / CHỈNH SỬA THÀNH VIÊN -->
+    <!-- MODAL 1: THÊM / CHỈNH SỬA THÀNH VIÊN -->
     <!-- ========================================== -->
     <div id="member-modal" class="hidden fixed inset-0 z-50 bg-neutral-950/50 backdrop-blur-[2px] overflow-y-auto p-4 sm:p-6">
         <div class="max-w-2xl mx-auto my-6 bg-white border border-neutral-200 rounded-lg shadow-xl overflow-hidden">
@@ -200,9 +269,7 @@
 
                     <div class="flex-1 w-full space-y-3">
                         <div>
-                            <label class="block text-xs font-semibold text-neutral-800 mb-1">
-                                Ảnh chân dung thành viên (Tải từ máy tính)
-                            </label>
+                            <label class="block text-xs font-semibold text-neutral-800 mb-1">Ảnh chân dung thành viên (Tải từ máy tính)</label>
                             <input id="field-avatar-file" type="file" accept="image/*"
                                 class="block w-full text-xs text-neutral-600 file:mr-3 file:py-1.5 file:px-3.5 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-neutral-950 file:text-white hover:file:bg-red-700 cursor-pointer">
                         </div>
@@ -281,7 +348,7 @@
                     </div>
                 </div>
 
-                <!-- Khu vực Confession & Lời nhắn -->
+                <!-- Khu vực Confession -->
                 <div class="pt-5 border-t border-neutral-200 space-y-4">
                     <div class="flex items-baseline justify-between">
                         <h3 class="text-xs font-bold uppercase tracking-[0.16em] text-red-700">Nội dung trang Lưu bút / Confession</h3>
@@ -302,7 +369,7 @@
 
                     <div>
                         <label class="block text-xs font-semibold text-neutral-700 mb-1">Nội dung Confession / Lời nhắn gửi *</label>
-                        <textarea id="field-confession" rows="6" required
+                        <textarea id="field-confession" rows="5" required
                             placeholder="Chia sẻ kỷ niệm hoạt động tại CLB, lời cảm ơn hoặc nhắn nhủ tới các thế hệ thành viên..."
                             class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md p-3 text-sm text-neutral-950 leading-relaxed focus:outline-none"></textarea>
                     </div>
@@ -323,23 +390,231 @@
     </div>
 
     <!-- ========================================== -->
-    <!-- MODAL HƯỚNG DẪN KẾT NỐI SUPABASE -->
+    <!-- MODAL 2: THÊM / CHỈNH SỬA SỰ KIỆN & ALBUM ẢNH -->
+    <!-- ========================================== -->
+    <div id="event-modal" class="hidden fixed inset-0 z-50 bg-neutral-950/50 backdrop-blur-[2px] overflow-y-auto p-4 sm:p-6">
+        <div class="max-w-4xl mx-auto my-6 bg-white border border-neutral-200 rounded-lg shadow-xl overflow-hidden">
+            <div class="px-6 py-4 border-b border-neutral-200 flex items-center justify-between bg-[#F7F7F5]">
+                <h2 id="event-modal-title" class="text-base font-bold text-neutral-950">Thêm sự kiện / hoạt động mới</h2>
+                <button type="button" id="close-event-modal-btn" class="text-neutral-400 hover:text-neutral-950 text-xl leading-none">&times;</button>
+            </div>
+
+            <form id="event-form" class="p-6 space-y-8">
+                <input type="hidden" id="evt-id">
+
+                <!-- 1. Phân loại & Thông tin định danh -->
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-xs font-bold uppercase tracking-[0.16em] text-red-700">01 / Phân loại &amp; Thông tin chung</h3>
+                        <label class="inline-flex items-center gap-2 cursor-pointer text-xs font-semibold text-neutral-800">
+                            <input id="evt-featured" type="checkbox" checked class="w-4 h-4 accent-red-700 rounded">
+                            <span>Đưa lên Trang chủ (index.html)</span>
+                        </label>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-red-700 mb-1">Nhóm sự kiện *</label>
+                            <select id="evt-category" required
+                                class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-950 focus:outline-none">
+                                <option value="core">Sự kiện Core diễn ra hằng năm</option>
+                                <option value="side">Hoạt động ngoài lề / Đồng hành / Nội bộ</option>
+                            </select>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-700 mb-1">Chuyên đề hoạt động *</label>
+                            <input id="evt-subtype" list="evt-subtype-suggestions" type="text" required placeholder="VD: Cuộc thi Học thuật"
+                                class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-950 focus:outline-none">
+                            <datalist id="evt-subtype-suggestions">
+                                <option value="Cuộc thi Học thuật"></option>
+                                <option value="Thực tế Doanh nghiệp (Company Tour)"></option>
+                                <option value="Tuyển thành viên Thường niên"></option>
+                                <option value="Hội thảo & Talkshow"></option>
+                                <option value="Workshop Chuyên môn"></option>
+                                <option value="Nghiên cứu Khoa học"></option>
+                                <option value="Văn hóa & Gắn kết Nội bộ"></option>
+                            </datalist>
+                        </div>
+
+                        <div class="sm:col-span-2">
+                            <label class="block text-xs font-semibold text-neutral-700 mb-1">Tên sự kiện / hoạt động *</label>
+                            <input id="evt-title" type="text" required placeholder="VD: Vietnam Young Logistics Talents — Vòng Cấp Trường ĐHBK Hà Nội"
+                                class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-950 focus:outline-none">
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-700 mb-1">Chu kỳ hằng năm / Nhãn thời điểm</label>
+                            <input id="evt-cycle" type="text" placeholder="VD: Thường niên · Tháng 08 – Tháng 10"
+                                class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-950 focus:outline-none">
+                        </div>
+
+                        <div class="grid grid-cols-2 gap-3">
+                            <div>
+                                <label class="block text-xs font-semibold text-neutral-700 mb-1">Mốc thời gian</label>
+                                <input id="evt-date-label" type="text" placeholder="VD: 28/09/2026"
+                                    class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-950 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-neutral-700 mb-1">Năm *</label>
+                                <input id="evt-year" type="number" min="2015" max="2099" value="2026" required
+                                    class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-950 focus:outline-none">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label class="block text-xs font-semibold text-neutral-700 mb-1">Địa điểm tổ chức</label>
+                            <input id="evt-location" type="text" placeholder="VD: Hội trường C2, Đại học Bách Khoa Hà Nội"
+                                class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-950 focus:outline-none">
+                        </div>
+
+                        <div class="grid grid-cols-3 gap-3">
+                            <div class="col-span-2">
+                                <label class="block text-xs font-semibold text-neutral-700 mb-1">Quy mô</label>
+                                <input id="evt-scale" type="text" placeholder="VD: 500+ sinh viên"
+                                    class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-950 focus:outline-none">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-neutral-700 mb-1">Thứ tự *</label>
+                                <input id="evt-sort-order" type="number" min="1" max="999" value="1" required
+                                    class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-950 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 2. Ảnh bìa & Bài viết giới thiệu -->
+                <div class="pt-6 border-t border-neutral-200 space-y-4">
+                    <h3 class="text-xs font-bold uppercase tracking-[0.16em] text-red-700">02 / Ảnh bìa &amp; Nội dung giới thiệu</h3>
+
+                    <div class="flex flex-col sm:flex-row items-center gap-5 p-4 rounded-lg bg-[#F7F7F5] border border-neutral-200">
+                        <div class="w-full sm:w-44 h-28 rounded overflow-hidden bg-neutral-200 border border-neutral-300 flex-shrink-0">
+                            <img id="evt-cover-preview"
+                                 src="https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=600&auto=format&fit=crop"
+                                 alt="Xem trước ảnh bìa"
+                                 class="w-full h-full object-cover">
+                        </div>
+
+                        <div class="flex-1 w-full space-y-2.5">
+                            <div>
+                                <label class="block text-xs font-semibold text-neutral-800 mb-1">Tải ảnh bìa sự kiện từ máy tính</label>
+                                <input id="evt-cover-file" type="file" accept="image/*"
+                                    class="block w-full text-xs text-neutral-600 file:mr-3 file:py-1.5 file:px-3.5 file:rounded file:border-0 file:text-xs file:font-semibold file:bg-neutral-950 file:text-white hover:file:bg-red-700 cursor-pointer">
+                            </div>
+                            <div>
+                                <label class="block text-xs font-medium text-neutral-500 mb-1">Hoặc nhập URL ảnh bìa:</label>
+                                <input id="evt-cover-url" type="text" placeholder="https://..."
+                                    class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-1.5 text-xs text-neutral-900 focus:outline-none">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-700 mb-1">Tóm tắt ngắn ngoài thẻ sự kiện *</label>
+                        <textarea id="evt-summary" rows="2" required placeholder="Mô tả ngắn gọn 2–3 câu hiển thị ở trang chủ và trang danh mục..."
+                            class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md p-3 text-sm text-neutral-950 focus:outline-none"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-700 mb-1">Câu trích dẫn điểm nhấn (Tùy chọn)</label>
+                        <input id="evt-quote" type="text" placeholder="VD: Nơi bản lĩnh phân tích định lượng của sinh viên Bách Khoa tỏa sáng..."
+                            class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-950 focus:outline-none">
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-neutral-700 mb-1">Bài viết chi tiết tổng quan *</label>
+                        <textarea id="evt-content" rows="5" required placeholder="Trình bày chi tiết mục tiêu, ý nghĩa, đối tượng tham gia và nội dung tổng quan của chương trình..."
+                            class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded-md p-3 text-sm text-neutral-950 leading-relaxed focus:outline-none"></textarea>
+                    </div>
+                </div>
+
+                <!-- 3. Chi tiết các chặng / hạng mục hoạt động con -->
+                <div class="pt-6 border-t border-neutral-200 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                            <h3 class="text-xs font-bold uppercase tracking-[0.16em] text-red-700">03 / Chi tiết các hạng mục hoạt động trong sự kiện</h3>
+                            <p class="text-[11px] text-neutral-500 mt-0.5">Thêm từng vòng thi, phiên hội thảo hoặc lịch trình chi tiết.</p>
+                        </div>
+                        <button type="button" id="add-activity-stage-btn"
+                            class="px-3 py-1.5 rounded-md bg-white hover:border-neutral-950 border border-neutral-300 text-xs font-semibold text-neutral-900 transition-colors">
+                            + Thêm hạng mục hoạt động
+                        </button>
+                    </div>
+
+                    <div id="evt-activities-rows" class="space-y-3"></div>
+                </div>
+
+                <!-- 4. Lịch sử các mùa tổ chức (Hữu ích cho Sự kiện Core hằng năm) -->
+                <div class="pt-6 border-t border-neutral-200 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                            <h3 class="text-xs font-bold uppercase tracking-[0.16em] text-red-700">04 / Cập nhật qua các mùa / năm tổ chức (Tùy chọn)</h3>
+                            <p class="text-[11px] text-neutral-500 mt-0.5">Dành cho Sự kiện Core hằng năm: lưu lại chủ đề và thành tựu của từng năm (2024, 2025, 2026...).</p>
+                        </div>
+                        <button type="button" id="add-edition-row-btn"
+                            class="px-3 py-1.5 rounded-md bg-white hover:border-neutral-950 border border-neutral-300 text-xs font-semibold text-neutral-900 transition-colors">
+                            + Thêm mùa tổ chức
+                        </button>
+                    </div>
+
+                    <div id="evt-editions-rows" class="space-y-3"></div>
+                </div>
+
+                <!-- 5. Album tư liệu ảnh sự kiện -->
+                <div class="pt-6 border-t border-neutral-200 space-y-4">
+                    <div class="flex flex-wrap items-center justify-between gap-2">
+                        <div>
+                            <h3 class="text-xs font-bold uppercase tracking-[0.16em] text-red-700">05 / Album ảnh tư liệu sự kiện</h3>
+                            <p class="text-[11px] text-neutral-500 mt-0.5">Có thể chọn nhiều ảnh cùng lúc từ máy tính hoặc gắn đường dẫn URL kèm chú thích.</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <label class="cursor-pointer px-3 py-1.5 rounded-md bg-neutral-950 hover:bg-red-700 text-xs font-semibold text-white transition-colors">
+                                + Tải nhiều ảnh từ máy
+                                <input id="evt-gallery-files" type="file" accept="image/*" multiple class="hidden">
+                            </label>
+                            <button type="button" id="add-gallery-url-btn"
+                                class="px-3 py-1.5 rounded-md bg-white hover:border-neutral-950 border border-neutral-300 text-xs font-semibold text-neutral-900 transition-colors">
+                                + Thêm bằng URL
+                            </button>
+                        </div>
+                    </div>
+
+                    <p id="gallery-upload-status" class="hidden text-xs font-medium text-red-700"></p>
+                    <div id="evt-gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+                </div>
+
+                <div class="flex items-center justify-end gap-2.5 pt-5 border-t border-neutral-200">
+                    <button type="button" id="cancel-event-modal-btn"
+                        class="px-4 py-2 rounded-md bg-white hover:bg-neutral-100 border border-neutral-300 text-xs font-semibold text-neutral-700 transition-colors">
+                        Hủy bỏ
+                    </button>
+                    <button type="submit" id="save-event-btn"
+                        class="px-5 py-2 rounded-md bg-neutral-950 hover:bg-red-700 text-xs font-semibold text-white transition-colors">
+                        Lưu sự kiện
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- ========================================== -->
+    <!-- MODAL 3: HƯỚNG DẪN KẾT NỐI SUPABASE -->
     <!-- ========================================== -->
     <div id="supabase-guide-modal" class="hidden fixed inset-0 z-50 bg-neutral-950/50 backdrop-blur-[2px] overflow-y-auto p-4 sm:p-6">
         <div class="max-w-2xl mx-auto my-8 bg-white border border-neutral-200 rounded-lg shadow-xl overflow-hidden">
             <div class="px-6 py-4 bg-[#F7F7F5] border-b border-neutral-200 flex items-center justify-between">
-                <h2 class="text-base font-bold text-neutral-950">Hướng dẫn kết nối Cơ sở dữ liệu Supabase</h2>
+                <h2 class="text-base font-bold text-neutral-950">Hướng dẫn kết nối Cơ sở dữ liệu Supabase (Thành viên &amp; Sự kiện)</h2>
                 <button type="button" id="close-guide-btn" class="text-neutral-400 hover:text-neutral-950 text-xl leading-none">&times;</button>
             </div>
 
             <div class="p-6 space-y-4 text-sm text-neutral-600 leading-relaxed">
                 <p>
-                    Để lưu trữ ảnh và hồ sơ trực tuyến cho mọi người cùng xem khi xuất bản website, thực hiện 3 bước sau trên <strong>supabase.com</strong> (gói miễn phí):
+                    Để lưu trữ ảnh và dữ liệu trực tuyến cho mọi người truy cập khi xuất bản website, thực hiện 3 bước sau trên <strong>supabase.com</strong> (gói miễn phí):
                 </p>
 
                 <ol class="list-decimal list-inside space-y-2 text-neutral-800 text-xs sm:text-sm">
                     <li>Tạo Project mới, vào mục <strong>Authentication &rarr; Users &rarr; Add User</strong> để tạo tài khoản email và mật khẩu quản trị viên.</li>
-                    <li>Mở mục <strong>SQL Editor &rarr; New Query</strong>, dán đoạn mã dưới đây và nhấn <strong>Run</strong>:</li>
+                    <li>Mở mục <strong>SQL Editor &rarr; New Query</strong>, dán đoạn mã dưới đây và nhấn <strong>Run</strong> (tự động tạo bảng <code>members</code>, bảng <code>events</code> và 2 kho ảnh):</li>
                 </ol>
 
                 <div class="relative">
@@ -347,7 +622,7 @@
                         class="absolute top-2.5 right-2.5 px-3 py-1 rounded bg-white hover:bg-neutral-100 border border-neutral-300 text-neutral-900 text-xs font-semibold">
                         Sao chép SQL
                     </button>
-                    <pre id="supabase-sql-code" class="bg-[#F7F7F5] border border-neutral-200 rounded-md p-4 text-xs font-mono text-neutral-800 overflow-x-auto">-- 1. Tạo bảng lưu trữ thành viên & confession các Gen
+                    <pre id="supabase-sql-code" class="bg-[#F7F7F5] border border-neutral-200 rounded-md p-4 text-xs font-mono text-neutral-800 overflow-x-auto max-h-80">-- 1. Bảng thành viên Phòng truyền thống
 create table if not exists public.members (
     id text primary key,
     name text not null,
@@ -365,25 +640,45 @@ create table if not exists public.members (
     created_at timestamptz default now()
 );
 
--- 2. Phân quyền: Công khai quyền đọc, chỉ Admin đăng nhập được chỉnh sửa
+-- 2. Bảng Hoạt động & Sự kiện (Core hằng năm & Ngoài lề)
+create table if not exists public.events (
+    id text primary key,
+    title text not null,
+    category text not null default 'core',
+    sub_type text default '',
+    annual_cycle text default '',
+    date_label text default '',
+    year integer default 2026,
+    location text default '',
+    scale text default '',
+    is_featured boolean default true,
+    sort_order integer default 10,
+    cover_url text default '',
+    summary text default '',
+    highlight_quote text default '',
+    content text default '',
+    activities jsonb default '[]'::jsonb,
+    editions jsonb default '[]'::jsonb,
+    gallery jsonb default '[]'::jsonb,
+    created_at timestamptz default now()
+);
+
+-- 3. Phân quyền bảo mật RLS
 alter table public.members enable row level security;
+alter table public.events enable row level security;
 
-create policy "Cho phep moi nguoi xem thanh vien"
-on public.members for select using (true);
+create policy "Cong khai xem thanh vien" on public.members for select using (true);
+create policy "Admin quan ly thanh vien" on public.members for all to authenticated using (true) with check (true);
 
-create policy "Chi Admin dang nhap duoc quan ly"
-on public.members for all to authenticated using (true) with check (true);
+create policy "Cong khai xem su kien" on public.events for select using (true);
+create policy "Admin quan ly su kien" on public.events for all to authenticated using (true) with check (true);
 
--- 3. Tạo kho lưu trữ ảnh member-photos công khai
-insert into storage.buckets (id, name, public)
-values ('member-photos', 'member-photos', true)
-on conflict (id) do nothing;
+-- 4. Kho lưu trữ ảnh chân dung & ảnh sự kiện
+insert into storage.buckets (id, name, public) values ('member-photos', 'member-photos', true) on conflict (id) do nothing;
+insert into storage.buckets (id, name, public) values ('event-photos', 'event-photos', true) on conflict (id) do nothing;
 
-create policy "Xem anh cong khai"
-on storage.objects for select using (bucket_id = 'member-photos');
-
-create policy "Admin upload anh"
-on storage.objects for insert to authenticated with check (bucket_id = 'member-photos');</pre>
+create policy "Xem anh cong khai" on storage.objects for select using (bucket_id in ('member-photos', 'event-photos'));
+create policy "Admin tai anh len" on storage.objects for insert to authenticated with check (bucket_id in ('member-photos', 'event-photos'));</pre>
                 </div>
 
                 <p class="text-xs sm:text-sm">
@@ -396,6 +691,7 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
     <!-- Nhúng cấu hình & dịch vụ -->
     <script src="js/supabase-config.js"></script>
     <script src="js/hall-of-fame-service.js"></script>
+    <script src="js/events-service.js"></script>
 
     <script>
         const loginView = document.getElementById("login-view");
@@ -405,14 +701,32 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
         const demoLoginHint = document.getElementById("demo-login-hint");
         const toastBanner = document.getElementById("toast-banner");
 
+        // Tab chuyển đổi
+        const tabBtnMembers = document.getElementById("tab-btn-members");
+        const tabBtnEvents = document.getElementById("tab-btn-events");
+        const panelMembers = document.getElementById("panel-members");
+        const panelEvents = document.getElementById("panel-events");
+
+        // Biến trạng thái Thành viên
         const memberModal = document.getElementById("member-modal");
         const memberForm = document.getElementById("member-form");
         const avatarFileInput = document.getElementById("field-avatar-file");
         const avatarUrlInput = document.getElementById("field-avatar-url");
         const avatarPreview = document.getElementById("avatar-preview");
-
         let membersCache = [];
         let selectedAvatarFile = null;
+
+        // Biến trạng thái Sự kiện
+        const eventModal = document.getElementById("event-modal");
+        const eventForm = document.getElementById("event-form");
+        const evtCoverFileInput = document.getElementById("evt-cover-file");
+        const evtCoverUrlInput = document.getElementById("evt-cover-url");
+        const evtCoverPreview = document.getElementById("evt-cover-preview");
+        let eventsCache = [];
+        let selectedEvtCoverFile = null;
+        let draftActivities = [];
+        let draftEditions = [];
+        let draftGallery = [];
 
         function escapeHtml(str) {
             return String(str || "")
@@ -433,6 +747,28 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
             toastBanner.classList.remove("hidden");
             setTimeout(() => toastBanner.classList.add("hidden"), 4500);
         }
+
+        function switchAdminTab(tabName) {
+            const isEvents = tabName === "events";
+            panelMembers.classList.toggle("hidden", isEvents);
+            panelEvents.classList.toggle("hidden", !isEvents);
+
+            tabBtnMembers.className = `px-4 py-3 text-sm whitespace-nowrap transition-colors border-b-2 ${
+                !isEvents ? "font-bold border-red-700 text-neutral-950" : "font-medium border-transparent text-neutral-500 hover:text-neutral-950"
+            }`;
+            tabBtnEvents.className = `px-4 py-3 text-sm whitespace-nowrap transition-colors border-b-2 ${
+                isEvents ? "font-bold border-red-700 text-neutral-950" : "font-medium border-transparent text-neutral-500 hover:text-neutral-950"
+            }`;
+
+            if (isEvents) {
+                history.replaceState(null, "", "#events");
+            } else {
+                history.replaceState(null, "", window.location.pathname);
+            }
+        }
+
+        tabBtnMembers.addEventListener("click", () => switchAdminTab("members"));
+        tabBtnEvents.addEventListener("click", () => switchAdminTab("events"));
 
         function updateModeBadge() {
             const isCloud = HLSService.isSupabaseConfigured();
@@ -482,7 +818,9 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
             await checkAuthAndRender();
         });
 
-        // ================= RENDER DANH SÁCH ADMIN =================
+        // =========================================================================
+        // PHẦN A: LOGIC QUẢN LÝ THÀNH VIÊN PHÒNG TRUYỀN THỐNG
+        // =========================================================================
         function refreshGenFilterOptions() {
             const filterGen = document.getElementById("admin-filter-gen");
             const prev = filterGen.value;
@@ -511,11 +849,7 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
             });
 
             if (filtered.length === 0) {
-                listEl.innerHTML = `
-                    <div class="p-10 text-center text-sm text-neutral-500">
-                        Chưa có hồ sơ thành viên nào khớp với bộ lọc hiện tại.
-                    </div>
-                `;
+                listEl.innerHTML = `<div class="p-10 text-center text-sm text-neutral-500">Chưa có hồ sơ thành viên nào khớp với bộ lọc hiện tại.</div>`;
                 return;
             }
 
@@ -576,7 +910,6 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
             listEl.querySelectorAll("[data-edit]").forEach((btn) => {
                 btn.addEventListener("click", () => openMemberModal(btn.getAttribute("data-edit")));
             });
-
             listEl.querySelectorAll("[data-delete]").forEach((btn) => {
                 btn.addEventListener("click", () => handleDeleteMember(btn.getAttribute("data-delete")));
             });
@@ -588,7 +921,6 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
             renderAdminList();
         }
 
-        // ================= MỞ / LƯU MODAL THÀNH VIÊN =================
         function openMemberModal(memberId = null) {
             selectedAvatarFile = null;
             avatarFileInput.value = "";
@@ -692,9 +1024,7 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
         async function handleDeleteMember(id) {
             const target = membersCache.find((m) => String(m.id) === String(id));
             if (!target) return;
-            if (!confirm(`Xác nhận xóa hồ sơ "${target.name}" (Gen ${target.gen}) khỏi Phòng truyền thống?`)) {
-                return;
-            }
+            if (!confirm(`Xác nhận xóa hồ sơ "${target.name}" (Gen ${target.gen}) khỏi Phòng truyền thống?`)) return;
             try {
                 await HLSService.deleteMember(id);
                 await loadMembersToAdmin();
@@ -704,13 +1034,12 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
             }
         }
 
-        // ================= SAO LƯU & NHẬP JSON =================
         document.getElementById("export-json-btn").addEventListener("click", () => {
             const blob = new Blob([JSON.stringify(membersCache, null, 2)], { type: "application/json" });
             const url = URL.createObjectURL(blob);
             const a = document.createElement("a");
             a.href = url;
-            a.download = `hls-phong-truyen-thong-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            a.download = `hls-thanh-vien-backup-${new Date().toISOString().slice(0, 10)}.json`;
             a.click();
             URL.revokeObjectURL(url);
         });
@@ -719,8 +1048,7 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
             const file = e.target.files && e.target.files[0];
             if (!file) return;
             try {
-                const text = await file.text();
-                const parsed = JSON.parse(text);
+                const parsed = JSON.parse(await file.text());
                 const count = await HLSService.importMembersJson(parsed);
                 await loadMembersToAdmin();
                 showToast(`Đã nhập thành công ${count} hồ sơ thành viên.`);
@@ -735,6 +1063,440 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
         document.getElementById("admin-filter-tier").addEventListener("change", renderAdminList);
         document.getElementById("admin-search").addEventListener("input", renderAdminList);
 
+        // =========================================================================
+        // PHẦN B: LOGIC QUẢN LÝ HOẠT ĐỘNG & SỰ KIỆN (CORE / NGOÀI LỀ)
+        // =========================================================================
+        function refreshEventSubtypeFilter() {
+            const sel = document.getElementById("event-filter-subtype");
+            const prev = sel.value;
+            const subs = Array.from(new Set(eventsCache.map((e) => e.sub_type).filter(Boolean)));
+            sel.innerHTML = `<option value="all">Tất cả chuyên đề</option>` +
+                subs.map((s) => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join("");
+            if (subs.includes(prev)) sel.value = prev;
+        }
+
+        function renderAdminEventsList() {
+            const listEl = document.getElementById("admin-events-list");
+            const catVal = document.getElementById("event-filter-category").value;
+            const subVal = document.getElementById("event-filter-subtype").value;
+            const q = document.getElementById("event-search").value.trim().toLowerCase();
+
+            const filtered = eventsCache.filter((evt) => {
+                if (catVal !== "all" && evt.category !== catVal) return false;
+                if (subVal !== "all" && evt.sub_type !== subVal) return false;
+                if (q) {
+                    const text = `${evt.title} ${evt.sub_type} ${evt.location} ${evt.annual_cycle}`.toLowerCase();
+                    if (!text.includes(q)) return false;
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                listEl.innerHTML = `<div class="p-10 text-center text-sm text-neutral-500">Không có sự kiện nào khớp với bộ lọc hiện tại.</div>`;
+                return;
+            }
+
+            listEl.innerHTML = filtered.map((evt) => {
+                const isCore = evt.category === "core";
+                const catBadge = isCore
+                    ? `<span class="px-2 py-0.5 rounded bg-red-50 border border-red-200 text-[11px] font-semibold text-red-700">Core hằng năm</span>`
+                    : `<span class="px-2 py-0.5 rounded bg-neutral-100 border border-neutral-200 text-[11px] font-semibold text-neutral-700">Hoạt động ngoài lề</span>`;
+
+                const homeBadge = evt.is_featured
+                    ? `<span class="px-2 py-0.5 rounded bg-neutral-900 text-white text-[10px] font-semibold">Trang chủ</span>`
+                    : "";
+
+                const actCount = (evt.activities || []).length;
+                const galCount = (evt.gallery || []).length;
+                const edCount = (evt.editions || []).length;
+
+                return `
+                    <div class="p-4 hover:bg-neutral-50/80 flex flex-col md:flex-row md:items-center justify-between gap-4 transition-colors">
+                        <div class="flex items-center gap-4 min-w-0">
+                            <img src="${escapeHtml(evt.cover_url)}"
+                                 alt="${escapeHtml(evt.title)}"
+                                 class="w-20 h-14 rounded object-cover border border-neutral-200 bg-neutral-100 flex-shrink-0">
+
+                            <div class="min-w-0">
+                                <div class="flex flex-wrap items-center gap-2 mb-1">
+                                    ${catBadge}
+                                    ${homeBadge}
+                                    <span class="text-[11px] text-neutral-500">${escapeHtml(evt.sub_type)}</span>
+                                    <span class="text-[11px] text-neutral-400 tabular-nums">· Thứ tự #${escapeHtml(evt.sort_order)}</span>
+                                </div>
+
+                                <h3 class="text-sm font-bold text-neutral-950 truncate">${escapeHtml(evt.title)}</h3>
+                                <p class="text-xs text-neutral-500 truncate mt-0.5">
+                                    <span class="text-red-700 font-medium">${escapeHtml(evt.annual_cycle || evt.date_label || ("Năm " + evt.year))}</span>
+                                    · ${actCount} hạng mục · ${galCount} ảnh${edCount ? " · " + edCount + " mùa" : ""}
+                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-center gap-2 self-end md:self-center flex-shrink-0">
+                            <a href="su-kien.html?id=${encodeURIComponent(evt.id)}" target="_blank"
+                               class="px-3 py-1.5 rounded-md bg-white hover:border-neutral-950 border border-neutral-200 text-xs font-medium text-neutral-600 hover:text-neutral-950 transition-colors">
+                                Xem trang
+                            </a>
+                            <button type="button" data-edit-event="${escapeHtml(evt.id)}"
+                                class="px-3 py-1.5 rounded-md bg-white hover:border-neutral-950 border border-neutral-300 text-xs font-semibold text-neutral-900 transition-colors">
+                                Chỉnh sửa
+                            </button>
+                            <button type="button" data-delete-event="${escapeHtml(evt.id)}"
+                                class="px-3 py-1.5 rounded-md bg-white hover:bg-red-50 text-xs font-semibold text-neutral-500 hover:text-red-700 border border-neutral-200 hover:border-red-200 transition-colors">
+                                Xóa
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join("");
+
+            listEl.querySelectorAll("[data-edit-event]").forEach((btn) => {
+                btn.addEventListener("click", () => openEventModal(btn.getAttribute("data-edit-event")));
+            });
+            listEl.querySelectorAll("[data-delete-event]").forEach((btn) => {
+                btn.addEventListener("click", () => handleDeleteEvent(btn.getAttribute("data-delete-event")));
+            });
+        }
+
+        async function loadEventsToAdmin() {
+            eventsCache = await HLSEventsService.getEvents();
+            refreshEventSubtypeFilter();
+            renderAdminEventsList();
+        }
+
+        // Render danh sách động: Các chặng hoạt động trong modal sự kiện
+        function renderDraftActivities() {
+            const container = document.getElementById("evt-activities-rows");
+            if (!draftActivities.length) {
+                container.innerHTML = `<p class="text-xs text-neutral-400 italic py-2">Chưa có hạng mục hoạt động chi tiết. Nhấn "+ Thêm hạng mục hoạt động" để bổ sung.</p>`;
+                return;
+            }
+            container.innerHTML = draftActivities.map((act, idx) => `
+                <div class="p-3.5 rounded-md bg-[#F7F7F5] border border-neutral-200 space-y-2.5">
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="text-[11px] font-bold text-red-700 uppercase tracking-wider">Hạng mục 0${idx + 1}</span>
+                        <button type="button" data-rm-act="${idx}" class="text-xs text-neutral-400 hover:text-red-700 font-semibold">Xóa mục</button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                        <input type="text" data-act-field="stage" data-idx="${idx}" value="${escapeHtml(act.stage || "")}"
+                               placeholder="Thời điểm (VD: Chặng 01 · Tháng 8)"
+                               class="bg-white border border-neutral-300 focus:border-neutral-950 rounded px-2.5 py-1.5 text-xs text-neutral-900 focus:outline-none">
+                        <input type="text" data-act-field="title" data-idx="${idx}" value="${escapeHtml(act.title || "")}"
+                               placeholder="Tên hoạt động (VD: Đêm Chung kết)"
+                               class="sm:col-span-2 bg-white border border-neutral-300 focus:border-neutral-950 rounded px-2.5 py-1.5 text-xs font-semibold text-neutral-950 focus:outline-none">
+                    </div>
+                    <textarea rows="2" data-act-field="description" data-idx="${idx}"
+                              placeholder="Mô tả nội dung hoạt động..."
+                              class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded p-2.5 text-xs text-neutral-800 focus:outline-none">${escapeHtml(act.description || "")}</textarea>
+                </div>
+            `).join("");
+
+            container.querySelectorAll("[data-act-field]").forEach((inp) => {
+                inp.addEventListener("input", (e) => {
+                    const i = Number(e.target.getAttribute("data-idx"));
+                    const field = e.target.getAttribute("data-act-field");
+                    draftActivities[i][field] = e.target.value;
+                });
+            });
+
+            container.querySelectorAll("[data-rm-act]").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const i = Number(btn.getAttribute("data-rm-act"));
+                    draftActivities.splice(i, 1);
+                    renderDraftActivities();
+                });
+            });
+        }
+
+        // Render danh sách động: Các mùa tổ chức hằng năm
+        function renderDraftEditions() {
+            const container = document.getElementById("evt-editions-rows");
+            if (!draftEditions.length) {
+                container.innerHTML = `<p class="text-xs text-neutral-400 italic py-2">Chưa có lịch sử mùa giải. Phù hợp để ghi dấu ấn từng năm cho Sự kiện Core.</p>`;
+                return;
+            }
+            container.innerHTML = draftEditions.map((ed, idx) => `
+                <div class="p-3.5 rounded-md bg-[#F7F7F5] border border-neutral-200 space-y-2">
+                    <div class="flex items-center justify-between gap-2">
+                        <span class="text-[11px] font-bold text-neutral-700 uppercase tracking-wider">Mùa tổ chức #${idx + 1}</span>
+                        <button type="button" data-rm-ed="${idx}" class="text-xs text-neutral-400 hover:text-red-700 font-semibold">Xóa mùa</button>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-4 gap-2.5">
+                        <input type="text" data-ed-field="year" data-idx="${idx}" value="${escapeHtml(ed.year || "")}"
+                               placeholder="Năm (VD: 2026)"
+                               class="bg-white border border-neutral-300 focus:border-neutral-950 rounded px-2.5 py-1.5 text-xs font-bold text-red-700 focus:outline-none">
+                        <input type="text" data-ed-field="theme" data-idx="${idx}" value="${escapeHtml(ed.theme || "")}"
+                               placeholder="Chủ đề mùa giải (VD: Green Supply Chain)"
+                               class="sm:col-span-3 bg-white border border-neutral-300 focus:border-neutral-950 rounded px-2.5 py-1.5 text-xs font-semibold text-neutral-950 focus:outline-none">
+                    </div>
+                    <input type="text" data-ed-field="summary" data-idx="${idx}" value="${escapeHtml(ed.summary || "")}"
+                           placeholder="Kết quả / Quy mô đạt được trong năm đó..."
+                           class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded px-2.5 py-1.5 text-xs text-neutral-800 focus:outline-none">
+                </div>
+            `).join("");
+
+            container.querySelectorAll("[data-ed-field]").forEach((inp) => {
+                inp.addEventListener("input", (e) => {
+                    const i = Number(e.target.getAttribute("data-idx"));
+                    const field = e.target.getAttribute("data-ed-field");
+                    draftEditions[i][field] = e.target.value;
+                });
+            });
+
+            container.querySelectorAll("[data-rm-ed]").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const i = Number(btn.getAttribute("data-rm-ed"));
+                    draftEditions.splice(i, 1);
+                    renderDraftEditions();
+                });
+            });
+        }
+
+        // Render lưới Album ảnh sự kiện
+        function renderDraftGallery() {
+            const container = document.getElementById("evt-gallery-grid");
+            if (!draftGallery.length) {
+                container.innerHTML = `<p class="sm:col-span-2 text-xs text-neutral-400 italic py-2">Chưa có ảnh trong album sự kiện.</p>`;
+                return;
+            }
+            container.innerHTML = draftGallery.map((photo, idx) => `
+                <div class="p-2.5 rounded-md bg-[#F7F7F5] border border-neutral-200 flex items-start gap-3">
+                    <img src="${escapeHtml(photo.url)}" alt="Ảnh album" class="w-20 h-16 rounded object-cover bg-neutral-200 border border-neutral-300 flex-shrink-0">
+                    <div class="flex-1 min-w-0 space-y-1.5">
+                        <input type="text" data-gal-caption="${idx}" value="${escapeHtml(photo.caption || "")}"
+                               placeholder="Nhập chú thích cho bức ảnh..."
+                               class="w-full bg-white border border-neutral-300 focus:border-neutral-950 rounded px-2 py-1 text-xs text-neutral-900 focus:outline-none">
+                        <div class="flex justify-between items-center">
+                            <span class="text-[10px] text-neutral-400">Ảnh #${idx + 1}</span>
+                            <button type="button" data-rm-gal="${idx}" class="text-[11px] font-semibold text-neutral-500 hover:text-red-700">Gỡ ảnh</button>
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+
+            container.querySelectorAll("[data-gal-caption]").forEach((inp) => {
+                inp.addEventListener("input", (e) => {
+                    const i = Number(e.target.getAttribute("data-gal-caption"));
+                    draftGallery[i].caption = e.target.value;
+                });
+            });
+
+            container.querySelectorAll("[data-rm-gal]").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const i = Number(btn.getAttribute("data-rm-gal"));
+                    draftGallery.splice(i, 1);
+                    renderDraftGallery();
+                });
+            });
+        }
+
+        function openEventModal(eventId = null) {
+            selectedEvtCoverFile = null;
+            evtCoverFileInput.value = "";
+            document.getElementById("gallery-upload-status").classList.add("hidden");
+
+            if (eventId) {
+                const evt = eventsCache.find((item) => String(item.id) === String(eventId));
+                if (!evt) return;
+                document.getElementById("event-modal-title").textContent = `Chỉnh sửa sự kiện: ${evt.title}`;
+                document.getElementById("evt-id").value = evt.id;
+                document.getElementById("evt-category").value = evt.category || "core";
+                document.getElementById("evt-subtype").value = evt.sub_type || "";
+                document.getElementById("evt-title").value = evt.title || "";
+                document.getElementById("evt-cycle").value = evt.annual_cycle || "";
+                document.getElementById("evt-date-label").value = evt.date_label || "";
+                document.getElementById("evt-year").value = evt.year || 2026;
+                document.getElementById("evt-location").value = evt.location || "";
+                document.getElementById("evt-scale").value = evt.scale || "";
+                document.getElementById("evt-sort-order").value = evt.sort_order || 1;
+                document.getElementById("evt-featured").checked = Boolean(evt.is_featured);
+                document.getElementById("evt-cover-url").value = evt.cover_url && !evt.cover_url.startsWith("data:") ? evt.cover_url : "";
+                document.getElementById("evt-summary").value = evt.summary || "";
+                document.getElementById("evt-quote").value = evt.highlight_quote || "";
+                document.getElementById("evt-content").value = evt.content || "";
+                evtCoverPreview.src = evt.cover_url || "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=600&auto=format&fit=crop";
+
+                draftActivities = (evt.activities || []).map((a) => ({ ...a }));
+                draftEditions = (evt.editions || []).map((ed) => ({ ...ed }));
+                draftGallery = (evt.gallery || []).map((g) => ({ ...g }));
+            } else {
+                document.getElementById("event-modal-title").textContent = "Thêm sự kiện / hoạt động mới";
+                eventForm.reset();
+                document.getElementById("evt-id").value = "";
+                document.getElementById("evt-category").value = "core";
+                document.getElementById("evt-year").value = new Date().getFullYear();
+                document.getElementById("evt-sort-order").value = "1";
+                document.getElementById("evt-featured").checked = true;
+                evtCoverPreview.src = "https://images.unsplash.com/photo-1540575467063-178a50c2df87?q=80&w=600&auto=format&fit=crop";
+
+                draftActivities = [
+                    { stage: "Giai đoạn 01", title: "", description: "" }
+                ];
+                draftEditions = [];
+                draftGallery = [];
+            }
+
+            renderDraftActivities();
+            renderDraftEditions();
+            renderDraftGallery();
+            eventModal.classList.remove("hidden");
+        }
+
+        function closeEventModal() {
+            eventModal.classList.add("hidden");
+        }
+
+        document.getElementById("add-event-btn").addEventListener("click", () => openEventModal(null));
+        document.getElementById("close-event-modal-btn").addEventListener("click", closeEventModal);
+        document.getElementById("cancel-event-modal-btn").addEventListener("click", closeEventModal);
+
+        evtCoverFileInput.addEventListener("change", (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            selectedEvtCoverFile = file;
+            evtCoverPreview.src = URL.createObjectURL(file);
+        });
+
+        evtCoverUrlInput.addEventListener("input", (e) => {
+            if (!selectedEvtCoverFile && e.target.value.trim()) {
+                evtCoverPreview.src = e.target.value.trim();
+            }
+        });
+
+        document.getElementById("add-activity-stage-btn").addEventListener("click", () => {
+            draftActivities.push({ stage: "", title: "", description: "" });
+            renderDraftActivities();
+        });
+
+        document.getElementById("add-edition-row-btn").addEventListener("click", () => {
+            draftEditions.unshift({ year: String(new Date().getFullYear()), theme: "", summary: "" });
+            renderDraftEditions();
+        });
+
+        // Tải nhiều ảnh cùng lúc vào Album sự kiện
+        document.getElementById("evt-gallery-files").addEventListener("change", async (e) => {
+            const files = Array.from(e.target.files || []);
+            if (!files.length) return;
+            const statusEl = document.getElementById("gallery-upload-status");
+            statusEl.textContent = `Đang xử lý và nén ${files.length} hình ảnh...`;
+            statusEl.classList.remove("hidden");
+
+            try {
+                for (const file of files) {
+                    const uploadedUrl = await HLSEventsService.uploadEventPhoto(file);
+                    draftGallery.push({
+                        url: uploadedUrl,
+                        caption: ""
+                    });
+                }
+                renderDraftGallery();
+                statusEl.classList.add("hidden");
+            } catch (err) {
+                statusEl.textContent = "Lỗi tải ảnh album: " + err.message;
+            } finally {
+                e.target.value = "";
+            }
+        });
+
+        document.getElementById("add-gallery-url-btn").addEventListener("click", () => {
+            const url = prompt("Nhập đường dẫn (URL) hình ảnh sự kiện:");
+            if (!url || !url.trim()) return;
+            draftGallery.push({ url: url.trim(), caption: "" });
+            renderDraftGallery();
+        });
+
+        eventForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            const saveBtn = document.getElementById("save-event-btn");
+            saveBtn.disabled = true;
+            saveBtn.textContent = "Đang lưu...";
+
+            try {
+                const existingId = document.getElementById("evt-id").value;
+                const existingEvt = existingId ? eventsCache.find((item) => String(item.id) === String(existingId)) : null;
+                const coverUrlInput = document.getElementById("evt-cover-url").value.trim();
+
+                const cleanActivities = draftActivities.filter((a) => (a.title || "").trim() || (a.description || "").trim());
+                const cleanEditions = draftEditions.filter((ed) => (ed.year || "").trim() || (ed.theme || "").trim());
+                const cleanGallery = draftGallery.filter((g) => (g.url || "").trim());
+
+                const payload = {
+                    id: existingId || undefined,
+                    category: document.getElementById("evt-category").value,
+                    sub_type: document.getElementById("evt-subtype").value,
+                    title: document.getElementById("evt-title").value,
+                    annual_cycle: document.getElementById("evt-cycle").value,
+                    date_label: document.getElementById("evt-date-label").value,
+                    year: Number(document.getElementById("evt-year").value),
+                    location: document.getElementById("evt-location").value,
+                    scale: document.getElementById("evt-scale").value,
+                    sort_order: Number(document.getElementById("evt-sort-order").value),
+                    is_featured: document.getElementById("evt-featured").checked,
+                    cover_url: coverUrlInput || (existingEvt ? existingEvt.cover_url : ""),
+                    summary: document.getElementById("evt-summary").value,
+                    highlight_quote: document.getElementById("evt-quote").value,
+                    content: document.getElementById("evt-content").value,
+                    activities: cleanActivities,
+                    editions: cleanEditions,
+                    gallery: cleanGallery
+                };
+
+                await HLSEventsService.saveEvent(payload, selectedEvtCoverFile);
+                closeEventModal();
+                await loadEventsToAdmin();
+                showToast("Đã lưu thông tin sự kiện và album ảnh thành công.");
+            } catch (err) {
+                showToast(err.message, true);
+            } finally {
+                saveBtn.disabled = false;
+                saveBtn.textContent = "Lưu sự kiện";
+            }
+        });
+
+        async function handleDeleteEvent(id) {
+            const target = eventsCache.find((e) => String(e.id) === String(id));
+            if (!target) return;
+            if (!confirm(`Xác nhận xóa sự kiện "${target.title}"?`)) return;
+            try {
+                await HLSEventsService.deleteEvent(id);
+                await loadEventsToAdmin();
+                showToast(`Đã xóa sự kiện "${target.title}".`);
+            } catch (err) {
+                showToast(err.message, true);
+            }
+        }
+
+        document.getElementById("export-events-json-btn").addEventListener("click", () => {
+            const blob = new Blob([JSON.stringify(eventsCache, null, 2)], { type: "application/json" });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement("a");
+            a.href = url;
+            a.download = `hls-su-kien-backup-${new Date().toISOString().slice(0, 10)}.json`;
+            a.click();
+            URL.revokeObjectURL(url);
+        });
+
+        document.getElementById("import-events-json-input").addEventListener("change", async (e) => {
+            const file = e.target.files && e.target.files[0];
+            if (!file) return;
+            try {
+                const parsed = JSON.parse(await file.text());
+                const count = await HLSEventsService.importEventsJson(parsed);
+                await loadEventsToAdmin();
+                showToast(`Đã nhập thành công ${count} sự kiện.`);
+            } catch (err) {
+                showToast("Lỗi nhập JSON sự kiện: " + err.message, true);
+            } finally {
+                e.target.value = "";
+            }
+        });
+
+        document.getElementById("event-filter-category").addEventListener("change", renderAdminEventsList);
+        document.getElementById("event-filter-subtype").addEventListener("change", renderAdminEventsList);
+        document.getElementById("event-search").addEventListener("input", renderAdminEventsList);
+
+        // Modal hướng dẫn Supabase
         const guideModal = document.getElementById("supabase-guide-modal");
         document.getElementById("open-supabase-guide-btn").addEventListener("click", () => guideModal.classList.remove("hidden"));
         document.getElementById("close-guide-btn").addEventListener("click", () => guideModal.classList.add("hidden"));
@@ -745,6 +1507,7 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
             setTimeout(() => (e.target.textContent = "Sao chép SQL"), 2000);
         });
 
+        // Kiểm tra đăng nhập & khởi tạo dữ liệu cả 2 tab
         async function checkAuthAndRender() {
             updateModeBadge();
             const session = await HLSService.getAdminSession();
@@ -752,7 +1515,10 @@ on storage.objects for insert to authenticated with check (bucket_id = 'member-p
                 loginView.classList.add("hidden");
                 dashboardView.classList.remove("hidden");
                 logoutBtn.classList.remove("hidden");
-                await loadMembersToAdmin();
+                await Promise.all([loadMembersToAdmin(), loadEventsToAdmin()]);
+                if (window.location.hash === "#events") {
+                    switchAdminTab("events");
+                }
             } else {
                 dashboardView.classList.add("hidden");
                 logoutBtn.classList.add("hidden");

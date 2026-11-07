@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="vi" class="scroll-smooth">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hoạt Động & Sự Kiện - HLS ĐHBK Hà Nội</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&family=Lora:ital,wght@0,500;1,500&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Be Vietnam Pro"', 'system-ui', 'sans-serif'],
+                        serif: ['"Lora"', 'Georgia', 'serif']
+                    }
+                }
+            }
+        };
+    </script>
+    <!-- Supabase JS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="bg-white text-neutral-950 font-sans antialiased min-h-screen flex flex-col selection:bg-red-700 selection:text-white">
+
+    <!-- ========================================== -->
+    <!-- THANH MENU & ĐIỀU HƯỚNG -->
+    <!-- ========================================== -->
+    <nav class="bg-white/95 backdrop-blur-sm border-b border-neutral-200 fixed w-full top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-20 items-center">
+
+                <!-- Logo -->
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <a href="index.html" class="flex items-center gap-2.5 group">
+                        <span class="w-2 h-6 bg-red-700 inline-block"></span>
+                        <span class="text-xl font-extrabold text-neutral-950 tracking-tight uppercase">
+                            HLS <span class="font-medium text-neutral-500 group-hover:text-red-700 transition-colors duration-200">Logistics</span>
+                        </span>
+                    </a>
+                </div>
+
+                <!-- Menu Ngang -->
+                <div class="hidden md:flex items-center space-x-8 text-sm">
+                    <a href="index.html#about"
+                        class="text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-red-700">Về
+                        chúng tôi</a>
+                    <a href="hoat-dong.html"
+                        class="text-neutral-950 font-semibold py-2 border-b-2 border-red-700">Hoạt
+                        động</a>
+                    <a href="phong-truyen-thong.html"
+                        class="text-neutral-600 font-medium hover:text-neutral-950 transition-colors duration-200 py-2 border-b-2 border-transparent hover:border-red-700">Phòng
+                        truyền thống</a>
+                </div>
+
+                <!-- Cụm nút bên phải -->
+                <div class="hidden md:flex items-center gap-3">
+                    <a href="admin.html#events"
+                        class="border border-neutral-300 hover:border-neutral-950 text-neutral-700 hover:text-neutral-950 text-xs font-semibold py-2.5 px-4 rounded-md transition-colors">
+                        Quản lý sự kiện
+                    </a>
+                    <a href="index.html#contact"
+                        class="bg-neutral-950 hover:bg-red-700 text-white text-sm font-semibold py-2.5 px-5 rounded-md transition-colors">
+                        Tham gia CLB
+                    </a>
+                </div>
+
+                <!-- Nút 3 gạch trên điện thoại -->
+                <div class="md:hidden flex items-center">
+                    <button id="mobile-menu-button"
+                        class="text-neutral-700 hover:text-neutral-950 focus:outline-none p-2">
+                        <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75"
+                                d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Menu Dọc trên điện thoại -->
+        <div id="mobile-menu"
+            class="hidden md:hidden bg-white border-t border-neutral-200 shadow-lg absolute w-full">
+            <div class="px-4 pt-3 pb-6 space-y-1 text-sm">
+                <a href="index.html#about"
+                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md">Về
+                    chúng tôi</a>
+                <a href="hoat-dong.html"
+                    class="block bg-neutral-100 text-red-700 font-semibold py-3 px-3 rounded-md">Hoạt
+                    động &amp; Sự kiện</a>
+                <a href="phong-truyen-thong.html"
+                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md">Phòng
+                    truyền thống</a>
+                <a href="admin.html#events"
+                    class="block text-neutral-700 hover:bg-neutral-50 hover:text-red-700 font-medium py-3 px-3 rounded-md">Quản
+                    lý sự kiện (Admin)</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- ========================================== -->
+    <!-- BANNER ĐẦU TRANG CHUYÊN MỤC HOẠT ĐỘNG -->
+    <!-- ========================================== -->
+    <header class="pt-32 pb-14 px-4 sm:px-6 lg:px-8 bg-[#F7F7F5] border-b border-neutral-200">
+        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row lg:items-end justify-between gap-10">
+            <div class="max-w-2xl">
+                <div class="flex items-center gap-3 mb-4">
+                    <span class="w-8 h-[2px] bg-red-700"></span>
+                    <span class="text-xs font-semibold uppercase tracking-[0.2em] text-red-700">
+                        Chuyên mục Hoạt động · HLS ĐHBK Hà Nội
+                    </span>
+                </div>
+
+                <h1 class="text-3xl sm:text-5xl font-extrabold text-neutral-950 tracking-tight leading-[1.14] mb-4">
+                    Sự Kiện Thường Niên &amp; <span class="text-red-700">Hoạt Động CLB</span>
+                </h1>
+
+                <p class="text-neutral-600 text-base leading-relaxed">
+                    Tổng hợp các chương trình trọng điểm diễn ra định kỳ hằng năm (Core Events) cùng chuỗi hội thảo, nghiên cứu khoa học và hoạt động đồng hành của sinh viên HLS.
+                </p>
+            </div>
+
+            <!-- Bảng số liệu tối giản -->
+            <div class="grid grid-cols-3 border border-neutral-200 bg-white rounded-lg divide-x divide-neutral-200 self-start lg:self-auto">
+                <div class="px-5 py-4">
+                    <div id="stat-core" class="text-2xl font-extrabold text-red-700 tabular-nums">--</div>
+                    <div class="text-[11px] font-medium text-neutral-500 uppercase tracking-wider mt-0.5">Sự kiện Core</div>
+                </div>
+                <div class="px-5 py-4">
+                    <div id="stat-side" class="text-2xl font-extrabold text-neutral-950 tabular-nums">--</div>
+                    <div class="text-[11px] font-medium text-neutral-500 uppercase tracking-wider mt-0.5">Hoạt động bên lề</div>
+                </div>
+                <div class="px-5 py-4">
+                    <div id="stat-photos" class="text-2xl font-extrabold text-neutral-950 tabular-nums">--</div>
+                    <div class="text-[11px] font-medium text-neutral-500 uppercase tracking-wider mt-0.5">Tư liệu ảnh</div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- ========================================== -->
+    <!-- THANH LỌC LOẠI SỰ KIỆN, NĂM & TÌM KIẾM -->
+    <!-- ========================================== -->
+    <section class="sticky top-20 z-40 bg-white/95 backdrop-blur-sm border-b border-neutral-200 py-3.5 px-4 sm:px-6 lg:px-8">
+        <div class="max-w-6xl mx-auto flex flex-col lg:flex-row items-stretch lg:items-center justify-between gap-3">
+
+            <!-- Tab phân loại Core / Ngoài lề -->
+            <div class="flex items-center gap-1.5 overflow-x-auto pb-1 lg:pb-0" id="category-tabs">
+                <button data-cat="all" class="cat-tab whitespace-nowrap px-3.5 py-1.5 rounded-md border text-xs font-semibold transition-colors bg-neutral-950 text-white border-neutral-950">
+                    Tất cả hoạt động
+                </button>
+                <button data-cat="core" class="cat-tab whitespace-nowrap px-3.5 py-1.5 rounded-md border text-xs font-semibold transition-colors bg-white text-neutral-600 border-neutral-200 hover:border-neutral-950 hover:text-neutral-950">
+                    Sự kiện Core hằng năm
+                </button>
+                <button data-cat="side" class="cat-tab whitespace-nowrap px-3.5 py-1.5 rounded-md border text-xs font-semibold transition-colors bg-white text-neutral-600 border-neutral-200 hover:border-neutral-950 hover:text-neutral-950">
+                    Hoạt động ngoài lề &amp; Nội bộ
+                </button>
+            </div>
+
+            <!-- Tìm kiếm & Lọc chuyên đề / Năm -->
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
+                <div class="relative">
+                    <input id="search-input" type="text" placeholder="Tìm tên sự kiện, địa điểm..."
+                        class="w-full sm:w-56 bg-white border border-neutral-300 focus:border-neutral-950 rounded-md pl-9 pr-3.5 py-2 text-sm text-neutral-950 placeholder-neutral-400 focus:outline-none transition-colors">
+                    <svg class="w-4 h-4 text-neutral-400 absolute left-3 top-1/2 -translate-y-1/2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.75" d="M21 21l-4.35-4.35M17 11a6 6 0 11-12 0 6 6 0 0112 0z" />
+                    </svg>
+                </div>
+
+                <select id="subtype-filter"
+                    class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-700 focus:outline-none transition-colors">
+                    <option value="all">Mọi chuyên đề</option>
+                </select>
+
+                <select id="year-filter"
+                    class="bg-white border border-neutral-300 focus:border-neutral-950 rounded-md px-3 py-2 text-sm text-neutral-700 focus:outline-none transition-colors">
+                    <option value="all">Mọi năm</option>
+                </select>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================== -->
+    <!-- KHU VỰC DANH SÁCH HOẠT ĐỘNG -->
+    <!-- ========================================== -->
+    <main class="flex-1 py-14 px-4 sm:px-6 lg:px-8 bg-white">
+        <div class="max-w-6xl mx-auto" id="events-list-container">
+            <div class="text-center py-20 text-neutral-500 text-sm">
+                <div class="inline-block w-7 h-7 border-2 border-neutral-200 border-t-red-700 rounded-full animate-spin mb-3"></div>
+                <p>Đang tải danh mục hoạt động...</p>
+            </div>
+        </div>
+    </main>
+
+    <!-- ========================================== -->
+    <!-- CHÂN TRANG (FOOTER) -->
+    <!-- ========================================== -->
+    <footer class="bg-[#F7F7F5] text-neutral-950 border-t border-neutral-200 py-8">
+        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-neutral-500">
+            <div class="flex items-center gap-2">
+                <span class="w-1.5 h-4 bg-red-700 inline-block"></span>
+                <span class="font-bold text-neutral-950 uppercase">HLS Logistics</span>
+                <span class="text-neutral-300">|</span>
+                <span>CLB Logistics và Quản lý chuỗi cung ứng — Đại học Bách Khoa Hà Nội</span>
+            </div>
+            <div class="flex items-center gap-6 font-medium">
+                <a href="index.html" class="hover:text-red-700 transition-colors">Trang chủ</a>
+                <a href="phong-truyen-thong.html" class="hover:text-red-700 transition-colors">Phòng truyền thống</a>
+                <a href="admin.html#events" class="hover:text-red-700 transition-colors">Quản trị sự kiện</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Nhúng cấu hình & dịch vụ -->
+    <script src="js/supabase-config.js"></script>
+    <script src="js/events-service.js"></script>
+
+    <script>
+        const mobileBtn = document.getElementById("mobile-menu-button");
+        const mobileMenu = document.getElementById("mobile-menu");
+        mobileBtn.addEventListener("click", () => mobileMenu.classList.toggle("hidden"));
+
+        let allEvents = [];
+        let selectedCategory = "all";
+        let selectedSubtype = "all";
+        let selectedYear = "all";
+        let searchQuery = "";
+
+        const listContainer = document.getElementById("events-list-container");
+        const subtypeSelect = document.getElementById("subtype-filter");
+        const yearSelect = document.getElementById("year-filter");
+
+        function escapeHtml(str) {
+            return String(str || "")
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;")
+                .replace(/"/g, "&quot;")
+                .replace(/'/g, "&#039;");
+        }
+
+        function renderCoreEventFeature(evt) {
+            const stagesCount = Array.isArray(evt.activities) ? evt.activities.length : 0;
+            const galleryCount = Array.isArray(evt.gallery) ? evt.gallery.length : 0;
+            const editions = Array.isArray(evt.editions) ? evt.editions : [];
+
+            const previewStages = (evt.activities || []).slice(0, 3).map((act, i) => `
+                <div class="py-2 first:pt-0 last:pb-0 flex items-baseline gap-2.5 text-xs">
+                    <span class="font-bold text-red-700 tabular-nums">0${i + 1}</span>
+                    <span class="font-semibold text-neutral-900">${escapeHtml(act.title)}</span>
+                    ${act.stage ? `<span class="text-neutral-400 hidden sm:inline">· ${escapeHtml(act.stage)}</span>` : ""}
+                </div>
+            `).join("");
+
+            const editionBadges = editions.length
+                ? `<div class="flex flex-wrap items-center gap-1.5 mt-4">
+                    <span class="text-[11px] text-neutral-400 mr-1">Các mùa:</span>
+                    ${editions.slice(0, 4).map((ed) => `
+                        <span class="px-2 py-0.5 rounded bg-[#F7F7F5] border border-neutral-200 text-[11px] font-semibold text-neutral-700 tabular-nums">
+                            ${escapeHtml(ed.year)}
+                        </span>
+                    `).join("")}
+                </div>`
+                : "";
+
+            return `
+                <article class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 grid grid-cols-1 lg:grid-cols-12">
+                    <a href="su-kien.html?id=${encodeURIComponent(evt.id)}" class="lg:col-span-5 relative overflow-hidden bg-neutral-100 min-h-[240px] lg:min-h-full block">
+                        <img src="${escapeHtml(evt.cover_url)}"
+                             alt="${escapeHtml(evt.title)}"
+                             loading="lazy"
+                             class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
+                        <span class="absolute top-3 left-3 px-2.5 py-1 rounded bg-white/95 backdrop-blur-sm border border-neutral-200 text-[10px] font-bold uppercase tracking-wider text-red-700">
+                            Sự kiện Core thường niên
+                        </span>
+                    </a>
+
+                    <div class="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between">
+                        <div>
+                            <div class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-neutral-500 mb-2.5">
+                                <span class="font-semibold text-red-700 uppercase tracking-wider">${escapeHtml(evt.annual_cycle || "Định kỳ hằng năm")}</span>
+                                <span class="text-neutral-300">·</span>
+                                <span>${escapeHtml(evt.sub_type)}</span>
+                                ${evt.scale ? `<span class="text-neutral-300">·</span><span>${escapeHtml(evt.scale)}</span>` : ""}
+                            </div>
+
+                            <h3 class="text-xl sm:text-2xl font-extrabold text-neutral-950 group-hover:text-red-700 transition-colors leading-snug mb-3">
+                                <a href="su-kien.html?id=${encodeURIComponent(evt.id)}">${escapeHtml(evt.title)}</a>
+                            </h3>
+
+                            <p class="text-sm text-neutral-600 leading-relaxed mb-5">
+                                ${escapeHtml(evt.summary)}
+                            </p>
+
+                            ${previewStages ? `
+                                <div class="bg-[#F7F7F5] border border-neutral-200 rounded-md px-4 py-3 divide-y divide-neutral-200/80">
+                                    ${previewStages}
+                                </div>
+                            ` : ""}
+
+                            ${editionBadges}
+                        </div>
+
+                        <div class="mt-6 pt-4 border-t border-neutral-100 flex flex-wrap items-center justify-between gap-3 text-xs">
+                            <span class="text-neutral-500">
+                                ${stagesCount} hạng mục hoạt động · ${galleryCount} tư liệu ảnh
+                            </span>
+                            <a href="su-kien.html?id=${encodeURIComponent(evt.id)}"
+                               class="inline-flex items-center gap-1.5 font-semibold text-neutral-950 group-hover:text-red-700 transition-colors">
+                                <span>Xem chi tiết &amp; album ảnh</span>
+                                <span>&rarr;</span>
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderSideEventCard(evt) {
+            const galleryCount = Array.isArray(evt.gallery) ? evt.gallery.length : 0;
+            const stagesCount = Array.isArray(evt.activities) ? evt.activities.length : 0;
+
+            return `
+                <article class="group bg-white border border-neutral-200 hover:border-neutral-950 rounded-lg overflow-hidden transition-colors duration-200 flex flex-col">
+                    <a href="su-kien.html?id=${encodeURIComponent(evt.id)}" class="relative h-52 overflow-hidden bg-neutral-100 block">
+                        <img src="${escapeHtml(evt.cover_url)}"
+                             alt="${escapeHtml(evt.title)}"
+                             loading="lazy"
+                             class="w-full h-full object-cover group-hover:scale-[1.03] transition-transform duration-500">
+                        <span class="absolute top-3 left-3 px-2.5 py-0.5 rounded bg-white/95 backdrop-blur-sm border border-neutral-200 text-[10px] font-semibold uppercase tracking-wider text-neutral-800">
+                            ${escapeHtml(evt.sub_type || "Hoạt động CLB")}
+                        </span>
+                    </a>
+
+                    <div class="p-6 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="text-[11px] font-semibold uppercase tracking-widest text-red-700 mb-2">
+                                ${escapeHtml(evt.date_label || ("Năm " + evt.year))}
+                            </div>
+                            <h3 class="text-lg font-bold text-neutral-950 group-hover:text-red-700 transition-colors leading-snug mb-2.5">
+                                <a href="su-kien.html?id=${encodeURIComponent(evt.id)}">${escapeHtml(evt.title)}</a>
+                            </h3>
+                            <p class="text-sm text-neutral-600 leading-relaxed line-clamp-3 mb-4">
+                                ${escapeHtml(evt.summary)}
+                            </p>
+                        </div>
+
+                        <div class="pt-4 border-t border-neutral-100 flex items-center justify-between text-xs">
+                            <span class="text-neutral-400">
+                                ${stagesCount ? stagesCount + " nội dung · " : ""}${galleryCount} ảnh
+                            </span>
+                            <a href="su-kien.html?id=${encodeURIComponent(evt.id)}"
+                               class="font-semibold text-neutral-950 group-hover:text-red-700 transition-colors">
+                                Chi tiết &rarr;
+                            </a>
+                        </div>
+                    </div>
+                </article>
+            `;
+        }
+
+        function renderEventsList() {
+            const q = searchQuery.trim().toLowerCase();
+
+            const filtered = allEvents.filter((e) => {
+                if (selectedCategory !== "all" && e.category !== selectedCategory) return false;
+                if (selectedSubtype !== "all" && e.sub_type !== selectedSubtype) return false;
+                if (selectedYear !== "all") {
+                    const matchMainYear = String(e.year) === String(selectedYear);
+                    const matchEdition = Array.isArray(e.editions) && e.editions.some((ed) => String(ed.year) === String(selectedYear));
+                    if (!matchMainYear && !matchEdition) return false;
+                }
+                if (q) {
+                    const hay = `${e.title} ${e.summary} ${e.sub_type} ${e.location} ${e.annual_cycle}`.toLowerCase();
+                    if (!hay.includes(q)) return false;
+                }
+                return true;
+            });
+
+            if (filtered.length === 0) {
+                listContainer.innerHTML = `
+                    <div class="bg-[#F7F7F5] border border-neutral-200 rounded-lg p-12 text-center max-w-lg mx-auto">
+                        <p class="text-base font-bold text-neutral-950 mb-1.5">Không tìm thấy hoạt động phù hợp</p>
+                        <p class="text-sm text-neutral-500 mb-6">Hãy thử điều chỉnh bộ lọc hoặc thêm sự kiện mới trong trang Quản trị.</p>
+                        <a href="admin.html#events" class="inline-block bg-neutral-950 hover:bg-red-700 text-white font-semibold px-5 py-2.5 rounded-md text-xs transition-colors">
+                            Mở trang Quản lý sự kiện
+                        </a>
+                    </div>
+                `;
+                return;
+            }
+
+            const coreList = filtered.filter((e) => e.category === "core");
+            const sideList = filtered.filter((e) => e.category === "side");
+
+            let html = "";
+
+            if (coreList.length > 0) {
+                html += `
+                    <section class="mb-16 last:mb-0">
+                        <div class="flex items-center gap-4 mb-8">
+                            <span class="text-xs font-bold uppercase tracking-[0.18em] text-red-700 whitespace-nowrap">
+                                01 / Sự kiện Core diễn ra hằng năm
+                            </span>
+                            <div class="h-px bg-neutral-200 flex-1"></div>
+                            <span class="text-xs text-neutral-400 tabular-nums">${coreList.length} chương trình</span>
+                        </div>
+                        <div class="space-y-8">
+                            ${coreList.map(renderCoreEventFeature).join("")}
+                        </div>
+                    </section>
+                `;
+            }
+
+            if (sideList.length > 0) {
+                const sectionPrefix = coreList.length > 0 ? "02" : "01";
+                html += `
+                    <section>
+                        <div class="flex items-center gap-4 mb-8">
+                            <span class="text-xs font-bold uppercase tracking-[0.18em] text-neutral-950 whitespace-nowrap">
+                                ${sectionPrefix} / Hoạt động đồng hành, học thuật &amp; nội bộ
+                            </span>
+                            <div class="h-px bg-neutral-200 flex-1"></div>
+                            <span class="text-xs text-neutral-400 tabular-nums">${sideList.length} hoạt động</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                            ${sideList.map(renderSideEventCard).join("")}
+                        </div>
+                    </section>
+                `;
+            }
+
+            listContainer.innerHTML = html;
+        }
+
+        function populateFilters() {
+            const subtypes = Array.from(new Set(allEvents.map((e) => e.sub_type).filter(Boolean)));
+            subtypeSelect.innerHTML = `<option value="all">Mọi chuyên đề</option>` +
+                subtypes.map((s) => `<option value="${escapeHtml(s)}">${escapeHtml(s)}</option>`).join("");
+
+            const yearSet = new Set();
+            allEvents.forEach((e) => {
+                if (e.year) yearSet.add(String(e.year));
+                (e.editions || []).forEach((ed) => {
+                    if (ed.year) yearSet.add(String(ed.year));
+                });
+            });
+            const years = Array.from(yearSet).sort((a, b) => Number(b) - Number(a));
+            yearSelect.innerHTML = `<option value="all">Mọi năm</option>` +
+                years.map((y) => `<option value="${escapeHtml(y)}">Năm ${escapeHtml(y)}</option>`).join("");
+        }
+
+        async function initPage() {
+            try {
+                allEvents = await HLSEventsService.getEvents();
+
+                const coreCount = allEvents.filter((e) => e.category === "core").length;
+                const sideCount = allEvents.filter((e) => e.category === "side").length;
+                const photoCount = allEvents.reduce((sum, e) => sum + ((e.gallery && e.gallery.length) || 0), 0);
+
+                document.getElementById("stat-core").textContent = String(coreCount).padStart(2, "0");
+                document.getElementById("stat-side").textContent = String(sideCount).padStart(2, "0");
+                document.getElementById("stat-photos").textContent = String(photoCount).padStart(2, "0");
+
+                // Hỗ trợ mở sẵn tab từ hash URL (#core hoặc #side)
+                const hash = window.location.hash.replace("#", "");
+                if (hash === "core" || hash === "side") {
+                    selectedCategory = hash;
+                    updateCategoryTabUI();
+                }
+
+                populateFilters();
+                renderEventsList();
+            } catch (err) {
+                listContainer.innerHTML = `
+                    <div class="bg-red-50 border border-red-200 rounded-lg p-8 text-center max-w-lg mx-auto">
+                        <p class="text-red-700 font-bold mb-1">Không thể tải danh mục sự kiện</p>
+                        <p class="text-sm text-neutral-600">${escapeHtml(err.message)}</p>
+                    </div>
+                `;
+            }
+        }
+
+        function updateCategoryTabUI() {
+            document.querySelectorAll(".cat-tab").forEach((btn) => {
+                const isAct = btn.getAttribute("data-cat") === selectedCategory;
+                btn.className = `cat-tab whitespace-nowrap px-3.5 py-1.5 rounded-md border text-xs font-semibold transition-colors ${
+                    isAct
+                        ? "bg-neutral-950 text-white border-neutral-950"
+                        : "bg-white text-neutral-600 border-neutral-200 hover:border-neutral-950 hover:text-neutral-950"
+                }`;
+            });
+        }
+
+        document.querySelectorAll(".cat-tab").forEach((btn) => {
+            btn.addEventListener("click", () => {
+                selectedCategory = btn.getAttribute("data-cat");
+                updateCategoryTabUI();
+                renderEventsList();
+            });
+        });
+
+        document.getElementById("search-input").addEventListener("input", (e) => {
+            searchQuery = e.target.value;
+            renderEventsList();
+        });
+
+        subtypeSelect.addEventListener("change", (e) => {
+            selectedSubtype = e.target.value;
+            renderEventsList();
+        });
+
+        yearSelect.addEventListener("change", (e) => {
+            selectedYear = e.target.value;
+            renderEventsList();
+        });
+
+        window.addEventListener("storage", (e) => {
+            if (e.key === HLSEventsService.LOCAL_EVENTS_KEY) {
+                initPage();
+            }
+        });
+
+        initPage();
+    </script>
+</body>
+
+</html>
+

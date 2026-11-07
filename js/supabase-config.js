@@ -15,6 +15,7 @@ window.HLS_CONFIG = {
     SUPABASE_URL: "",      // Ví dụ: "https://xyzcompany.supabase.co"
     SUPABASE_ANON_KEY: "", // Ví dụ: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
     STORAGE_BUCKET: "member-photos",
+    EVENT_STORAGE_BUCKET: "event-photos",
 
     // Tài khoản mặc định khi chạy chế độ Local (chưa gắn Supabase)
     DEMO_ADMIN_EMAIL: "admin@hls.hust.edu.vn",
@@ -61,6 +62,17 @@ window.HLS_CONFIG = {
         "Ban Đối ngoại",
         "Ban Sự kiện",
         "Ban Nhân sự - Tổ chức"
+    ],
+
+    // Danh sách phân nhóm chuyên đề cho Sự kiện & Hoạt động
+    EVENT_SUBTYPES: [
+        "Cuộc thi Học thuật",
+        "Thực tế Doanh nghiệp (Company Tour)",
+        "Tuyển thành viên Thường niên",
+        "Hội thảo & Talkshow",
+        "Workshop Chuyên môn",
+        "Nghiên cứu Khoa học",
+        "Văn hóa & Gắn kết Nội bộ"
     ]
 };
 
